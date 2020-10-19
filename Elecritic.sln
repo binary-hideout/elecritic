@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elecritic", "Elecritic\Elecritic.csproj", "{29532448-1978-43EB-9723-DD03B9E0E4B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elecritic", "Elecritic\Elecritic.csproj", "{29532448-1978-43EB-9723-DD03B9E0E4B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elecritic.UnitTests", "Elecritic.Tests\Elecritic.UnitTests.csproj", "{863B7508-BBBB-48D7-9A7F-FFD0603BABD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{29532448-1978-43EB-9723-DD03B9E0E4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29532448-1978-43EB-9723-DD03B9E0E4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29532448-1978-43EB-9723-DD03B9E0E4B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863B7508-BBBB-48D7-9A7F-FFD0603BABD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863B7508-BBBB-48D7-9A7F-FFD0603BABD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863B7508-BBBB-48D7-9A7F-FFD0603BABD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863B7508-BBBB-48D7-9A7F-FFD0603BABD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
