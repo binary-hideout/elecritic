@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
+﻿using System;
 using System.Threading.Tasks;
 
 using Elecritic.Models;
@@ -11,12 +10,12 @@ namespace Elecritic.Pages {
     public partial class FetchData {
 
         [Inject]
-        private HttpClient Http { get; set; }
+        public WeatherForecastService ForecastService { get; set; }
 
         private WeatherForecast[] Forecasts { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            Forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+            Forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
         }
     }
 }

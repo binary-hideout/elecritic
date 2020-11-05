@@ -1,19 +1,17 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Elecritic {
     public class Program {
-        public static async Task Main(string[] args) {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.RootComponents.Add<App>("app");
+        public static void Main(string[] args) {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-            await builder.Build().RunAsync();
+        public static IHostBuilder CreateHostBuilder(string[] args) {
+            return Host.CreateDefaultBuilder(args)
+.ConfigureWebHostDefaults(webBuilder => {
+    webBuilder.UseStartup<Startup>();
+});
         }
     }
 }
