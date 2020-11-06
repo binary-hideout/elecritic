@@ -14,7 +14,7 @@ namespace Elecritic.Models {
 
         public string Description { get; set; }
 
-        public string Imagepath { get; set; }
+        public string ImagePath { get; set; }
 
         public byte[] Image { get; set; }
 

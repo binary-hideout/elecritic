@@ -13,7 +13,7 @@ namespace Elecritic.Pages {
         private Product[] Products { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            Products = await productService.GetForecastAsync(DateTime.Now);
+            Products = await productService.GetRandomProductsAsync(DateTime.Now);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Elecritic.Models {
             "carousel-images/motorola.jpg", "carousel-images/samsung.jpg"
         };
 
-        public Task<Product[]> GetForecastAsync(DateTime startDate) {
+        public Task<Product[]> GetRandomProductsAsync(DateTime startDate) {
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 5).Select(index => new Product {
                 Id = 1,
@@ -19,7 +19,7 @@ namespace Elecritic.Models {
                 Company = "Apple",
                 Name = "Celular",
                 Description = "Buen estado",
-                Imagepath = ImagesPath[rng.Next(ImagesPath.Length)],
+                ImagePath = ImagesPath[rng.Next(ImagesPath.Length)],
                 ReleaseDate = startDate.AddDays(index),
             }).ToArray());
         }
