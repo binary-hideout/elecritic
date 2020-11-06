@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elecritic.UnitTests", "Elecritic.UnitTests\Elecritic.UnitTests.csproj", "{8F7AAF9F-58C7-4B41-B281-72FE8B588AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elecritic", "Elecritic\Elecritic.csproj", "{AED6AE30-5438-4CA5-81B5-192A141FE3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elecritic", "Elecritic\Elecritic.csproj", "{AED6AE30-5438-4CA5-81B5-192A141FE3D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
