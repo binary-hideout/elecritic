@@ -14,6 +14,10 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.behind-top {
+    z-index: 1;
+}
+
 app {
     position: relative;
     display: flex;
@@ -33,6 +37,7 @@ app {
     .main .top-row {
         background-color: #4f4b4b;
         border-bottom: 1px solid #d6d5d5;
+        
         /*justify-content: flex-end;*/
     }
 
