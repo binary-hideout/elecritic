@@ -5,6 +5,47 @@
 
 <br />
 
+@if (Products == null)
+{
+    <p><em>No hay productos que mostrar... </em></p>
+}
+else
+{
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    @foreach (var productCard in Products)
+                                    {
+                                        <div class="col-sm-12 col-lg-4">
+                                            <div class="card behind-top" style="width: 18rem;">
+                                                <img src=@productCard.ImagePath class="d-block w-100" alt="imagenProducto">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@productCard.Name</h5>
+                                                    <p class="card-text"> @productCard.Description</p>
+                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
 
 }
