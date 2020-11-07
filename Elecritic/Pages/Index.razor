@@ -24,9 +24,9 @@ else
 
                                     @foreach (var productCard in Products)
                                     {
-                                        <div class="col-sm-12 col-lg-4">
-                                            <div class="card behind-top" style="width: 18rem;">
-                                                <img src=@productCard.ImagePath class="d-block w-100" alt="imagenProducto">
+                                        <div class="col-sm-12 col-lg-4" style="margin-top:1rem;">
+                                            <div class="card behind-top" style="width: 15rem;">
+                                                <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
                                                 <div class="card-body">
                                                     <h5 class="card-title">@productCard.Name</h5>
                                                     <p class="card-text"> @productCard.Description</p>
