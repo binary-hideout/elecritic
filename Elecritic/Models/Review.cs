@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 /// <summary>Class <c>Review</c> contains Id, UserId, Text, Rating, PublishDate.
 /// </summary>
