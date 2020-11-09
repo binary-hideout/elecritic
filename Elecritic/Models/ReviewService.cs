@@ -13,7 +13,7 @@ namespace Elecritic.Models {
         };
         public Task<Review[]> GetRandomReviewsAsync(DateTime startDate) {
             var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Review {
+            return Task.FromResult(Enumerable.Range(1, 7).Select(index => new Review {
                 Id = 1,
                 UserId = 1,
                 Title = "Average Review, mostly positive",

@@ -18,6 +18,49 @@
 
 </div>
 
+@if (Reviews == null)
+{
+    <p><em>No hay reseñas de este producto </em></p>
+}
+else
+{
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    @foreach (var reviewCard in Reviews)
+                                    {
+                                        <div class="col-md-4" style=" margin-top:1rem;">
+                                            <div class="card shadow" style="width: 15rem;">                                         
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title">@reviewCard.Title</h5>
+                                                    <p class="card-text"> @reviewCard.Text</p>
+                                                    <p class="card-text"> Publicado el:  @reviewCard.PublishDate</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <h4> Agrega una reseña</h4>
+}
+
 
 <EditForm Model="@review" OnValidSubmit="@SaveReview">
     <DataAnnotationsValidator />
@@ -55,10 +98,11 @@
         <span> &nbsp;</span>
     </div>
 
-
+    <br />
 
 
 </EditForm>
+<br />
 
 
 @code {
