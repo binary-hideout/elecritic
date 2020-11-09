@@ -25,16 +25,14 @@ namespace Elecritic.Pages {
     }
 
     public class ReviewModel {
-        public string AuthorId { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacío")]
-        public string ReviewText { get; set; }
+        public string Text { get; set; }
 
         [Required]
         [Range(1, 5, ErrorMessage = "Rating sale del rango permitido")]
         public float RatingProduct { get; set; }
-
-        public string ProductId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacío")]
         public string Recommended { get; set; }
@@ -44,21 +42,19 @@ namespace Elecritic.Pages {
 
         }
 
-        public ReviewModel(string authorId, string reviewText, int ratingProduct, string productId, string recommended) {
-            AuthorId = authorId;
-            ReviewText = reviewText;
+        public ReviewModel(string authorId, string reviewText, int ratingProduct, string recommended) {
+            UserId = authorId;
+            Text = reviewText;
             RatingProduct = ratingProduct;
-            ProductId = productId;
             Recommended = recommended;
 
 
         }
 
         public void ClearReview() {
-            AuthorId = "";
-            ReviewText = "";
+            UserId = "";
+            Text = "";
             RatingProduct = 0;
-            ProductId = "";
             Recommended = "";
 
 
