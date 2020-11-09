@@ -102,6 +102,21 @@ app {
                 color: white;
             }
 
+.inner {
+    overflow: hidden;
+}
+
+    .inner img {
+        transition: all 1.5s ease;
+    }
+
+    .inner:hover img {
+        transform: scale(1.1)
+    }
+
+.container {
+    margin-top: 0%;
+}
 .content {
     padding-top: 1.1rem;
 }
