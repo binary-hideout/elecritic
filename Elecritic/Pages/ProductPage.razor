@@ -1,0 +1,10 @@
+﻿@page "/product/{ProductId}"
+
+<h3>Producto:  @ProductId</h3> <!-- En realidad diría el Product.Name pero aun no lo recibe-->
+
+@code {
+
+    [Parameter]
+    public string ProductId { get; set; }
+
+}

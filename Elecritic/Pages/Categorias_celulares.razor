@@ -1,7 +1,8 @@
-﻿@page "/"
+﻿@page "/categorias/celulares"
+<h3>Celulares</h3>
 
-<h3>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos.</h3>
 <br />
+
 
 @if (Products == null)
 {
@@ -21,7 +22,7 @@ else
 
                                     @foreach (var productCard in Products)
                                     {
-                                        <div class="col-md-4"  style=" margin-top:1rem;">
+                                        <div class="col-md-4" style=" margin-top:1rem;">
                                             <div class="card shadow" style="width: 15rem;">
                                                 <div class="inner" style="padding:.5rem;">
                                                     <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
@@ -48,4 +49,3 @@ else
 @code {
 
 }
-

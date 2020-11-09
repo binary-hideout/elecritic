@@ -11,11 +11,12 @@ namespace Elecritic.Models {
             "carousel-images/motorola.jpg", "carousel-images/samsung.jpg", "carousel-images/xiaomi.jpg",
             "carousel-images/alienware.jpg","carousel-images/laptop_hp.png", "carousel-images/lenovo.jpg"
         };
-
+        public static int id = 0;
         public Task<Product[]> GetRandomProductsAsync(DateTime startDate) {
+            id++;
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
-                Id = 1,
+                Id = id,
                 Category = "1",
                 Company = "Apple",
                 Name = "Celular",
@@ -24,5 +25,6 @@ namespace Elecritic.Models {
                 ReleaseDate = startDate.AddDays(index),
             }).ToArray());
         }
+        
     }
 }
