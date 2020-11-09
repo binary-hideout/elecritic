@@ -19,7 +19,6 @@ namespace Elecritic.Pages {
 
         private void SaveReview() {
             //reviewService.SaveReview(review);
-            //review = new Review();
             review.ClearReview();
         }
     }
