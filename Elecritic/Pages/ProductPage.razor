@@ -2,8 +2,50 @@
 
 <h3>Producto:  @ProductId</h3> <!-- En realidad diría el Product.Name pero aun no lo recibe-->
 
+<EditForm Model="@review" OnValidSubmit="@SaveReview">
+    <DataAnnotationsValidator />
+
+
+    <div class="col-12-row">
+        <label class="col-2 font-weight-bold"> Reseña: </label>
+        <InputTextArea class="form-control col-3" @bind-Value="review.ReviewText" placeholder="Reseña"></InputTextArea>
+        <ValidationMessage For="@(() => review.ReviewText)" />
+    </div>
+
+    <div class="col-12-row">
+        <label class="col-2 font-weight-bold"> Rating 1-5: </label>
+        <InputNumber class="form-control col-3" @bind-Value="review.RatingProduct" placeholder="Rating"></InputNumber>
+        <ValidationMessage For="@(() => review.RatingProduct)" />
+    </div>
+    <br />
+    <div class="col-12-row">
+        <label class="col-2 font-weight-bold"> Recomendar </label>
+        <InputSelect @bind-Value="review.Recommended">
+            <option value="">Selecciona...</option>
+            <option value="si">Si</option>
+            <option value="no">No</option>
+            <option value="tal vez">Tal vez</option>
+
+        </InputSelect>
+        <ValidationMessage For="@(() => review.Recommended)" />
+    </div>
+
+    <br />
+
+    <div class="col-12-row">
+        <span class="col-2"></span>
+        <input type="submit" class="form-control col-1 btn btn-primary" value="Publicar" />
+        <span> &nbsp;</span>
+    </div>
+
+
+
+
+</EditForm>
+
+
 @code {
 
-    
+
 
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Elecritic.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
@@ -10,5 +10,58 @@ namespace Elecritic.Pages {
 
         [Parameter]
         public string ProductId { get; set; }
+
+        public ReviewModel review { get; set; }
+
+        protected override void OnInitialized() {
+            review = new ReviewModel();
+        }
+
+        private void SaveReview() {
+            //reviewService.SaveReview(review);
+            //review = new Review();
+            review.ClearReview();
+        }
+    }
+
+    public class ReviewModel {
+        public string AuthorId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacío")]
+        public string ReviewText { get; set; }
+
+        [Required]
+        [Range(1, 5, ErrorMessage = "Rating sale del rango permitido")]
+        public float RatingProduct { get; set; }
+
+        public string ProductId { get; set; }
+
+        [Required(ErrorMessage = "Este campo no puede estar vacío")]
+        public string Recommended { get; set; }
+
+
+        public ReviewModel() {
+
+        }
+
+        public ReviewModel(string authorId, string reviewText, int ratingProduct, string productId, string recommended) {
+            AuthorId = authorId;
+            ReviewText = reviewText;
+            RatingProduct = ratingProduct;
+            ProductId = productId;
+            Recommended = recommended;
+
+
+        }
+
+        public void ClearReview() {
+            AuthorId = "";
+            ReviewText = "";
+            RatingProduct = 0;
+            ProductId = "";
+            Recommended = "";
+
+
+        }
     }
 }
