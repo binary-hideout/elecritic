@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 namespace Elecritic.Models {
     public class ReviewService {
         private static readonly string[] FakeReviews = new[] {
-            "carousel-images/huawei.jpg", "carousel-images/iphone.png", "carousel-images/lg.jpg",
-            "carousel-images/motorola.jpg", "carousel-images/samsung.jpg", "carousel-images/xiaomi.jpg",
-            "carousel-images/alienware.jpg","carousel-images/laptop_hp.png", "carousel-images/lenovo.jpg"
+            "good one, mine is 3 years old and still works fine", "Great option considering its price",
+            "There are better options, but this one is not a bad choice",
+            "After a year of use you could face some issues with the camera, everything else works fine",
+            "I have never had an issue with it, its the best one for the price range no doubt"
         };
-        public static int id = 0;
-        public Task<Product[]> GetRandomProductsAsync(DateTime startDate) {
-            id++;
+        public Task<Review[]> GetRandomReviewsAsync(DateTime startDate) {
             var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
-                Id = id,
-                Category = "1",
-                Company = "Apple",
-                Name = "Celular",
-                Description = "Buen estado",
-                ImagePath = ImagesPath[rng.Next(ImagesPath.Length)],
-                ReleaseDate = startDate.AddDays(index),
+            return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Review {
+                Id = 1,
+                UserId = 1,
+                Title = "Average Review, mostly positive",
+                Text = FakeReviews[rng.Next(FakeReviews.Length)],
+                Rating = 4,
+                PublishDate = startDate.AddDays(index),
             }).ToArray());
         }
     }
