@@ -1,8 +1,6 @@
 ﻿@page "/"
 
 <h3>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos.</h3>
-
-
 <br />
 
 @if (Products == null)
@@ -12,8 +10,7 @@
 else
 {
 
-
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -24,10 +21,12 @@ else
 
                                     @foreach (var productCard in Products)
                                     {
-                                        <div class="col-sm-12 col-lg-4">
-                                            <div class="card behind-top" style="width: 18rem;">
-                                                <img src=@productCard.ImagePath class="d-block w-100" alt="imagenProducto">
-                                                <div class="card-body">
+                                        <div class="col-md-4"  style=" margin-top:1rem;">
+                                            <div class="card shadow" style="width: 15rem;">
+                                                <div class="inner" style="padding:.5rem;">
+                                                    <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+                                                </div>
+                                                <div class="card-body text-center">
                                                     <h5 class="card-title">@productCard.Name</h5>
                                                     <p class="card-text"> @productCard.Description</p>
                                                     <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -51,3 +50,22 @@ else
 }
 
 
+<style>
+
+    .inner {
+        overflow: hidden;
+    }
+
+        .inner img {
+            transition: all 1.5s ease;
+        }
+
+        .inner:hover img {
+            transform: scale(1.1)
+        }
+
+    .container {
+        margin-top: 0%;
+    }
+    }
+</style>
