@@ -1,28 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-/// <summary>Class <c>Review</c> contains 
-/// <list type="bullet">
-/// <item>
-/// <description>INT Id</description>
-/// </item>
-/// <item>
-/// <description>INT UserId</description>
-/// </item>
-/// <item>
-/// <description>String Text</description>
-/// </item>
-/// <item>
-/// <description>INT Rating</description>
-/// </item>
-/// <item>
-/// <description>DateTime PublishDate</description>
-/// </item>
-/// </list>
+/// <summary>Class <c>Review</c> contains Id, UserId, Text, Rating, PublishDate.
 /// </summary>
-///
 
 namespace Elecritic.Models {
     public class Review {
