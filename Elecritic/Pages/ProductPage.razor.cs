@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Elecritic.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
@@ -20,6 +21,16 @@ namespace Elecritic.Pages {
         private void SaveReview() {
             //reviewService.SaveReview(review);
             review.ClearReview();
+        }
+
+        //ReviewService
+        [Inject]
+        public ReviewService reviewService { get; set; }
+
+        private Review[] Reviews { get; set; }
+
+        protected override async Task OnInitializedAsync() {
+            Reviews = await reviewService.GetRandomReviewsAsync(DateTime.Now);
         }
     }
 
