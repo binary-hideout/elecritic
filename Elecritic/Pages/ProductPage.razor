@@ -2,104 +2,120 @@
 
 <h3>Producto:  @ProductId</h3> <!-- En realidad diría el Product.Name pero aun no lo recibe-->
 
-<div class="col-md-4" style=" margin-top:1rem;">
-    <div class="card shadow" style="width: 15rem;">
-        <div class="inner" style="padding:.5rem;">
-            <img src="/carousel-images/huawei.jpg" class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-        </div>
-        <div class="card-body text-center">
-            <h5 class="card-title">Huawei J10</h5>
-        </div>
-    </div>
-    <br />
-    <h3> Descripción del producto</h3>
-    <br />
-    <p> 4gb de ram, cámara frontal de 12mgpx, 15cm de alto x 9cm de largo x 2 de ancho</p> <!-- Product.Description-->
+<div class="row">
+    <div class="col-md-2" style=" margin-top:2rem; margin-left:2rem">
+        <div class="card shadow" style="width: 15rem; height:16rem;">
+            <div class="card-title text-center">
+                <h3 class="card-title">Huawei J10</h3>
+            </div>
+            <div class="inner" style="padding:.5rem;">
+                <img src="/carousel-images/huawei.jpg" class="d-block w-100" style="width: 11rem; height:11rem;" alt="imagenProducto">
+            </div>
 
+        </div>
+        <br />
+
+    </div>
+    <div class="col-sm-7">
+
+        <div class="card-body" style="padding-top:2rem; margin-left:3rem">
+            <h3> Descripción del producto</h3>
+            <br />
+            <p>
+                4gb de ram, cámara frontal de 12mgpx, 15cm de alto x 9cm de largo x 2 de ancho
+                Tamaño de la pantalla: 6.15 pulgadas
+                MicroSD expandible a 256 GB
+                Parlantes stereo
+                Tipo de batería: Batería de polímero de litio
+                Sistema operativo: EMUI 9.0 (Basado en Android 9)
+            </p> <!-- Product.Description-->
+        </div>
+
+    </div>
 </div>
 
-@if (Reviews == null)
-{
-    <p><em>No hay reseñas de este producto </em></p>
-}
-else
-{
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container-fluid">
-                                <div class="row">
+<div class="container-fluid">
+    <div class="row content">
+        <div class="col-sm-3 sidenav hidden-xs">
+            <div class="col-md-4" style=" margin-top:1rem;">
+                <div class="card shadow" style="width: 18rem;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Agrega una reseña</h5>
+                        <div class="card-text">
+                            <EditForm Model="@Review" OnValidSubmit="@SaveReview">
+                                <DataAnnotationsValidator />
 
-                                    @foreach (var reviewCard in Reviews)
-                                    {
-                                        <div class="col-md-4" style=" margin-top:1rem;">
-                                            <div class="card shadow" style="width: 15rem;">                                         
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title">@reviewCard.Title</h5>
-                                                    <p class="card-text"> @reviewCard.Text</p>
-                                                    <p class="card-text"> Publicado el:  @reviewCard.PublishDate</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
+                                <div>
+                                    <div class="card-body" font-weight-bold"> Reseña: </div>
+                                    <InputTextArea class="form-control" @bind-Value="Review.Text" placeholder="Reseña"></InputTextArea>
+                                    <ValidationMessage For="@(() => Review.Text)" />
                                 </div>
-                            </div>
+
+                                <div>
+                                    <label class="card-body"> Rating 1-5: </label>
+                                    <InputNumber class="form-control" @bind-Value="Review.RatingProduct" placeholder="Rating"></InputNumber>
+                                    <ValidationMessage For="@(() => Review.RatingProduct)" />
+                                </div>
+                                <br />
+                                <div class="card-body">
+                                    <label class="font-weight-bold"> Recomendar </label>
+                                    <InputSelect @bind-Value="Review.Recommended">
+                                        <option value="">Selecciona...</option>
+                                        <option value="si">Si</option>
+                                        <option value="no">No</option>
+                                        <option value="Tal vez">Tal vez</option>
+
+                                    </InputSelect>
+                                    <ValidationMessage For="@(() => Review.Recommended)" />
+                                </div>
+
+                                <div class="card-body">
+                                    <span class=""></span>
+                                    <input type="submit" class="form-control btn btn-primary" value="Publicar" />
+                                    <span> &nbsp;</span>
+                                </div>
+
+                            </EditForm>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
+        <br>
+
+        <div class="col-sm-9">
+            <h4 class="text-center col-sm-10" style="margin-left:3rem;">
+                Reseñas de usuarios
+            </h4>
+            @foreach (var reviewCard in Reviews)
+            {
+                <div class="col-sm-10" style=" margin-top:1rem; margin-left:3rem">
+                    <div class="card shadow">
+                        <div class="card-body text-justify ">
+                            <h5 class="card-title">@reviewCard.Title</h5>
+                            <p class="card-text" style="padding-top:1rem;"> @reviewCard.Text</p>
+                            <div class="card-text" style="padding-top:1.2rem;">
+                                <div class="row">
+                                    <div class="col-sm-4 text-dark">Calificación: @reviewCard.Rating</div>
+                                    <div class="col-sm-8 text-right">Publicado el:  @reviewCard.PublishDate</div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
     </div>
+</div>
 
-    <br />
+@code {
 
-    <h4> Agrega una reseña</h4>
+
+
 }
-
-
-<EditForm Model="@Review" OnValidSubmit="@SaveReview">
-    <DataAnnotationsValidator />
-
-
-    <div class="col-12-row">
-        <label class="col-2 font-weight-bold"> Reseña: </label>
-        <InputTextArea class="form-control col-3" @bind-Value="Review.Text" placeholder="Reseña"></InputTextArea>
-        <ValidationMessage For="@(() => Review.Text)" />
-    </div>
-
-    <div class="col-12-row">
-        <label class="col-2 font-weight-bold"> Rating 1-5: </label>
-        <InputNumber class="form-control col-3" @bind-Value="Review.RatingProduct" placeholder="Rating"></InputNumber>
-        <ValidationMessage For="@(() => Review.RatingProduct)" />
-    </div>
-    <br />
-    <div class="col-12-row">
-        <label class="col-2 font-weight-bold"> Recomendar </label>
-        <InputSelect @bind-Value="Review.Recommended">
-            <option value="">Selecciona...</option>
-            <option value="si">Si</option>
-            <option value="no">No</option>
-            <option value="Tal vez">Tal vez</option>
-
-        </InputSelect>
-        <ValidationMessage For="@(() => Review.Recommended)" />
-    </div>
-
-    <br />
-
-    <div class="col-12-row">
-        <span class="col-2"></span>
-        <input type="submit" class="form-control col-1 btn btn-primary" value="Publicar" />
-        <span> &nbsp;</span>
-    </div>
-
-    <br />
-
-</EditForm>
-<br />
-
