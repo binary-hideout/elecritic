@@ -21,8 +21,10 @@ namespace Elecritic.Pages {
             Review = new ReviewModel();
         }
 
+        /// <summary>
+        /// Incomplete void, simply made for future query calls, right now it just calls another void
+        /// </summary>
         private void SaveReview() {
-            //reviewService.SaveReview(review);
             Review.ClearReview();
         }
 
@@ -38,8 +40,7 @@ namespace Elecritic.Pages {
     }
 
     /// <summary>
-    /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page, 
-    /// method ClearReview simply sets everything as empty or as 0
+    /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page
     /// </summary>
     public class ReviewModel {
         public string UserId { get; set; }
@@ -66,7 +67,9 @@ namespace Elecritic.Pages {
             Recommended = recommended;
 
         }
-
+        /// <summary>
+        /// Simply sets everything as empty or as 0
+        /// </summary>
         public void ClearReview() {
             UserId = "";
             Text = "";
