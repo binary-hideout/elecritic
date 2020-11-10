@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Elecritic.Models {
+    /// <summary>
+    /// This class is a service, declared as such in Startup.cs, which returns 20 objects of type Product,
+    /// it has a random variable to pick a random image as well.
+    /// </summary>
     public class ProductService {
 
         private static readonly string[] ImagesPath = new[] {
