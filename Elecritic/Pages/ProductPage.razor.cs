@@ -43,7 +43,6 @@ namespace Elecritic.Pages {
     /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page
     /// </summary>
     public class ReviewModel {
-        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Este campo no puede estar vacío")]
         public string Text { get; set; }
@@ -60,8 +59,7 @@ namespace Elecritic.Pages {
 
         }
 
-        public ReviewModel(string authorId, string reviewText, int ratingProduct, string recommended) {
-            UserId = authorId;
+        public ReviewModel(string reviewText, int ratingProduct, string recommended) {
             Text = reviewText;
             RatingProduct = ratingProduct;
             Recommended = recommended;
@@ -71,7 +69,6 @@ namespace Elecritic.Pages {
         /// Simply sets everything as empty or as 0
         /// </summary>
         public void ClearReview() {
-            UserId = "";
             Text = "";
             RatingProduct = 0;
             Recommended = "";
