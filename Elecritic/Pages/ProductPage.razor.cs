@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Elecritic.Models;
 using Microsoft.AspNetCore.Components;
@@ -12,25 +10,25 @@ namespace Elecritic.Pages {
         [Parameter]
         public string ProductId { get; set; }
 
-        public ReviewModel review { get; set; }
+        public ReviewModel Review { get; set; }
 
         protected override void OnInitialized() {
-            review = new ReviewModel();
+            Review = new ReviewModel();
         }
 
         private void SaveReview() {
             //reviewService.SaveReview(review);
-            review.ClearReview();
+            Review.ClearReview();
         }
 
         //ReviewService
         [Inject]
-        public ReviewService reviewService { get; set; }
+        public ReviewService ReviewService { get; set; }
 
         private Review[] Reviews { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            Reviews = await reviewService.GetRandomReviewsAsync(DateTime.Now);
+            Reviews = await ReviewService.GetRandomReviewsAsync(DateTime.Now);
         }
     }
 
@@ -57,7 +55,6 @@ namespace Elecritic.Pages {
             Text = reviewText;
             RatingProduct = ratingProduct;
             Recommended = recommended;
-
 
         }
 

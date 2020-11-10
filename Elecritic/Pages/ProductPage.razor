@@ -62,32 +62,32 @@ else
 }
 
 
-<EditForm Model="@review" OnValidSubmit="@SaveReview">
+<EditForm Model="@Review" OnValidSubmit="@SaveReview">
     <DataAnnotationsValidator />
 
 
     <div class="col-12-row">
         <label class="col-2 font-weight-bold"> Reseña: </label>
-        <InputTextArea class="form-control col-3" @bind-Value="review.Text" placeholder="Reseña"></InputTextArea>
-        <ValidationMessage For="@(() => review.Text)" />
+        <InputTextArea class="form-control col-3" @bind-Value="Review.Text" placeholder="Reseña"></InputTextArea>
+        <ValidationMessage For="@(() => Review.Text)" />
     </div>
 
     <div class="col-12-row">
         <label class="col-2 font-weight-bold"> Rating 1-5: </label>
-        <InputNumber class="form-control col-3" @bind-Value="review.RatingProduct" placeholder="Rating"></InputNumber>
-        <ValidationMessage For="@(() => review.RatingProduct)" />
+        <InputNumber class="form-control col-3" @bind-Value="Review.RatingProduct" placeholder="Rating"></InputNumber>
+        <ValidationMessage For="@(() => Review.RatingProduct)" />
     </div>
     <br />
     <div class="col-12-row">
         <label class="col-2 font-weight-bold"> Recomendar </label>
-        <InputSelect @bind-Value="review.Recommended">
+        <InputSelect @bind-Value="Review.Recommended">
             <option value="">Selecciona...</option>
             <option value="si">Si</option>
             <option value="no">No</option>
             <option value="Tal vez">Tal vez</option>
 
         </InputSelect>
-        <ValidationMessage For="@(() => review.Recommended)" />
+        <ValidationMessage For="@(() => Review.Recommended)" />
     </div>
 
     <br />
@@ -100,13 +100,6 @@ else
 
     <br />
 
-
 </EditForm>
 <br />
 
-
-@code {
-
-
-
-}
