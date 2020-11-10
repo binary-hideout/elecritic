@@ -5,6 +5,9 @@ using Elecritic.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
+    /// <summary>
+    /// Partial class to implement all needed code of ProductPage razor component
+    /// </summary>
     public partial class ProductPage {
 
         [Parameter]
@@ -32,6 +35,10 @@ namespace Elecritic.Pages {
         }
     }
 
+    /// <summary>
+    /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page, 
+    /// method ClearReview simply sets everything as empty or as 0
+    /// </summary>
     public class ReviewModel {
         public string UserId { get; set; }
 
