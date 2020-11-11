@@ -88,34 +88,35 @@
             <h4 class="text-center col-sm-10" style="margin-left:3rem;">
                 Reseñas de usuarios
             </h4>
-            @foreach (var reviewCard in Reviews)
+            @if (Reviews == null)
             {
-                <div class="col-sm-10" style=" margin-top:1rem; margin-left:3rem">
-                    <div class="card shadow">
-                        <div class="card-body text-justify ">
-                            <h5 class="card-title">@reviewCard.Title</h5>
-                            <p class="card-text" style="padding-top:1rem;"> @reviewCard.Text</p>
-                            <div class="card-text" style="padding-top:1.2rem;">
-                                <div class="row">
-                                    <div class="col-sm-4 text-dark">Calificación: @reviewCard.Rating</div>
-                                    <div class="col-sm-8 text-right">Publicado el:  @reviewCard.PublishDate</div>
+                <p><em>No hay reseñas de este producto </em></p>
+            }
+            else
+            {
+                @foreach (var reviewCard in Reviews)
+                {
+                    <div class="col-sm-10" style=" margin-top:1rem; margin-left:3rem">
+                        <div class="card shadow">
+                            <div class="card-body text-justify ">
+                                <h5 class="card-title">@reviewCard.Title</h5>
+                                <p class="card-text" style="padding-top:1rem;"> @reviewCard.Text</p>
+                                <div class="card-text" style="padding-top:1.2rem;">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-dark">Calificación: @reviewCard.Rating</div>
+                                        <div class="col-sm-8 text-right">Publicado el:  @reviewCard.PublishDate</div>
 
+
+                                    </div>
 
                                 </div>
 
                             </div>
-
                         </div>
                     </div>
-                </div>
+                }
             }
-
-        </div>
+            </div>
     </div>
 </div>
 
-@code {
-
-
-
-}
