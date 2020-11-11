@@ -201,3 +201,14 @@ app {
         display: block;
     }
 }
+
+
+/* middle-box */
+.middle-box{
+    margin-top:150px;
+    margin:auto;
+    width:450px;
+    padding:30px;
+    box-shadow:5px 10px 18px #46009f;
+    border-radius: 20px;
+}
