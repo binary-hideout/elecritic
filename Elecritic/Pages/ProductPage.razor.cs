@@ -19,9 +19,9 @@ namespace Elecritic.Pages {
         public ReviewModel Review { get; set; }
 
         
-        /*protected override void OnInitialized() {
+        protected override void OnInitialized() {
             Review = new ReviewModel();
-        }*/
+        }
 
         /// <summary>
         /// Incomplete void, simply made for future query calls, right now it just calls another void
