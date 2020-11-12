@@ -1,4 +1,4 @@
-using Elecritic.Models;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +19,7 @@ namespace Elecritic {
         public void ConfigureServices(IServiceCollection services) {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
         }

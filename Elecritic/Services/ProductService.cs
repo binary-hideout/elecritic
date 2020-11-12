@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Elecritic.Models {
+using Elecritic.Models;
+
+namespace Elecritic.Services {
     /// <summary>
     /// This class is a service, declared as such in Startup.cs, which returns 20 objects of type Product,
     /// it has a random variable to pick a random image as well.

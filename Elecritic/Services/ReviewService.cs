@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Elecritic.Models {
+using Elecritic.Models;
+
+namespace Elecritic.Services {
     public class ReviewService {
         private static readonly string[] FakeReviews = new[] {
             "good one, mine is 3 years old and still works fine", "Great option considering its price",
