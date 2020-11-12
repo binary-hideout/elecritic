@@ -18,7 +18,9 @@ namespace Elecritic.Services {
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 7).Select(index => new Review {
                 Id = index,
-                UserId = 1,
+                User = new User {
+                    Id = index
+                },
                 Title = "Average Review, mostly positive",
                 Text = FakeReviews[rng.Next(FakeReviews.Length)],
                 Rating = 4,
