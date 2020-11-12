@@ -18,6 +18,7 @@ namespace Elecritic.Pages {
 
         public ReviewModel Review { get; set; }
 
+        
         protected override void OnInitialized() {
             Review = new ReviewModel();
         }
