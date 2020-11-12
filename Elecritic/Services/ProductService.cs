@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Elecritic.Models {
+using Elecritic.Models;
+
+namespace Elecritic.Services {
     /// <summary>
     /// This class is a service, declared as such in Startup.cs, which returns 20 objects of type Product,
     /// it has a random variable to pick a random image as well.
@@ -14,12 +16,11 @@ namespace Elecritic.Models {
             "carousel-images/motorola.jpg", "carousel-images/samsung.jpg", "carousel-images/xiaomi.jpg",
             "carousel-images/alienware.jpg","carousel-images/laptop_hp.png", "carousel-images/lenovo.jpg"
         };
-        public static int id = 0;
+
         public Task<Product[]> GetRandomProductsAsync(DateTime startDate) {
-            id++;
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
-                Id = id,
+                Id = index,
                 Category = "1",
                 Company = "Apple",
                 Name = "Celular",
