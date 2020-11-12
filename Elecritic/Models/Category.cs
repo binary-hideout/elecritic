@@ -1,14 +1,15 @@
 ﻿namespace Elecritic.Models {
     /// <summary>
     /// Category of a <see cref="Product"/>.
-    ///  To get the actual name, e.g. <c>"Cellphone"</c>, access <see cref="Name"/>
+    ///  To get the actual name, e.g. <c>"Cellphone"</c>, access property <see cref="Name"/> or call method <see cref="ToString"/>.
+    ///  In the database this class just represents a lookup table.
     /// </summary>
     public class Category {
 
         public int Id { get; set; }
 
         /// <summary>
-        /// Actual name of this category.
+        /// Actual name of the category.
         /// </summary>
         public string Name { get; set; }
 
