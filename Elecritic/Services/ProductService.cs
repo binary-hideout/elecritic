@@ -21,8 +21,12 @@ namespace Elecritic.Services {
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
                 Id = index,
-                Category = "1",
-                Company = "Apple",
+                Category = new Category {
+                    Id = 1
+                },
+                Company = new Company {
+                    Name = "Apple"
+                },
                 Name = "Celular",
                 Description = "Buen estado",
                 ImagePath = ImagesPath[rng.Next(ImagesPath.Length)],
