@@ -212,3 +212,13 @@ app {
     box-shadow:5px 10px 18px #46009f;
     border-radius: 20px;
 }
+
+.labelCenter {
+    text-align: center;
+    color: #1b6ec2;
+    padding-bottom:6px;
+}
+
+.finalBox{
+    margin-bottom:16px;
+}

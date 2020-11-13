@@ -16,11 +16,12 @@
                     <RadzenTextBox @bind-Value="model.Email"></RadzenTextBox>
 
                     <label>Contraseña</label>
-                    <RadzenPassword @bind-Value="model.Password"></RadzenPassword>
+                    <RadzenPassword @bind-Value="model.Password" class="finalBox"></RadzenPassword>
 
-                    <hr />
                     <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
                                   ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                    <hr />
+                    <label class="labelCenter">¿No tienes una cuenta?</label>
                     <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Registrate aquí"
                                   ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToRegister" />
                 </RadzenCard>

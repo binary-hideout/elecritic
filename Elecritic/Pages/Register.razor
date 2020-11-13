@@ -26,10 +26,10 @@
                     <RadzenPassword @bind-Value="model.Password"></RadzenPassword>
 
                     <label>Confirmar contraseña</label>
-                    <RadzenPassword @bind-Value="model.ConfirmPassword"></RadzenPassword>
-                    <hr />
+                    <RadzenPassword @bind-Value="model.ConfirmPassword" class="finalBox"></RadzenPassword>
                     <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Crear cuenta"
                                   ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                    <hr />
                     <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Ya tengo una cuenta"
                                   ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToLogin" />
                 </RadzenCard>
