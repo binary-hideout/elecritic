@@ -5,23 +5,23 @@
 <div class="middle-box">
     <div class="row">
         <div class="col-12">
-            <h2>Login to your account</h2>
+            <h2>Ingrese a su cuenta</h2>
             <EditForm Model="model" OnValidSubmit="LoginUser">
                 <RadzenCard>
                     @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
 
-                    <label>Email</label>
+                    <label>Correo</label>
                     <RadzenTextBox @bind-Value="model.Email"></RadzenTextBox>
 
-                    <label>Password</label>
+                    <label>Contraseña</label>
                     <RadzenPassword @bind-Value="model.Password"></RadzenPassword>
 
                     <hr />
-                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Login"
+                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
                                   ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
-                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Register"
+                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Registrate aquí"
                                   ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToRegister" />
                 </RadzenCard>
             </EditForm>
