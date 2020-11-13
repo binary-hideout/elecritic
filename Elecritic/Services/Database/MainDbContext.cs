@@ -18,6 +18,10 @@ namespace Elecritic.Services.Database {
         protected MainDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            // if a property is not specified in a builder is because Entity Framework
+            // automatically recognizes them and doesn't require additional configuration.
+            // e.g. a property named "Id" will be a Primary Key in the database table
+
             modelBuilder.Entity<User>(user => {
                 user.ToTable(typeof(User).Name);
 
