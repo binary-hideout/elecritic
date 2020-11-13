@@ -53,6 +53,18 @@ namespace Elecritic.Services.Database {
                     .IsRequired();
             });
 
+            modelBuilder.Entity<Product>(product => {
+                product.ToTable(typeof(Product).Name);
+
+                product.Property(p => p.Name)
+                    .HasMaxLength(60)
+                    .IsRequired();
+                product.Property(p => p.Description)
+                    .HasMaxLength(500);
+                product.Property(p => p.ImagePath)
+                    .HasMaxLength(100);
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
