@@ -38,6 +38,21 @@ namespace Elecritic.Services.Database {
                 user.Ignore(u => u.Reliability);
             });
 
+            modelBuilder.Entity<Review>(review => {
+                review.ToTable(typeof(Review).Name);
+
+                review.Property(r => r.Title)
+                    .HasMaxLength(50)
+                    .IsRequired();
+                review.Property(r => r.Text)
+                    .HasMaxLength(1200)
+                    .IsRequired();
+                review.Property(r => r.Rating)
+                    .IsRequired();
+                review.Property(r => r.PublishDate)
+                    .IsRequired();
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
