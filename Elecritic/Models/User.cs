@@ -36,5 +36,10 @@ namespace Elecritic.Models {
         /// Opinions of reviews from other users.
         /// </summary>
         public virtual List<Opinion> Opinions { get; set; }
+
+        /// <summary>
+        /// Favorite products as marked by the user.
+        /// </summary>
+        public virtual List<Favorite> Favorites { get; set; }
     }
 }
