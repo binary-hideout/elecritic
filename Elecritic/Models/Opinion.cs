@@ -1,7 +1,7 @@
 ﻿namespace Elecritic.Models {
 
     /// <summary>
-    /// Opinion that a <see cref="User"/> can have about some <see cref="Review"/> from another user:
+    /// Opinion that a <see cref="Models.User"/> can have about a <see cref="Models.Review"/> from another user:
     /// whether he finds it helpful or not. See <see cref="IsHelpful"/>.
     /// This allows to estimate the <see cref="User.Reliability"/>.
     /// </summary>
