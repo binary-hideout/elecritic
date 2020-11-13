@@ -65,6 +65,14 @@ namespace Elecritic.Services.Database {
                     .HasMaxLength(100);
             });
 
+            modelBuilder.Entity<Category>(category => {
+                category.ToTable(typeof(Category).Name);
+
+                category.Property(c => c.Name)
+                    .HasMaxLength(25)
+                    .IsRequired();
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
