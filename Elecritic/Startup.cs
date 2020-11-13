@@ -1,7 +1,7 @@
 using System;
 
 using Elecritic.Services;
-using Elecritic.Services.Database;
+using Elecritic.Database;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

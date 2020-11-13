@@ -3,7 +3,7 @@ using Elecritic.Models;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Elecritic.Services.Database {
+namespace Elecritic.Database {
 
     /// <summary>
     /// Application database context. Builds every necessary model class to a MySQL table.
