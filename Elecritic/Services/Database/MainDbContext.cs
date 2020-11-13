@@ -73,6 +73,14 @@ namespace Elecritic.Services.Database {
                     .IsRequired();
             });
 
+            modelBuilder.Entity<Company>(company => {
+                company.ToTable(typeof(Company).Name);
+
+                company.Property(c => c.Name)
+                    .HasMaxLength(25)
+                    .IsRequired();
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
