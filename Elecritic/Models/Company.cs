@@ -1,4 +1,6 @@
-﻿namespace Elecritic.Models {
+﻿using System.Collections.Generic;
+
+namespace Elecritic.Models {
     /// <summary>
     /// Company or brand of a <see cref="Product"/>.
     ///  To get the actual name, e.g. <c>"Huawei"</c>, access property <see cref="Name"/> or call method <see cref="ToString"/>.
@@ -12,6 +14,11 @@
         /// Actual name of the company.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Products made by a company, e.g. cellphones by Huawei.
+        /// </summary>
+        public virtual List<Product> Products { get; set; }
 
         /// <summary>
         /// Get the string representation of the company.

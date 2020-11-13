@@ -1,4 +1,6 @@
-﻿namespace Elecritic.Models {
+﻿using System.Collections.Generic;
+
+namespace Elecritic.Models {
     /// <summary>
     /// Category of a <see cref="Product"/>.
     ///  To get the actual name, e.g. <c>"Cellphone"</c>, access property <see cref="Name"/> or call method <see cref="ToString"/>.
@@ -12,6 +14,11 @@
         /// Actual name of the category.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Products that belong to a category, e.g. the cellphones.
+        /// </summary>
+        public virtual List<Product> Products { get; set; }
 
         /// <summary>
         /// Get the string representation of the category.
