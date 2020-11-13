@@ -85,6 +85,10 @@ namespace Elecritic.Database {
                     .IsRequired();
             });
 
+            modelBuilder.Entity<Favorite>(favorite => {
+                favorite.ToTable(typeof(Favorite).Name);
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
