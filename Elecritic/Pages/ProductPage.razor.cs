@@ -18,9 +18,6 @@ namespace Elecritic.Pages {
 
         public ReviewModel Review { get; set; }
 
-        protected override void OnInitialized() {
-            Review = new ReviewModel();
-        }
 
         /// <summary>
         /// Incomplete void, simply made for future query calls, right now it just calls another void
@@ -36,6 +33,7 @@ namespace Elecritic.Pages {
         private Review[] Reviews { get; set; }
 
         protected override async Task OnInitializedAsync() {
+            Review = new ReviewModel();
             Reviews = await ReviewService.GetRandomReviewsAsync(DateTime.Now);
         }
     }
