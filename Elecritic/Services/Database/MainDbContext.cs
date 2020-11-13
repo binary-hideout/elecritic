@@ -1,4 +1,6 @@
 ﻿
+using Elecritic.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Elecritic.Services.Database {
@@ -16,6 +18,25 @@ namespace Elecritic.Services.Database {
         protected MainDbContext(DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<User>(user => {
+                user.ToTable(typeof(User).Name);
+
+                user.Property(u => u.Username)
+                    .HasMaxLength(20)
+                    .IsRequired();
+                user.Property(u => u.Password)
+                    .HasMaxLength(255)
+                    .IsRequired();
+                user.Property(u => u.Email)
+                    .HasMaxLength(50)
+                    .IsRequired();
+                user.Property(u => u.FirstName)
+                    .HasMaxLength(25);
+                user.Property(u => u.LastName)
+                    .HasMaxLength(25);
+
+                user.Ignore(u => u.Reliability);
+            });
 
             base.OnModelCreating(modelBuilder);
         }
