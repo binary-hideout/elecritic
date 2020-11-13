@@ -5,26 +5,39 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Elecritic.Pages {
-    public partial class RegisterRequest {
-        [Required]
-        [StringLength(50)]
-        [EmailAddress]
-        public string Email { get; set; }
+    public partial class Register {
 
-        [Required]
-        [StringLength(25)]
-        public string FirstName { get; set; }
+        RegisterRequest model = new RegisterRequest();
 
-        [Required]
-        [StringLength(25)]
-        public string LastName { get; set; }
+        public async Task RegisterUser() {
 
-        [Required]
-        [StringLength(50)]
-        public string Password { get; set; }
+        }
 
-        [Required]
-        [StringLength(50)]
-        public string ConfirmPassword { get; set; }
+        void GoToLogin() {
+            navigationManager.NavigateTo("/login");
+        }
+
+        public class RegisterRequest {
+            [Required]
+            [StringLength(50)]
+            [EmailAddress]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(25)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(25)]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(50)]
+            public string Password { get; set; }
+
+            [Required]
+            [StringLength(50)]
+            public string ConfirmPassword { get; set; }
+        }
     }
 }
