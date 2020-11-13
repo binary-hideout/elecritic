@@ -89,6 +89,10 @@ namespace Elecritic.Database {
                 favorite.ToTable(typeof(Favorite).Name);
             });
 
+            modelBuilder.Entity<Opinion>(opinion => {
+                opinion.ToTable(typeof(Opinion).Name);
+            });
+
             base.OnModelCreating(modelBuilder);
         }
     }
