@@ -20,7 +20,7 @@ namespace Elecritic.Helpers {
         }
 
         /// <summary>
-        /// Applies SHA256 algorithm to hash a raw password, and returns the hash.
+        /// Applies SHA256 algorithm to hash <paramref name="password"/>, and returns the password as hashed <c>string</c>.
         /// </summary>
         /// <param name="password">A raw password to hash.</param>
         /// <returns>The hashed password.</returns>
