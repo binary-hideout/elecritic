@@ -1,10 +1,16 @@
+using System;
+
 using Elecritic.Services;
+using Elecritic.Database;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Elecritic {
     public class Startup {
@@ -22,6 +28,22 @@ namespace Elecritic {
 
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
+
+            // local function
+            void setDbContextOptions(DbContextOptionsBuilder options) {
+                options.UseMySql(
+                    Configuration.GetConnectionString("ElecriticDb"),
+                    mySqlOptions => mySqlOptions
+                        .ServerVersion(new Version(5, 7, 31), ServerType.MySql)
+                        .CharSetBehavior(CharSetBehavior.NeverAppend));
+#if DEBUG
+                options.EnableSensitiveDataLogging(true);
+#endif
+            }
+
+            // only used when migrating to the database
+            //! do not uncomment it
+            //services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
