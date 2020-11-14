@@ -1,0 +1,39 @@
+﻿@page "/register"
+@inject NavigationManager navigationManager
+@using Elecritic.Models
+
+<div class="middle-box">
+    <h3>Register</h3>
+    <div class="row">
+        <div class="col-12">
+            <h2>Crea una nueva cuenta</h2>
+            <EditForm Model="Model" OnValidSubmit="RegisterUser">
+                <RadzenCard>
+                    @*<AlertMessage Message="@message" MessageType="@messageType" />*@
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <label>Primer nombre</label>
+                    <RadzenTextBox @bind-Value="Model.FirstName"></RadzenTextBox>
+
+                    <label>Segundo nombre</label>
+                    <RadzenTextBox @bind-Value="Model.LastName"></RadzenTextBox>
+
+                    <label>Correo</label>
+                    <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
+
+                    <label>Contraseña</label>
+                    <RadzenPassword @bind-Value="Model.Password"></RadzenPassword>
+
+                    <label>Confirmar contraseña</label>
+                    <RadzenPassword @bind-Value="Model.ConfirmPassword" class="finalBox"></RadzenPassword>
+                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Crear cuenta"
+                                  ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                    <hr />
+                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Ya tengo una cuenta"
+                                  ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToLogin" />
+                </RadzenCard>
+            </EditForm>
+        </div>
+    </div>
+</div>

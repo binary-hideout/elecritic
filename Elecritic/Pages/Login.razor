@@ -1,4 +1,31 @@
-﻿@page "/login"
+@page "/login"
+@inject NavigationManager navigationManager
+@using Elecritic.Models
 
-<h1>Login</h1>
-<p> Ingresa credenciales validas</p>
+<div class="middle-box">
+    <div class="row">
+        <div class="col-12">
+            <h2>Ingrese a su cuenta</h2>
+            <EditForm Model="Model" OnValidSubmit="LoginUser">
+                <RadzenCard>
+                    @*<AlertMessage Message="@message" MessageType="@messageType" />*@
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <label>Correo</label>
+                    <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
+
+                    <label>Contraseña</label>
+                    <RadzenPassword @bind-Value="Model.Password" class="finalBox"></RadzenPassword>
+
+                    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
+                                  ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                    <hr />
+                    <label class="labelCenter">¿No tienes una cuenta?</label>
+                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Registrate aquí"
+                                  ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToRegister" />
+                </RadzenCard>
+            </EditForm>
+        </div>
+    </div>
+</div>
