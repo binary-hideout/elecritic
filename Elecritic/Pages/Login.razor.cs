@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,6 +27,5 @@ namespace Elecritic.Pages {
             [StringLength(50)]
             public string Password { get; set; }
         }
-        
     }
 }

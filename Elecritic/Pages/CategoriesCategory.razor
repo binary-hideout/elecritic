@@ -1,8 +1,21 @@
-﻿@page "/categorias/celulares"
-<h3>Celulares</h3>
+﻿@page "/categorias/{Category}"
+    <h3>@Category</h3>
 
 <br />
 
+@switch (@Category)
+{
+    case "Celulares":
+        <p> Celulares</p>
+        break;
+    case "Laptops":
+        <p> Laptops</p>
+        break;
+    case "Televisiones":
+        <p> Televisiones</p>
+        break;
+
+}
 
 @if (Products == null)
 {
