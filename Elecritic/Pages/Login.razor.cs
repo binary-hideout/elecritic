@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Elecritic.Pages {
     public partial class Login {
 
-        LoginRequest model = new LoginRequest();
+        private LoginRequest Model { get; set; } = new LoginRequest();
 
         public async Task LoginUser() {
 

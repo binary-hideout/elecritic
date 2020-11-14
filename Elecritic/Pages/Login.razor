@@ -6,17 +6,17 @@
     <div class="row">
         <div class="col-12">
             <h2>Ingrese a su cuenta</h2>
-            <EditForm Model="model" OnValidSubmit="LoginUser">
+            <EditForm Model="Model" OnValidSubmit="LoginUser">
                 <RadzenCard>
                     @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
 
                     <label>Correo</label>
-                    <RadzenTextBox @bind-Value="model.Email"></RadzenTextBox>
+                    <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
 
                     <label>Contraseña</label>
-                    <RadzenPassword @bind-Value="model.Password" class="finalBox"></RadzenPassword>
+                    <RadzenPassword @bind-Value="Model.Password" class="finalBox"></RadzenPassword>
 
                     <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
                                   ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />

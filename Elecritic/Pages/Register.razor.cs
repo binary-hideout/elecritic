@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Elecritic.Pages {
     public partial class Register {
 
-        RegisterRequest model = new RegisterRequest();
+        private RegisterRequest Model { get; set; } = new RegisterRequest();
 
         public async Task RegisterUser() {
 
