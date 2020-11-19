@@ -37,6 +37,7 @@ namespace Elecritic.Pages {
 
             [Required]
             [StringLength(50)]
+            [Compare("Password", ErrorMessage ="Password and Confirm password must match")]
             public string ConfirmPassword { get; set; }
         }
     }
