@@ -25,6 +25,9 @@ namespace Elecritic.Models {
         /// </summary>
         public byte Rating { get; set; }
 
+        /// <summary>
+        /// Date published of the review.
+        /// </summary>
         public DateTime PublishDate { get; set; }
 
         /// <summary>
