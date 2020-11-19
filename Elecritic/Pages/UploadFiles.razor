@@ -1,0 +1,13 @@
+﻿@page "/upload-files"
+@inject NavigationManager navigationManager
+@using Elecritic.Models
+
+
+
+<form>
+    <label for="myfile">Seleccionar archivo:</label>
+    <input type="file" id="myfile" name="myfile" multiple value=""><br><br>
+    <label for="fname">Categoría:</label>
+    <input type="text" id="fname" name="fname"><br><br><hr>
+    <input type="submit" value="Subir">
+</form>
