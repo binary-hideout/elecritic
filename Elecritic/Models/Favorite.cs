@@ -5,6 +5,9 @@
     /// </summary>
     public class Favorite {
 
+        /// <summary>
+        /// Favorite identifier.
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
