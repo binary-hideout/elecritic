@@ -7,6 +7,9 @@
     /// </summary>
     public class Opinion {
 
+        /// <summary>
+        /// Opinion identifier.
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
