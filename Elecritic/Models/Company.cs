@@ -8,6 +8,9 @@ namespace Elecritic.Models {
     /// </summary>
     public class Company {
 
+        /// <summary>
+        /// Company identifier.
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>

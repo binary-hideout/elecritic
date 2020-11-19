@@ -7,14 +7,29 @@ namespace Elecritic.Models {
     /// </summary>
     public class User {
 
+        /// <summary>
+        /// User identifier.
+        /// </summary>
         public int Id { get; set; }
 
+        /// <summary>
+        /// Sequence of characters by which the user will be mainly identified to the other users.
+        /// </summary>
         public string Username { get; set; }
 
+        /// <summary>
+        /// User's email, used for authentication.
+        /// </summary>
         public string Email { get; set; }
 
+        /// <summary>
+        /// First name of the user. Private information.
+        /// </summary>
         public string FirstName { get; set; }
 
+        /// <summary>
+        /// Last name of the user.
+        /// </summary>
         public string LastName { get; set; }
 
         /// <summary>

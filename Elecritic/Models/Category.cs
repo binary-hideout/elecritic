@@ -8,6 +8,9 @@ namespace Elecritic.Models {
     /// </summary>
     public class Category {
 
+        /// <summary>
+        /// Category identifier.
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
