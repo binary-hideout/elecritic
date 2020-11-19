@@ -1,23 +1,30 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Components;
+
 namespace Elecritic.Pages {
+
     public partial class Login {
 
-        private LoginRequest Model { get; set; } = new LoginRequest();
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
 
-        public async Task LoginUser() {
+        private UserDto Model { get; set; } = new UserDto();
 
+        /// <summary>
+        /// Method not implemented yet.
+        /// </summary>
+        /// <returns></returns>
+        public async Task LogInUser() {
+            await Task.CompletedTask;
         }
 
-        void GoToRegister() {
-            navigationManager.NavigateTo("/register");
+        void GoToSignup() {
+            NavigationManager.NavigateTo("/signup");
         }
 
-        public class LoginRequest {
+        public class UserDto {
             [Required]
             [StringLength(50)]
             [EmailAddress]
