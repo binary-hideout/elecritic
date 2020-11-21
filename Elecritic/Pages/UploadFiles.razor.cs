@@ -17,6 +17,12 @@ namespace Elecritic.Pages {
     public partial class UploadFiles {
 
 
+        /// <summary>
+        /// This method should receive the filepath of the excel or csv file where the products are at
+        /// and then it converts them into a list of Products to be then saved in the DB
+        /// </summary>
+        /// <param name="productTable"></param>
+        /// <returns></returns>
         public List<Product> ReadFile(string productTable) {
 
             List<Product> productsInFile = new List<Product>();
