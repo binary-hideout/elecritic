@@ -1,17 +1,22 @@
 ﻿@page "/upload-files"
 
-
-
 <h1> File upload </h1>
-
 
 <form>
     <label for="myfile">Seleccionar archivo:</label>
-    <input type="file" id="myfile" name="myfile" @bind-value="@filePath"><br><br>
+    <InputFile OnChange="HandleFile"></InputFile>
+    @*<input type="file" id="myfile" name="myfile" @bind-value="@filePath"><br><br>*@
+    @if (FileEntry != null) {
+        <p>Name: @FileEntry.Name</p>
+        <p>Size: @FileEntry.Size bytes</p>
+        <p>Last modified: @FileEntry.LastModified.ToShortDateString()</p>
+        <p>Content type (not always supplied by the browser): @FileEntry.Type</p>
+    }
+    <br />
     <label for="fname">Categoría:</label>
     <input type="text" id="fname" name="fname"><br><br><hr>
-    <input class="btn-primary" type="submit" value="Subir" @onclick="@Upload">
 
+    <input class="btn-primary" type="submit" value="Subir" @onclick="@Upload">
 </form>
 
 <h1>@dummy hola</h1>
