@@ -1,18 +1,40 @@
 ﻿@page "/upload-files"
-@inject NavigationManager navigationManager
-@using Elecritic.Models
+
+
 
 <h1> File upload </h1>
 
-<!--
+
 <form>
     <label for="myfile">Seleccionar archivo:</label>
-    <input type="file" id="myfile" name="myfile" multiple value=""><br><br>
+    <input type="file" id="myfile" name="myfile" @bind-value="@filePath"><br><br>
     <label for="fname">Categoría:</label>
     <input type="text" id="fname" name="fname"><br><br><hr>
-    <input type="submit" value="Subir">
+    <input class="btn-primary" type="submit" value="Subir" @onclick="@Upload">
+
 </form>
 
--->
+<h1>@dummy hola</h1>
+<!--
 
-<div class="fileupload"></div>
+    <input type="file" id="myfile" name="myfile" multiple value=""><br><br>
+    <Radzen.Blazor.RadzenFileInput @bind-Value="fileUploadModel.File"></Radzen.Blazor.RadzenFileInput>
+
+    <label for="myfile">Seleccionar archivo:</label>
+    <input type="file" id="myfile" name="myfile" multiple value="" />
+
+
+-->
+<!--
+
+<EditForm Model="@fileUploadModel" OnValidSubmit="@Upload">
+    <DataAnnotationsValidator />
+
+
+    <label for="myfile">Seleccionar archivo:</label>
+    <input type="file" id="myfile" name="myfile" multiple value="" />
+
+    <input class="form-control btn btn-primary" type="submit" value="Subir" />
+
+</EditForm>
+-->
