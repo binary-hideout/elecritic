@@ -1,12 +1,10 @@
 @page "/login"
-@inject NavigationManager navigationManager
-@using Elecritic.Models
 
 <div class="middle-box">
     <div class="row">
         <div class="col-12">
             <h2>Ingrese a su cuenta</h2>
-            <EditForm Model="Model" OnValidSubmit="LoginUser">
+            <EditForm Model="Model" OnValidSubmit="LogInUser">
                 <RadzenCard>
                     @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                     <DataAnnotationsValidator />
@@ -23,7 +21,7 @@
                     <hr />
                     <label class="labelCenter">¿No tienes una cuenta?</label>
                     <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Registrate aquí"
-                                  ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToRegister" />
+                                  ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToSignup" />
                 </RadzenCard>
             </EditForm>
         </div>
