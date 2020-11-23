@@ -41,6 +41,7 @@ namespace Elecritic {
 #endif
             }
 
+            services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
             // only used when migrating to the database
             //! do not uncomment it
             //services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
