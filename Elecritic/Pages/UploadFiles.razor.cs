@@ -1,96 +1,91 @@
-﻿using System;
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components.Forms;
+
+using BlazorInputFile;
+
+using CsvHelper;
+
+using Elecritic.Database;
 using Elecritic.Models;
-using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using Radzen;
-using System.IO;
-using BlazorInputFile;
 
 namespace Elecritic.Pages {
 
     public partial class UploadFiles {
 
-        public string filePath { get; set; }
-        public string dummy { get; set; }
-        public FileUploadModel fileUploadModel { get; set; }
-        private void Upload() {
-            dummy = filePath;
-
-            //Check if the file is valid
-            //Store the filepath in a string
-            //Call ReadFile(filepath)
-            //ReadFile(filePath);
-        }
+        [Inject]
+        private UploadDataContext UploadDataContext { get; set; }
 
         private IFileListEntry FileEntry { get; set; }
 
-        private void HandleFile(IFileListEntry[] files) {
+        private Category NewCategory {get; set; } = new Category();
+
+        private void OnFileUploaded(IFileListEntry[] files) {
             FileEntry = files.FirstOrDefault();
         }
 
         /// <summary>
-        /// This method should receive the filepath of the excel or csv file where the products are at
-        /// and then it converts them into a list of Products to be then saved in the DB
+        /// Reads a CSV file which contains information of electronic devices,
+        /// parses the data and uploads the products as records to the database.
         /// </summary>
-        /// <param name="productTable"></param>
-        /// <returns> A list with the products recognized from the table </returns>
-        //public List<Product> ReadFile(string productTable) {
+        private async Task UploadFileContentsAsync() {
+            var categories = await UploadDataContext.GetCategoriesAsync();
+            var companies = await UploadDataContext.GetCompaniesAsync();
 
-        //    List<Product> productsInFile = new List<Product>();
+            using var reader = new StreamReader(FileEntry.Data);
+            using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
 
-        //    string FilePath = productTable;
-        //    System.IO.FileInfo existingFile = new System.IO.FileInfo(FilePath);
-        //    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-        //    using (ExcelPackage package = new ExcelPackage(existingFile))
-        //    {
-        //        ExcelWorksheet worksheet = package.Workbook.Worksheets.FirstOrDefault();
-        //        int colCount = worksheet.Dimension.End.Column;
-        //        int rowCount = worksheet.Dimension.End.Row;
+            await csvReader.ReadAsync();
+            csvReader.ReadHeader();
+            while (await csvReader.ReadAsync()) {
+                var companyName = csvReader.GetField("Product Brand").ToLower();
+                // make upper case the first letter of the string
+                companyName = char.ToUpper(companyName[0]) + companyName.Substring(1);
+                var company = companies.FirstOrDefault(c => c.Name == companyName);
+                // if the company is not in the database
+                if (company is null) {
+                    company = new Company {
+                        Name = companyName
+                    };
+                    // add it
+                    await UploadDataContext.InsertCompanyAsync(company);
+                    companies.Add(company);
+                }
 
-        //        for (int row = 0; row < rowCount; row++) {
+                // get category tag (id)
+                var tag = csvReader.GetField<int>("Tag");
+                // use the tag to get the category object
+                var category = categories[tag - 1];
 
-        //            Product product = new Product();
+                var model = csvReader.GetField("Product Model").Split(' ');
+                // first 3 words will be the name
+                var name = string.Join(" ", model.Take(3));
+                // the rest of the words will be the description
+                var description = string.Join(" ", model.Skip(3));
 
-        //            for (int col = 0; col < colCount; col++) {
-        //                if (col == 1) product.ImagePath = worksheet.Cells[row, col].Value.ToString();
-        //                else if (col == 2) {
-        //                    product.Name = worksheet.Cells[row, col].Value.ToString();
-        //                }else if(col == 3) {
-        //                    product.Description = worksheet.Cells[row, col].Value.ToString();
-        //                }
-                            
-        //            }
-        //            productsInFile.Add(product);
-        //        }
-        //    }
+                var imagePath = csvReader.GetField("ProductImg");
 
-
-        //    return productsInFile;
-
-        //}
-    }
-
-    /// <summary>
-    /// Model created to valid the file input 
-    /// </summary>
-    public class FileUploadModel {
-
-        [Required]
-        public Stream File { get; set; }
-        public FileUploadModel() {
-
+                var product = new Product {
+                    Name = name,
+                    Description = description,
+                    ImagePath = imagePath,
+                    Category = category,
+                    Company = company
+                };
+                await UploadDataContext.InsertProductAsync(product);
+            }
         }
 
-        public FileUploadModel(Stream file) {
-            File = file;
-            
+        private async Task UploadNewCategoryAsync() {
+            var category = new Category {
+                Name = NewCategory.Name
+            };
+            await UploadDataContext.InsertCategoryAsync(category);
+            NewCategory.Name = "";
         }
     }
-
 }

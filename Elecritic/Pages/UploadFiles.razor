@@ -1,45 +1,21 @@
 ﻿@page "/upload-files"
 
-<h1> File upload </h1>
+<h1> Agregar información a base de datos </h1>
 
-<form>
-    <label for="myfile">Seleccionar archivo:</label>
-    <InputFile OnChange="HandleFile"></InputFile>
-    @*<input type="file" id="myfile" name="myfile" @bind-value="@filePath"><br><br>*@
-    @if (FileEntry != null) {
-        <p>Name: @FileEntry.Name</p>
-        <p>Size: @FileEntry.Size bytes</p>
-        <p>Last modified: @FileEntry.LastModified.ToShortDateString()</p>
-        <p>Content type (not always supplied by the browser): @FileEntry.Type</p>
-    }
-    <br />
-    <label for="fname">Categoría:</label>
-    <input type="text" id="fname" name="fname"><br><br><hr>
+<label>Seleccionar archivo: </label>
+<InputFile OnChange="OnFileUploaded"></InputFile>
+@if (FileEntry != null) {
+    <p>Name: @FileEntry.Name</p>
+    <p>Size: @FileEntry.Size bytes</p>
+    <p>Last modified: @FileEntry.LastModified.ToShortDateString()</p>
+    <p>Content type (not always supplied by the browser): @FileEntry.Type</p>
+}
+<br />
+<button disabled="@(FileEntry is null)" @onclick="@UploadFileContentsAsync">Cargar archivo</button>
 
-    <input class="btn-primary" type="submit" value="Subir" @onclick="@Upload">
-</form>
+<hr />
 
-<h1>@dummy hola</h1>
-<!--
+<label>Categoría: </label>
+<input @bind="NewCategory.Name" @bind:event="oninput" />
 
-    <input type="file" id="myfile" name="myfile" multiple value=""><br><br>
-    <Radzen.Blazor.RadzenFileInput @bind-Value="fileUploadModel.File"></Radzen.Blazor.RadzenFileInput>
-
-    <label for="myfile">Seleccionar archivo:</label>
-    <input type="file" id="myfile" name="myfile" multiple value="" />
-
-
--->
-<!--
-
-<EditForm Model="@fileUploadModel" OnValidSubmit="@Upload">
-    <DataAnnotationsValidator />
-
-
-    <label for="myfile">Seleccionar archivo:</label>
-    <input type="file" id="myfile" name="myfile" multiple value="" />
-
-    <input class="form-control btn btn-primary" type="submit" value="Subir" />
-
-</EditForm>
--->
+<button disabled="@string.IsNullOrWhiteSpace(NewCategory.Name)" @onclick="@UploadNewCategoryAsync">Agregar categoría</button>
