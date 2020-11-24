@@ -137,6 +137,11 @@ app {
     color: red;
 }
 
+.fileupload{
+    font-family: Verdana;
+    font-size: 12px;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
