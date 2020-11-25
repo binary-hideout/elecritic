@@ -1,60 +1,49 @@
-﻿@page "/categorias/{Category}"
-    <h3>@Category</h3>
+﻿@page "/categorias/{CategoryId:int}"
 
-<br />
-
-@switch (@Category)
-{
-    case "Celulares":
-        <p> Celulares</p>
-        break;
-    case "Laptops":
-        <p> Laptops</p>
-        break;
-    case "Televisiones":
-        <p> Televisiones</p>
-        break;
-
+@if (Category is null) {
+    <p><em>Cargando...</em></p>
 }
+else {
+    <h3>@CategoryNameDisplay</h3>
 
-@if (Products == null)
-{
-    <p><em>No hay productos que mostrar... </em></p>
-}
-else
-{
+    <br />
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container-fluid">
-                                <div class="row">
-
-                                    @foreach (var productCard in Products)
-                                    {
-                                        <div class="col-md-4" style=" margin-top:1rem;">
-                                            <div class="card shadow" style="width: 15rem;">
-                                                <div class="inner" style="padding:.5rem;">
-                                                    <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                                                </div>
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title">@productCard.Name</h5>
-                                                    <p class="card-text"> @productCard.Description</p>
-                                                    <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
+    @if (Category.Products is null) {
+        <p><em>Cargando productos...</em></p>
+    }
+    else if (Category.Products.Count == 0) {
+        <p><b>No hay productos que mostrar.</b></p>
+    }
+    else {
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        @foreach (var productCard in Category.Products) {
+                                            <div class="col-md-4" style=" margin-top:1rem;">
+                                                <div class="card shadow" style="width: 15rem;">
+                                                    <div class="inner" style="padding:.5rem;">
+                                                        <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+                                                    </div>
+                                                    <div class="card-body text-center">
+                                                        <h5 class="card-title">@productCard.Name</h5>
+                                                        <p class="card-text"> @productCard.Description</p>
+                                                        <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    }
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </div>
+    }
 }
