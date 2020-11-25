@@ -1,27 +1,50 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
+using Elecritic.Database;
 using Elecritic.Models;
-using Elecritic.Services;
+
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
+
     public partial class CategoriesCategory {
+
         [Parameter]
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
 
         //Service
         [Inject]
-        public ProductService ProductService { get; set; }
+        private CategoryProductsContext CategoryProductsContext { get; set; }
 
-        private Product[] Products { get; set; }
+        private Category Category { get; set; }
 
         /// <summary>
-        /// Based on the Category received as parameter this method will get the corresponding products
+        /// Display of the category name in plural.
         /// </summary>
-        /// <returns></returns>
+        private string CategoryNameDisplay {
+            get {
+                switch (Category.Name) {
+                    case "Laptop": {
+                        return "Laptops";
+                    }
+                    case "TV": {
+                        return "Televisiones";
+                    }
+                    case "Celular": {
+                        return "Celulares";
+                    }
+                    default: {
+                        return "";
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Based on the Category received as parameter this method will get the corresponding products.
+        /// </summary>
         protected override async Task OnInitializedAsync() {
-            Products = await ProductService.GetRandomProductsAsync(DateTime.Now);
+            Category = await CategoryProductsContext.GetCategoryWithProductsAsync(CategoryId, 20);
         }
     }
 }
