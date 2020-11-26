@@ -30,9 +30,20 @@
                 Sistema operativo: EMUI 9.0 (Basado en Android 9)
             </p> <!-- Product.Description-->
         </div>
-
+        @if (Reviews != null)
+        {
+                <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
+                    <button class="btn btn-outline-success" Click="AddFavorite"><i class="oi oi-star pr-2" aria-hidden="true"></i>Añadir a favoritos</button>
+                </div>
+        }
+        else
+        {
+                <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
+                    <button class="btn btn-outline-dark" Click="DeleteFromFavorite"><i class="oi oi-delete pr-2" aria-hidden="true"></i>Eliminar de favoritos</button>
+                </div>
+        }
     </div>
-</div>
+    </div>
 
 
 <div class="container-fluid">
@@ -119,4 +130,3 @@
             </div>
     </div>
 </div>
-
