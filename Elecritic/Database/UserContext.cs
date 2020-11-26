@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using System.Linq;
 
 using Elecritic.Models;
 
 using Microsoft.EntityFrameworkCore;
+using Elecritic.Pages;
 
 namespace Elecritic.Database {
 
@@ -31,6 +33,22 @@ namespace Elecritic.Database {
             catch (DbUpdateException) {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Queries the database for the password of a <see cref="User"/> whose email matches <paramref name="userEmail"/>.
+        /// </summary>
+        /// <param name="userEmail">email provided in <see cref="Pages.Login"/>.</param>
+        /// <returns>hashed password if the user exists, otherwise an empty string.</returns>
+        public async Task<string> GetHashedPasswordAsync(string userEmail) {
+            var user = await UsersTable
+                .Select(u => new Login.UserDto {
+                    Email = u.Email,
+                    Password = u.Password
+                })
+                .SingleOrDefaultAsync(u => u.Email == userEmail);
+
+            return user is null ? string.Empty : user.Password;
         }
     }
 }
