@@ -50,5 +50,17 @@ namespace Elecritic.Database {
 
             return user is null ? string.Empty : user.Password;
         }
+
+        /// <summary>
+        /// Retrieves a <see cref="User"/> whose email is <paramref name="userEmail"/>.
+        /// </summary>
+        /// <param name="userEmail">email provided in <see cref="Pages.Login"/>.</param>
+        /// <returns><see cref="User"/> who is logging in.</returns>
+        public async Task<User> GetUserAsync(string userEmail) {
+            return await UsersTable
+                .Include(u => u.Favorites)
+                .Include(u => u.Reviews)
+                .SingleOrDefaultAsync(u => u.Email == userEmail);
+        }
     }
 }
