@@ -31,6 +31,10 @@ namespace Elecritic.Pages {
             public string Email { get; set; }
 
             [Required]
+            [StringLength(20)]
+            public string Username { get; set; }
+
+            [Required]
             [StringLength(25)]
             public string FirstName { get; set; }
 
