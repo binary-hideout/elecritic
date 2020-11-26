@@ -3,7 +3,7 @@
 <div class="middle-box">
     <div class="row">
         <div class="col-12">
-            <h2>Ingrese a su cuenta</h2>
+            <h2>Ingresa a tu cuenta</h2>
             <EditForm Model="Model" OnValidSubmit="LogInUser">
                 <RadzenCard>
                     @*<AlertMessage Message="@message" MessageType="@messageType" />*@
@@ -20,10 +20,11 @@
                                   ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
                     <hr />
                     <label class="labelCenter">¿No tienes una cuenta?</label>
-                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Registrate aquí"
+                    <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Regístrate aquí"
                                   ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToSignup" />
                 </RadzenCard>
             </EditForm>
         </div>
     </div>
 </div>
+<p>@ResultMessage</p>
