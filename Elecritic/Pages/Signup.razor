@@ -1,7 +1,7 @@
 ﻿@page "/signup"
 
 <div class="middle-box">
-    <h3>Register</h3>
+    <h3>Registro</h3>
     <div class="row">
         <div class="col-12">
             <h2>Crea una nueva cuenta</h2>
@@ -10,6 +10,9 @@
                     @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
+
+                    <label>Nombre de usuario</label>
+                    <RadzenTextBox @bind-Value="Model.Username"></RadzenTextBox>
 
                     <label>Primer nombre</label>
                     <RadzenTextBox @bind-Value="Model.FirstName"></RadzenTextBox>
@@ -26,7 +29,7 @@
                     <label>Confirmar contraseña</label>
                     <RadzenPassword @bind-Value="Model.ConfirmPassword" class="finalBox"></RadzenPassword>
                     <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Crear cuenta"
-                                  ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                                  ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2"/>
                     <hr />
                     <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Ya tengo una cuenta"
                                   ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToLogin" />
@@ -35,3 +38,4 @@
         </div>
     </div>
 </div>
+<p>@ResultMessage</p>

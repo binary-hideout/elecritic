@@ -28,12 +28,16 @@ namespace Elecritic.Database {
                 user.Property(u => u.Username)
                     .HasMaxLength(20)
                     .IsRequired();
+                user.HasIndex(u => u.Username)
+                    .IsUnique();
                 user.Property(u => u.Password)
                     .HasMaxLength(255)
                     .IsRequired();
                 user.Property(u => u.Email)
                     .HasMaxLength(50)
                     .IsRequired();
+                user.HasIndex(u => u.Email)
+                    .IsUnique();
                 user.Property(u => u.FirstName)
                     .HasMaxLength(25);
                 user.Property(u => u.LastName)

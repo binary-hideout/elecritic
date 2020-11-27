@@ -1,6 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
+using Elecritic.Database;
+using Elecritic.Helpers;
+using Elecritic.Services;
+
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
@@ -10,14 +14,49 @@ namespace Elecritic.Pages {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        private UserContext UserContext { get; set; }
+
+        [Inject]
+        public UserService UserService { get; set; }
+
         private UserDto Model { get; set; } = new UserDto();
 
+        private string ResultMessage { get; set; } = "";
+
         /// <summary>
-        /// Method not implemented yet.
+        /// Queries the database for the password of a user whose email matches the one provided.
+        /// If both passwords match, the rest of the user's data is retrieved.
         /// </summary>
-        /// <returns></returns>
         public async Task LogInUser() {
-            await Task.CompletedTask;
+            ResultMessage = "Iniciando sesión...";
+
+            // hash input password
+            string hashedPassword = Hasher.GetHashedPassword(Model.Password);
+            // get corresponding password from database
+            string dbPassword = await UserContext.GetHashedPasswordAsync(Model.Email);
+
+            // an empty password means that the input user doesn't exist
+            if (string.IsNullOrEmpty(dbPassword)) {
+                ResultMessage =
+                    $"Parece que no existe ninguna cuenta con el correo '{Model.Email}'. " +
+                    "Intenta crear una nueva ;)";
+                return;
+            }
+
+            // if both passwords match
+            if (hashedPassword == dbPassword) {
+                // retrieve user from database with all data
+                var user = await UserContext.GetUserAsync(Model.Email);
+                // update logged in user
+                UserService.LogIn(user);
+
+                ResultMessage = "¡Sesión iniciada! :D";
+                NavigationManager.NavigateTo("/");
+            }
+            else {
+                ResultMessage = "Contraseña incorrecta.";
+            }
         }
 
         void GoToSignup() {
