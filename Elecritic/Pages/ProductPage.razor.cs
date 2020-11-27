@@ -24,6 +24,8 @@ namespace Elecritic.Pages {
         [Inject]
         private UserService UserService { get; set; }
 
+        private string PublicationMessage { get; set; } = "";
+
         private Product Product { get; set; }
 
         private ReviewDto ReviewModel { get; set; } = new ReviewDto();
@@ -36,14 +38,34 @@ namespace Elecritic.Pages {
         /// <summary>
         /// Incomplete void, simply made for future query calls, right now it just calls another void
         /// </summary>
-        private void SaveReview() {
-            ReviewModel.ClearReview();
+        private async Task PublishReview() {
+            var review = new Review {
+                Title = ReviewModel.Title,
+                Text = ReviewModel.Text,
+                Rating = (byte)ReviewModel.RatingProduct,
+                PublishDate = DateTime.Now,
+                User = UserService.LoggedUser,
+                Product = Product
+            };
+
+            bool publicationSucceeded = await ProductContext.InsertReviewAsync(review);
+            if (publicationSucceeded) {
+                PublicationMessage = "¡Reseña publicada con éxito!";
+            }
+            else {
+                PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
+            }
+
+            ReviewModel.Clear();
         }
 
         /// <summary>
         /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page
         /// </summary>
         public class ReviewDto {
+
+            [Required(ErrorMessage = "Este campo no puede estar vacío")]
+            public string Title { get; set; }
 
             [Required(ErrorMessage = "Este campo no puede estar vacío")]
             public string Text { get; set; }
@@ -66,7 +88,8 @@ namespace Elecritic.Pages {
             /// <summary>
             /// Simply sets everything as empty or as 0
             /// </summary>
-            public void ClearReview() {
+            public void Clear() {
+                Title = "";
                 Text = "";
                 RatingProduct = 0;
                 Recommended = "";
