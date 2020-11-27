@@ -24,15 +24,6 @@ namespace Elecritic.Pages {
 
         private string ResultMessage { get; set; } = "";
 
-        protected override Task OnInitializedAsync() {
-            // if there's already a logged in user
-            //if (LoggedUser.Id != 0) {
-            //    NavigationManager.NavigateTo("/");
-            //}
-
-            return base.OnInitializedAsync();
-        }
-
         /// <summary>
         /// Queries the database for the password of a user whose email matches the one provided.
         /// If both passwords match, the rest of the user's data is retrieved.
@@ -40,9 +31,12 @@ namespace Elecritic.Pages {
         public async Task LogInUser() {
             ResultMessage = "Iniciando sesión...";
 
+            // hash input password
             string hashedPassword = Hasher.GetHashedPassword(Model.Password);
+            // get corresponding password from database
             string dbPassword = await UserContext.GetHashedPasswordAsync(Model.Email);
 
+            // an empty password means that the input user doesn't exist
             if (string.IsNullOrEmpty(dbPassword)) {
                 ResultMessage =
                     $"Parece que no existe ninguna cuenta con el correo '{Model.Email}'. " +
@@ -50,8 +44,11 @@ namespace Elecritic.Pages {
                 return;
             }
 
+            // if both passwords match
             if (hashedPassword == dbPassword) {
+                // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
+                // update logged in user
                 UserService.LogIn(user);
 
                 ResultMessage = "¡Sesión iniciada! :D";

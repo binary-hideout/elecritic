@@ -35,7 +35,9 @@ namespace Elecritic.Pages {
         private async Task SignUpUser() {
             ResultMessage = "Estamos creando tu nueva cuenta...";
 
+            // hash input password
             string hashedPassword = Hasher.GetHashedPassword(Model.Password);
+            // create instance of user based on DTO
             var newUser = new User {
                 Username = Model.Username,
                 Email = Model.Email,
@@ -44,9 +46,11 @@ namespace Elecritic.Pages {
                 Password = hashedPassword
             };
 
+            // try to create new account
             bool signupSucceeded = await UserContext.InsertUserAsync(newUser);
             if (signupSucceeded) {
                 ResultMessage = "¡Cuenta creada con éxito! :D";
+                // update logged in user
                 UserService.LogIn(newUser);
                 NavigationManager.NavigateTo("/");
             }
