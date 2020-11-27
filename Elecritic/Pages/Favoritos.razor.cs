@@ -1,9 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
+using Elecritic.Database;
+using Elecritic.Models;
+using Elecritic.Services;
+
+using Microsoft.AspNetCore.Components;
+
 namespace Elecritic.Pages {
-    public class Favoritos {
+    public partial class Favoritos {
+
+        [Parameter]
+        public string userId { get; set; }
+
+        [Inject]
+        public ProductService ProductService { get; set; }
+
+        private Product[] Products { get; set; }
+
+        protected override async Task OnInitializedAsync() {
+            Products = await ProductService.GetRandomProductsAsync(DateTime.Now);
+        }
     }
 }
