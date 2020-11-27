@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Elecritic.Database;
 using Elecritic.Helpers;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
 
@@ -16,9 +17,21 @@ namespace Elecritic.Pages {
         [Inject]
         private UserContext UserContext { get; set; }
 
+        [Inject]
+        public UserService UserService { get; set; }
+
         private UserDto Model { get; set; } = new UserDto();
 
         private string ResultMessage { get; set; } = "";
+
+        protected override Task OnInitializedAsync() {
+            // if there's already a logged in user
+            //if (LoggedUser.Id != 0) {
+            //    NavigationManager.NavigateTo("/");
+            //}
+
+            return base.OnInitializedAsync();
+        }
 
         /// <summary>
         /// Queries the database for the password of a user whose email matches the one provided.
@@ -39,6 +52,8 @@ namespace Elecritic.Pages {
 
             if (hashedPassword == dbPassword) {
                 var user = await UserContext.GetUserAsync(Model.Email);
+                UserService.LogIn(user);
+
                 ResultMessage = "¡Sesión iniciada! :D";
                 NavigationManager.NavigateTo("/");
             }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Elecritic.Database;
 using Elecritic.Helpers;
 using Elecritic.Models;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
 
@@ -16,6 +17,9 @@ namespace Elecritic.Pages {
 
         [Inject]
         private UserContext UserContext { get; set; }
+
+        [Inject]
+        private UserService UserService { get; set; }
 
         private UserDto Model { get; set; } = new UserDto();
 
@@ -43,6 +47,7 @@ namespace Elecritic.Pages {
             bool signupSucceeded = await UserContext.InsertUserAsync(newUser);
             if (signupSucceeded) {
                 ResultMessage = "¡Cuenta creada con éxito! :D";
+                UserService.LogIn(newUser);
                 NavigationManager.NavigateTo("/");
             }
             else {

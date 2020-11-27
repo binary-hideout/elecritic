@@ -1,5 +1,8 @@
 @page "/login"
 
+@if (UserService.LoggedUser.Id != 0) {
+    <p><b>Actualmente ya tienes una sesión activa, con correo <em>@UserService.LoggedUser.Email</em></b></p>
+}
 <div class="middle-box">
     <div class="row">
         <div class="col-12">
