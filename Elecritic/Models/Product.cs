@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Elecritic.Models {
 
@@ -47,5 +48,13 @@ namespace Elecritic.Models {
         /// Reviews about the product.
         /// </summary>
         public virtual List<Review> Reviews { get; set; }
+
+        /// <summary>
+        /// Calculates the average rating of <see cref="Reviews"/>.
+        /// </summary>
+        /// <returns>Average rating of this product.</returns>
+        public double GetAverageRating() {
+            return Reviews is null || Reviews.Count == 0 ? -1 : Reviews.Average(r => r.Rating);
+        }
     }
 }
