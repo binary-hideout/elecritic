@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Elecritic.Database;
 using Elecritic.Models;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
 
@@ -19,6 +20,9 @@ namespace Elecritic.Pages {
 
         [Inject]
         private ProductContext ProductContext { get; set; }
+
+        [Inject]
+        private UserService UserService { get; set; }
 
         private Product Product { get; set; }
 

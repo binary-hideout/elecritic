@@ -43,48 +43,53 @@ else {
     </div>
 
     <div class="container-fluid">
-        <div class="row content">
+        <div class="row content"> 
             <div class="col-sm-3 sidenav hidden-xs">
                 <div class="col-md-4" style=" margin-top:1rem;">
                     <div class="card shadow" style="width: 18rem;">
                         <div class="card-body text-center">
-                            <h5 class="card-title">Agrega una reseña</h5>
-                            <div class="card-text">
-                                <EditForm Model="@ReviewModel" OnValidSubmit="@SaveReview">
-                                    <DataAnnotationsValidator />
+                            @if (UserService.LoggedUser.Id == 0) {
+                                <h5 class="card-title">Inicia sesión para escribir tu reseña</h5>
+                            }
+                            else {
+                                <h5 class="card-title">Agrega una reseña</h5>
+                                <div class="card-text">
+                                    <EditForm Model="@ReviewModel" OnValidSubmit="@SaveReview">
+                                        <DataAnnotationsValidator />
 
-                                    <div>
-                                        <div class="card-body" font-weight-bold"> Reseña: </div>
-                                        <InputTextArea class="form-control" @bind-Value="ReviewModel.Text" placeholder="Reseña"></InputTextArea>
-                                        <ValidationMessage For="@(() => ReviewModel.Text)" />
-                                    </div>
+                                        <div>
+                                            <div class="card-body" font-weight-bold"> Reseña: </div>
+                                            <InputTextArea class="form-control" @bind-Value="ReviewModel.Text" placeholder="Reseña"></InputTextArea>
+                                            <ValidationMessage For="@(() => ReviewModel.Text)" />
+                                        </div>
 
-                                    <div>
-                                        <label class="card-body"> Rating 1-5: </label>
-                                        <InputNumber class="form-control" @bind-Value="ReviewModel.RatingProduct" placeholder="Rating"></InputNumber>
-                                        <ValidationMessage For="@(() => ReviewModel.RatingProduct)" />
-                                    </div>
-                                    <br />
-                                    <div class="card-body">
-                                        <label class="font-weight-bold"> Recomendar </label>
-                                        <InputSelect @bind-Value="ReviewModel.Recommended">
-                                            <option value="">Selecciona...</option>
-                                            <option value="si">Si</option>
-                                            <option value="no">No</option>
-                                            <option value="Tal vez">Tal vez</option>
+                                        <div>
+                                            <label class="card-body"> Rating 1-5: </label>
+                                            <InputNumber class="form-control" @bind-Value="ReviewModel.RatingProduct" placeholder="Rating"></InputNumber>
+                                            <ValidationMessage For="@(() => ReviewModel.RatingProduct)" />
+                                        </div>
+                                        <br />
+                                        <div class="card-body">
+                                            <label class="font-weight-bold"> Recomendar </label>
+                                            <InputSelect @bind-Value="ReviewModel.Recommended">
+                                                <option value="">Selecciona...</option>
+                                                <option value="si">Sí</option>
+                                                <option value="no">No</option>
+                                                <option value="Tal vez">Tal vez</option>
 
-                                        </InputSelect>
-                                        <ValidationMessage For="@(() => ReviewModel.Recommended)" />
-                                    </div>
+                                            </InputSelect>
+                                            <ValidationMessage For="@(() => ReviewModel.Recommended)" />
+                                        </div>
 
-                                    <div class="card-body">
-                                        <span class=""></span>
-                                        <input type="submit" class="form-control btn btn-primary" value="Publicar" />
-                                        <span> &nbsp;</span>
-                                    </div>
+                                        <div class="card-body">
+                                            <span class=""></span>
+                                            <input type="submit" class="form-control btn btn-primary" value="Publicar" />
+                                            <span> &nbsp;</span>
+                                        </div>
 
-                                </EditForm>
-                            </div>
+                                    </EditForm>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
