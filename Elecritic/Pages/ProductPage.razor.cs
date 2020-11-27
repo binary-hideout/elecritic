@@ -36,7 +36,7 @@ namespace Elecritic.Pages {
         }
 
         /// <summary>
-        /// Incomplete void, simply made for future query calls, right now it just calls another void
+        /// Try to publish <see cref="ReviewModel"/> to the database.
         /// </summary>
         private async Task PublishReview() {
             var review = new Review {
@@ -78,12 +78,6 @@ namespace Elecritic.Pages {
             public string Recommended { get; set; }
 
             public ReviewDto() { }
-
-            public ReviewDto(string reviewText, int ratingProduct, string recommended) {
-                Text = reviewText;
-                RatingProduct = ratingProduct;
-                Recommended = recommended;
-            }
 
             /// <summary>
             /// Simply sets everything as empty or as 0
