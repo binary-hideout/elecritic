@@ -15,6 +15,8 @@ namespace Elecritic.Database {
 
         public DbSet<Product> ProductsTable { get; set; }
 
+        public DbSet<Review> ReviewsTable { get; set; }
+
         public ProductContext(DbContextOptions<ProductContext> options) : base(options) { }
 
         /// <summary>
@@ -39,6 +41,26 @@ namespace Elecritic.Database {
                 .Collection(p => p.Reviews)
                 .Query()
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Inserts <paramref name="review"/> to the database.
+        /// </summary>
+        /// <param name="review">a new <see cref="Review"/> of a product.</param>
+        /// <returns><c>true</c> if <paramref name="review"/> is successfully added to the database,
+        /// <c>false</c> if an exception occurred.</returns>
+        public async Task<bool> InsertReviewAsync(Review review) {
+            try {
+                Entry(review.User).State = EntityState.Unchanged;
+
+                await ReviewsTable.AddAsync(review);
+                await SaveChangesAsync();
+
+                return true;
+            }
+            catch (DbUpdateException) {
+                return false;
+            }
         }
     }
 }
