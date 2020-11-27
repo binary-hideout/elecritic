@@ -1,7 +1,7 @@
 using System;
 
-using Elecritic.Services;
 using Elecritic.Database;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +28,7 @@ namespace Elecritic {
 
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
+            services.AddSingleton<UserService>();
 
             // local function
             void setDbContextOptions(DbContextOptionsBuilder options) {
