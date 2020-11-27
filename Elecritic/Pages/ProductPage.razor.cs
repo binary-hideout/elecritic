@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
+using Elecritic.Database;
 using Elecritic.Models;
 using Elecritic.Services;
 
@@ -15,31 +16,56 @@ namespace Elecritic.Pages {
     public partial class ProductPage {
 
         [Parameter]
-        public string ProductId { get; set; }
-
-        public ReviewDto Review { get; set; }
-
-        /// <summary>
-        /// Incomplete void, simply made for future query calls, right now it just calls another void
-        /// </summary>
-        private void SaveReview() {
-            Review.ClearReview();
-        }
+        public int ProductId { get; set; }
 
         [Inject]
-        public ReviewService ReviewService { get; set; }
+        private ProductContext ProductContext { get; set; }
 
-        private Review[] Reviews { get; set; }
+        [Inject]
+        private UserService UserService { get; set; }
+
+        private string PublicationMessage { get; set; } = "";
+
+        private Product Product { get; set; }
+
+        private ReviewDto ReviewModel { get; set; } = new ReviewDto();
 
         protected override async Task OnInitializedAsync() {
-            Review = new ReviewDto();
-            Reviews = await ReviewService.GetRandomReviewsAsync(DateTime.Now);
+            Product = await ProductContext.GetProductAsync(ProductId);
+            Product.Reviews = await ProductContext.GetProductReviewsAsync(Product);
+        }
+
+        /// <summary>
+        /// Try to publish <see cref="ReviewModel"/> to the database.
+        /// </summary>
+        private async Task PublishReview() {
+            var review = new Review {
+                Title = ReviewModel.Title,
+                Text = ReviewModel.Text,
+                Rating = (byte)ReviewModel.RatingProduct,
+                PublishDate = DateTime.Now,
+                User = UserService.LoggedUser,
+                Product = Product
+            };
+
+            bool publicationSucceeded = await ProductContext.InsertReviewAsync(review);
+            if (publicationSucceeded) {
+                PublicationMessage = "¡Reseña publicada con éxito!";
+            }
+            else {
+                PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
+            }
+
+            ReviewModel.Clear();
         }
 
         /// <summary>
         /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page
         /// </summary>
         public class ReviewDto {
+
+            [Required(ErrorMessage = "Este campo no puede estar vacío")]
+            public string Title { get; set; }
 
             [Required(ErrorMessage = "Este campo no puede estar vacío")]
             public string Text { get; set; }
@@ -53,16 +79,11 @@ namespace Elecritic.Pages {
 
             public ReviewDto() { }
 
-            public ReviewDto(string reviewText, int ratingProduct, string recommended) {
-                Text = reviewText;
-                RatingProduct = ratingProduct;
-                Recommended = recommended;
-            }
-
             /// <summary>
             /// Simply sets everything as empty or as 0
             /// </summary>
-            public void ClearReview() {
+            public void Clear() {
+                Title = "";
                 Text = "";
                 RatingProduct = 0;
                 Recommended = "";
