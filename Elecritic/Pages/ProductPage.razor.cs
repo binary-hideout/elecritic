@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
+using Elecritic.Database;
 using Elecritic.Models;
-using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
 
@@ -15,25 +15,25 @@ namespace Elecritic.Pages {
     public partial class ProductPage {
 
         [Parameter]
-        public string ProductId { get; set; }
+        public int ProductId { get; set; }
 
-        public ReviewDto Review { get; set; }
+        [Inject]
+        private ProductContext ProductContext { get; set; }
+
+        private Product Product { get; set; }
+
+        private ReviewDto ReviewModel { get; set; } = new ReviewDto();
+
+        protected override async Task OnInitializedAsync() {
+            Product = await ProductContext.GetProductAsync(ProductId);
+            Product.Reviews = await ProductContext.GetProductReviewsAsync(Product);
+        }
 
         /// <summary>
         /// Incomplete void, simply made for future query calls, right now it just calls another void
         /// </summary>
         private void SaveReview() {
-            Review.ClearReview();
-        }
-
-        [Inject]
-        public ReviewService ReviewService { get; set; }
-
-        private Review[] Reviews { get; set; }
-
-        protected override async Task OnInitializedAsync() {
-            Review = new ReviewDto();
-            Reviews = await ReviewService.GetRandomReviewsAsync(DateTime.Now);
+            ReviewModel.ClearReview();
         }
 
         /// <summary>
