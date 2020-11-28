@@ -35,6 +35,9 @@ namespace Elecritic.Pages {
         /// </summary>
         private bool IsFavorite { get; set; }
 
+        /// <summary>
+        /// Message that explains the state of the published <see cref="ReviewModel"/>.
+        /// </summary>
         private string PublicationMessage { get; set; } = "";
 
         /// <summary>
