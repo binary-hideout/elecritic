@@ -9,7 +9,7 @@ using Elecritic.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
-    public partial class Favoritos {
+    public partial class MyFavorites {
 
         [Parameter]
         public string userId { get; set; }
