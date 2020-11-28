@@ -47,7 +47,7 @@ namespace Elecritic.Pages {
             Product = await ProductContext.GetProductAsync(ProductId);
             Product.Reviews = await ProductContext.GetProductReviewsAsync(Product);
 
-            int userId = UserService.LoggedUser.Id;
+            var userId = UserService.LoggedUser.Id;
             // if there's a user logged in
             if (userId != 0) {
                 Favorite = await ProductContext.GetFavoriteAsync(userId, ProductId);
@@ -65,26 +65,18 @@ namespace Elecritic.Pages {
                 User = UserService.LoggedUser,
                 Product = Product
             };
-            bool newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
-            if (newFavoriteSucceeded) {
-                FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
-            }
-            else {
-                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al marcar como favorito :(";
-            }
+            var newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
+            FavoriteChangedMessage = newFavoriteSucceeded ?
+                $"¡Ahora te gusta {Product.Name}!" : "Lo sentimos, ocurrió un error al marcar como favorito :(";
         }
 
         /// <summary>
         /// Removes <see cref="Product"/> from favorites of <see cref="UserService.LoggedUser"/>.
         /// </summary>
         private async Task RemoveFromFavoritesAsync() {
-            bool removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
-            if (removedFavoriteSucceeded) {
-                FavoriteChangedMessage = $"Ya no te gusta {Product.Name}.";
-            }
-            else {
-                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
-            }
+            var removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
+            FavoriteChangedMessage = removedFavoriteSucceeded ?
+                $"Ya no te gusta {Product.Name}." : "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
         }
 
         /// <summary>
@@ -100,13 +92,9 @@ namespace Elecritic.Pages {
                 Product = Product
             };
 
-            bool publicationSucceeded = await ProductContext.InsertReviewAsync(review);
-            if (publicationSucceeded) {
-                PublicationMessage = "¡Reseña publicada con éxito!";
-            }
-            else {
-                PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
-            }
+            var publicationSucceeded = await ProductContext.InsertReviewAsync(review);
+            PublicationMessage = publicationSucceeded ?
+                "¡Reseña publicada con éxito!" : "Lo sentimos, tu reseña no pudo ser publicada :(";
 
             ReviewModel.Clear();
         }
