@@ -11,9 +11,6 @@ using Microsoft.AspNetCore.Components;
 namespace Elecritic.Pages {
     public partial class MyFavorites {
 
-        [Parameter]
-        public string userId { get; set; }
-
         [Inject]
         public ProductService ProductService { get; set; }
 
