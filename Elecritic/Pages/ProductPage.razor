@@ -4,8 +4,6 @@
     <p><em>Cargando...</em></p>
 }
 else {
-    <h3>@Product.Category.Name</h3>
-
     <div class="row">
         <div class="col-md-2" style=" margin-top:2rem; margin-left:2rem">
             <div class="card shadow" style="width: 15rem; height:16rem;">
@@ -19,22 +17,26 @@ else {
             <br />
         </div>
         <div class="col-sm-7">
-            <div class="card-body" style="padding-top:2rem; margin-left:3rem">
+            <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
                 <h3> Fabricante </h3>
-                <br />
                 <p>@Product.Company.Name</p>
             </div>
-            <div class="card-body" style="padding-top:2rem; margin-left:3rem">
+            <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
                 <h3> Descripción </h3>
-                <br />
                 <p>@Product.Description</p>
             </div>
-            @if (true) {
+            <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
+                <h3> Categoría </h3>
+                <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
+            </div>
+            @if (true)
+            {
                 <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
                     <button class="btn btn-outline-success" Click="AddFavorite"><i class="oi oi-star pr-2" aria-hidden="true"></i>Añadir a favoritos</button>
                 </div>
             }
-            else {
+            else
+            {
                 <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
                     <button class="btn btn-outline-dark" Click="DeleteFromFavorite"><i class="oi oi-delete pr-2" aria-hidden="true"></i>Eliminar de favoritos</button>
                 </div>
