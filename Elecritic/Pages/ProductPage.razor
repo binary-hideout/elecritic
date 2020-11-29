@@ -5,7 +5,7 @@
 }
 else {
     <div class="row">
-        <div class="col-md-2" style=" margin-top:2rem; margin-left:2rem">
+        <div class="col-md-2" style=" margin-top:1rem; margin-left:2rem">
             <div class="card shadow" style="width: 15rem; height:16rem;">
                 <div class="card-title text-center">
                     <h3 class="card-title">@Product.Name</h3>
@@ -18,40 +18,42 @@ else {
         </div>
         <div class="col-sm-7">
             <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                <h3> Fabricante </h3>
-                <p>@Product.Company.Name</p>
+                <h3> @Product.Company.Name </h3>
             </div>
             <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                <h3> Descripción </h3>
+                <h3> Especificaciones </h3>
                 <p>@Product.Description</p>
             </div>
             <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                <h3> Categoría </h3>
                 <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
             </div>
-            @if (UserService.LoggedUser.Id == 0) {
-                <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
+            @if (UserService.LoggedUser.Id == 0)
+            {
+                <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                    <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
+                </div>
             }
-            else {
-                @if (IsFavorite) {
-                    <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
-                        <button
-                            disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
-                            class="btn btn-outline-dark"
-                            @onclick="RemoveFromFavoritesAsync">
-                                <i class="oi oi-delete pr-2" aria-hidden="true"></i>
-                                Eliminar de favoritos
+            else
+            {
+                @if (IsFavorite)
+                {
+                    <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                        <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                                class="btn btn-outline-dark"
+                                @onclick="RemoveFromFavoritesAsync">
+                            <i class="oi oi-delete pr-2" aria-hidden="true"></i>
+                            Eliminar de favoritos
                         </button>
                     </div>
                 }
-                else {
-                    <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
-                        <button
-                            disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
-                            class="btn btn-outline-success"
-                            @onclick="AddToFavoritesAsync">
-                                <i class="oi oi-star pr-2" aria-hidden="true"></i>
-                                Agregar a favoritos
+                else
+                {
+                    <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                        <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                                class="btn btn-outline-warning"
+                                @onclick="AddToFavoritesAsync">
+                            <i class="oi oi-star pr-2" aria-hidden="true"></i>
+                            Agregar a favoritos
                         </button>
                     </div>
                 }
