@@ -29,18 +29,34 @@ else {
                 <h3> Categoría </h3>
                 <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
             </div>
-            @if (true)
-            {
-                <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
-                    <button class="btn btn-outline-success" Click="AddFavorite"><i class="oi oi-star pr-2" aria-hidden="true"></i>Añadir a favoritos</button>
-                </div>
+            @if (UserService.LoggedUser.Id == 0) {
+                <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
             }
-            else
-            {
-                <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
-                    <button class="btn btn-outline-dark" Click="DeleteFromFavorite"><i class="oi oi-delete pr-2" aria-hidden="true"></i>Eliminar de favoritos</button>
-                </div>
+            else {
+                @if (IsFavorite) {
+                    <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
+                        <button
+                            disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                            class="btn btn-outline-dark"
+                            @onclick="RemoveFromFavoritesAsync">
+                                <i class="oi oi-delete pr-2" aria-hidden="true"></i>
+                                Eliminar de favoritos
+                        </button>
+                    </div>
+                }
+                else {
+                    <div class="col-md-12 col-xl-5 mt-2 text-center" style="margin-left:2rem; padding-top:3rem;">
+                        <button
+                            disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                            class="btn btn-outline-success"
+                            @onclick="AddToFavoritesAsync">
+                                <i class="oi oi-star pr-2" aria-hidden="true"></i>
+                                Agregar a favoritos
+                        </button>
+                    </div>
+                }
             }
+            <p>@FavoriteChangedMessage</p>
         </div>
     </div>
 
