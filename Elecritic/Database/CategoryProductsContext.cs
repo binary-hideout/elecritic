@@ -30,6 +30,7 @@ namespace Elecritic.Database {
             category.Products = await Entry(category)
                 .Collection(c => c.Products)
                 .Query()
+                .Include(p => p.Reviews)
                 .Skip(skipSize)
                 .Take(batchSize)
                 .ToListAsync();
