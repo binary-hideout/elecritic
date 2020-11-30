@@ -48,7 +48,7 @@ namespace Elecritic.Pages {
 
         protected override async Task OnInitializedAsync() {
             Product = await ProductContext.GetProductAsync(ProductId);
-            Product.Reviews = await ProductContext.GetProductReviewsAsync(Product);
+            Product.Reviews = await ProductContext.GetReviewsAsync(Product);
 
             var userId = UserService.LoggedUser.Id;
             // if there's a user logged in
@@ -96,10 +96,13 @@ namespace Elecritic.Pages {
             };
 
             var publicationSucceeded = await ProductContext.InsertReviewAsync(review);
-            PublicationMessage = publicationSucceeded ?
-                "¡Reseña publicada con éxito!" : "Lo sentimos, tu reseña no pudo ser publicada :(";
-
-            ReviewModel.Clear();
+            if (publicationSucceeded) {
+                PublicationMessage = "¡Reseña publicada con éxito!";
+                ReviewModel.Clear();
+            }
+            else {
+                PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
+            }
         }
 
         /// <summary>

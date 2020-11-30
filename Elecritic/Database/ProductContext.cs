@@ -38,7 +38,7 @@ namespace Elecritic.Database {
         /// </summary>
         /// <param name="product"><see cref="Product"/> of the reviews.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="Review"/>s that correspond to <paramref name="product"/>.</returns>
-        public async Task<List<Review>> GetProductReviewsAsync(Product product) {
+        public async Task<List<Review>> GetReviewsAsync(Product product) {
             return await Entry(product)
                 .Collection(p => p.Reviews)
                 .Query()
