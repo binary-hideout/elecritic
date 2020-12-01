@@ -14,8 +14,6 @@ namespace Elecritic.Pages {
     public partial class MyFavorites {
 
         [Inject]
-        public ProductService ProductService { get; set; }
-        [Inject]
         private UserService UserService { get; set; }
 
         [Inject]
@@ -23,10 +21,9 @@ namespace Elecritic.Pages {
 
         private List<Product> FavoriteProducts { get; set; }
 
-        private Product[] Products { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            Products = await ProductService.GetRandomProductsAsync(DateTime.Now);
+            
             var user = UserService.LoggedUser;
             // if there's a user logged in
             if (user != null) {
