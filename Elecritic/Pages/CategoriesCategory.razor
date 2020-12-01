@@ -32,6 +32,14 @@ else {
                                                     <div class="card-body text-center">
                                                         <h5 class="card-title">@productCard.Name</h5>
                                                         <p class="card-text"> @productCard.Description</p>
+                                                        @if (productCard.GetAverageRating() > 0)
+                                                        {
+                                                            <p class="card-text"><img src="/vectors/star-fill.svg"> @productCard.GetAverageRating().ToString("N1")</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text text-black-50 font-italic">Sin reseñas</p>
+                                                        }
                                                         <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
                                                     </div>
                                                 </div>
