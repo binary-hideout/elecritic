@@ -24,10 +24,10 @@ namespace Elecritic.Pages {
 
         protected override async Task OnInitializedAsync() {
             
-            var user = UserService.LoggedUser;
+            var userId = UserService.LoggedUser.Id;
             // if there's a user logged in
-            if (user != null) {
-                FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(user);
+            if (userId != 0) {
+                FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
             }
             
         }

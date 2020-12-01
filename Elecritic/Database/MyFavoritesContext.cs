@@ -20,12 +20,12 @@ namespace Elecritic.Database {
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<List<Product>> GetFavoriteProductsAsync(User user) {
+        public async Task<List<Product>> GetFavoriteProductsAsync(int userId) {
             // IDs of top favorite products
             var productsIds = await FavoritesTable
                 //Gather products marked as favorite where the user is the current user
                 .Include(f => f.User)
-                .Where(f => f.User.Id == user.Id)
+                .Where(f => f.User.Id == userId)
                 .Include(f => f.Product)             
                 // select only the product ID
                 .Select(f => f.Product.Id)

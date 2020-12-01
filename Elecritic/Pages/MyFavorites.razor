@@ -4,6 +4,10 @@
 
 @if (FavoriteProducts != null)
 {
+    if(FavoriteProducts.Count == 0)
+    {
+        <h2> No tienes productos marcados como favoritos</h2>
+    }
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
@@ -38,11 +42,7 @@
         </div>
     </div>
 }
-else if ( FavoriteProducts.Count == 0)
-{
-   <h2> Cargando... </h2>
-}
 else
 {
-    <h2>No tienes productos marcados como favoritos</h2>
+    <h2>Cargando...</h2>
 }
