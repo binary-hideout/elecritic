@@ -1,62 +1,71 @@
 ﻿@page "/"
 
-<h2>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos.</h2>
+<center><h2>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos</h2></center>
+
 <br />
 
-@if (Products == null)
-{
-    <p><em>No hay productos que mostrar... </em></p>
+@if (RecommendedProducts is null) {
+    <p><em>Cargando recomendados...</em></p>
 }
-else
-{
+else if (RecommendedProducts.Count > 0) {
     <h3 style="text-align:center;"> Recomendados para ti</h3>
     <br />
     <!-- Section row // Horizontal Cards-->
     <div class="container">
         <div class="horizontal-row">
-            @foreach (var productCard in Products)
-            {
+            @foreach (var product in RecommendedProducts) {
                 <div class="col-md-4" style=" margin-top:1rem;">
                     <div class="card shadow" style="width: 15rem;">
                         <div class="inner" style="padding:.5rem;">
-                            <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+                            <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
                         </div>
                         <div class="card-body text-center">
-                            <h5 class="card-title">@productCard.Name</h5>
-                            <p class="card-text"> @productCard.Description</p>
-                            <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text"> @product.Description</p>
+                            <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
                         </div>
                     </div>
                 </div>
             }
-
         </div>
     </div>
-    <br />
+}
+
+<br />
+
+@if (FavoriteProducts is null) {
+    <p><em>Cargando favoritos...</em></p>
+}
+else if (FavoriteProducts.Count > 0) {
     <h3 style="text-align:center;"> Favoritos de otros usuarios</h3>
     <br />
     <!-- Section row // Horizontal Cards // Favoritos de otros usuarios-->
     <div class="container">
         <div class="horizontal-row">
-            @foreach (var productCard in Products)
-            {
+            @foreach (var product in FavoriteProducts) {
                 <div class="col-md-4" style=" margin-top:1rem;">
                     <div class="card shadow" style="width: 15rem;">
                         <div class="inner" style="padding:.5rem;">
-                            <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+                            <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
                         </div>
                         <div class="card-body text-center">
-                            <h5 class="card-title">@productCard.Name</h5>
-                            <p class="card-text"> @productCard.Description</p>
-                            <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text"> @product.Description</p>
+                            <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
                         </div>
                     </div>
                 </div>
             }
-
         </div>
     </div>
-    <br />
+}
+
+<br />
+
+@if (PopularProducts is null) {
+    <p><em>Cargando populares...</em></p>
+}
+else if (PopularProducts.Count > 0) {
     <h3 style="text-align:center;"> Lo más popular</h3>
     <br />
     <!-- Vertical Cards-->
@@ -68,18 +77,16 @@ else
                         <div class="carousel-item active">
                             <div class="container-fluid">
                                 <div class="row">
-
-                                    @foreach (var productCard in Products)
-                                    {
+                                    @foreach (var product in PopularProducts) {
                                         <div class="col-md-4" style=" margin-top:1rem;">
                                             <div class="card shadow" style="width: 15rem;">
                                                 <div class="inner" style="padding:.5rem;">
-                                                    <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+                                                    <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
                                                 </div>
                                                 <div class="card-body text-center">
-                                                    <h5 class="card-title">@productCard.Name</h5>
-                                                    <p class="card-text"> @productCard.Description</p>
-                                                    <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
+                                                    <h5 class="card-title">@product.Name</h5>
+                                                    <p class="card-text"> @product.Description</p>
+                                                    <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -88,10 +95,8 @@ else
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 }
-
