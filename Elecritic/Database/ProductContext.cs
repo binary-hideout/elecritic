@@ -42,6 +42,7 @@ namespace Elecritic.Database {
             return await Entry(product)
                 .Collection(p => p.Reviews)
                 .Query()
+                .Include(r => r.User)
                 .ToListAsync();
         }
 
