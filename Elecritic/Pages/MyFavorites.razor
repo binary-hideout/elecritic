@@ -40,38 +40,6 @@
 }
 else
 {
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container-fluid">
-                                <div class="row">
-
-                                    @foreach (var productCard in Products)
-                                    {
-                                        <div class="col-md-4" style=" margin-top:1rem;">
-                                            <div class="card shadow" style="width: 15rem;">
-                                                <div class="inner" style="padding:.5rem;">
-                                                    <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                                                </div>
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title">@productCard.Name</h5>
-                                                    <p class="card-text"> @productCard.Description</p>
-                                                    <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+   <h2> No tienes productos marcados como favoritos</h2>
 }
 
