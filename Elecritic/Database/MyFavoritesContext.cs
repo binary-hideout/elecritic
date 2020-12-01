@@ -15,7 +15,11 @@ namespace Elecritic.Database {
 
         public MyFavoritesContext(DbContextOptions<MyFavoritesContext> options) : base(options) { }
 
-
+        /// <summary>
+        /// Gets all the products in the user´s favorites list
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<List<Product>> GetFavoriteProductsAsync(User user) {
             // IDs of top favorite products
             var productsIds = await FavoritesTable
