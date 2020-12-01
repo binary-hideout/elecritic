@@ -1,8 +1,18 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="sidebar">
-    <NavMenu />
-</div>
+@if (UserLogged)
+{
+    <div class="sidebar">
+        <NavMenu2 /> <!-- Sidebar with favorites btn-->
+    </div>
+}
+else
+{
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+}
+
 
 <div class="main">
 

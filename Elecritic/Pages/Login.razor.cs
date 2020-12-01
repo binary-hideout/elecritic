@@ -20,6 +20,7 @@ namespace Elecritic.Pages {
         [Inject]
         public UserService UserService { get; set; }
 
+
         private UserDto Model { get; set; } = new UserDto();
 
         private string ResultMessage { get; set; } = "";
@@ -53,6 +54,8 @@ namespace Elecritic.Pages {
 
                 ResultMessage = "¡Sesión iniciada! :D";
                 NavigationManager.NavigateTo("/");
+                
+                
             }
             else {
                 ResultMessage = "Contraseña incorrecta.";

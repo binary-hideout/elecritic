@@ -14,12 +14,15 @@ namespace Elecritic.Shared {
         [Inject]
         private UserService UserService { get; set; }
 
-        private bool UserLogged = false;
-        protected override void OnInitialized() {
-            var user = UserService.LoggedUser.Id;
-            if (user != 0) {
+        public bool UserLogged { get; set; }
+        protected override async Task OnInitializedAsync() {
+            var userId = UserService.LoggedUser.Id;
+            if (userId != 0) {
+                
                 UserLogged = true;
+                this.StateHasChanged();
             }
         }
+
     }
 }
