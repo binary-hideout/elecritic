@@ -20,7 +20,6 @@ namespace Elecritic.Pages {
         [Inject]
         public UserService UserService { get; set; }
 
-
         private UserDto Model { get; set; } = new UserDto();
 
         private string ResultMessage { get; set; } = "";
@@ -47,6 +46,7 @@ namespace Elecritic.Pages {
 
             // if both passwords match
             if (hashedPassword == dbPassword) {
+                
                 // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
                 // update logged in user
