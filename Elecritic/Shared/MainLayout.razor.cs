@@ -34,10 +34,6 @@ namespace Elecritic.Shared {
         /// <param name="firstRender"> This bool as the name implies is true when the page is first rendered</param>
         protected override void OnAfterRender(bool firstRender) {
             CheckLogged();
-            if (firstRender) {
-                // Do work to load page data and set properties
-                CheckLogged();
-            }
             
         }
         
