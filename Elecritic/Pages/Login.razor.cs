@@ -46,6 +46,7 @@ namespace Elecritic.Pages {
 
             // if both passwords match
             if (hashedPassword == dbPassword) {
+                
                 // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
                 // update logged in user
@@ -53,6 +54,8 @@ namespace Elecritic.Pages {
 
                 ResultMessage = "¡Sesión iniciada! :D";
                 NavigationManager.NavigateTo("/");
+                
+                
             }
             else {
                 ResultMessage = "Contraseña incorrecta.";
