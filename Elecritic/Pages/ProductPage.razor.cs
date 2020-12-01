@@ -123,8 +123,6 @@ namespace Elecritic.Pages {
             [Required(ErrorMessage = "Este campo no puede estar vacío")]
             public string Recommended { get; set; }
 
-            public ReviewDto() { }
-
             /// <summary>
             /// Simply sets everything as empty or as 0
             /// </summary>
