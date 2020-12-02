@@ -14,18 +14,8 @@ else if (RecommendedProducts.Count > 0) {
     <div class="container">
         <div class="horizontal-row">
             @foreach (var product in RecommendedProducts) {
-                <div class="col-md-4" style=" margin-top:1rem;">
-                    <div class="card shadow" style="width: 15rem;">
-                        <div class="inner" style="padding:.5rem;">
-                            <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                        </div>
-                        <div class="card-body text-center">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text"> @product.Description</p>
-                            <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
-                        </div>
-                    </div>
-                </div>
+                <ProductCard product=product></ProductCard>
+                
             }
         </div>
     </div>
@@ -43,18 +33,7 @@ else if (FavoriteProducts.Count > 0) {
     <div class="container">
         <div class="horizontal-row">
             @foreach (var product in FavoriteProducts) {
-                <div class="col-md-4" style=" margin-top:1rem;">
-                    <div class="card shadow" style="width: 15rem;">
-                        <div class="inner" style="padding:.5rem;">
-                            <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                        </div>
-                        <div class="card-body text-center">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text"> @product.Description</p>
-                            <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
-                        </div>
-                    </div>
-                </div>
+            <ProductCard product=product></ProductCard>
             }
         </div>
     </div>
@@ -78,18 +57,7 @@ else if (PopularProducts.Count > 0) {
                             <div class="container-fluid">
                                 <div class="row">
                                     @foreach (var product in PopularProducts) {
-                                        <div class="col-md-4" style=" margin-top:1rem;">
-                                            <div class="card shadow" style="width: 15rem;">
-                                                <div class="inner" style="padding:.5rem;">
-                                                    <img src=@product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                                                </div>
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title">@product.Name</h5>
-                                                    <p class="card-text"> @product.Description</p>
-                                                    <a href="/product/@product.Id" class="btn btn-primary">Ver reseñas</a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <ProductCard product=product></ProductCard>
                                     }
                                 </div>
                             </div>
