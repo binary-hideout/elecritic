@@ -13,13 +13,17 @@ namespace Elecritic.Pages {
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private UserContext UserContext { get; set; }
-
-        [Inject]
         public UserService UserService { get; set; }
+
+        private string UserName { get; set; }
 
         private string ResultMessage { get; set; } = "";
 
+        protected override void OnInitialized() {
+            UserName = UserService.LoggedUser.Username;
+        }
+        
+            
         public async Task LogOutUser() {
 
             ResultMessage = "Cerrando sesión...";
