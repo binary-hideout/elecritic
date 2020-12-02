@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using Elecritic.Database;
 using Elecritic.Models;
-using Elecritic.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {

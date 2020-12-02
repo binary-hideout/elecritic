@@ -14,7 +14,7 @@ else if (RecommendedProducts.Count > 0) {
     <div class="container">
         <div class="horizontal-row">
             @foreach (var product in RecommendedProducts) {
-                <ProductCard product=product></ProductCard>
+            <ProductCard Product=product></ProductCard>
                 
             }
         </div>
@@ -33,7 +33,7 @@ else if (FavoriteProducts.Count > 0) {
     <div class="container">
         <div class="horizontal-row">
             @foreach (var product in FavoriteProducts) {
-            <ProductCard product=product></ProductCard>
+            <ProductCard Product=product></ProductCard>
             }
         </div>
     </div>
@@ -57,7 +57,7 @@ else if (PopularProducts.Count > 0) {
                             <div class="container-fluid">
                                 <div class="row">
                                     @foreach (var product in PopularProducts) {
-                                    <ProductCard product=product></ProductCard>
+                                    <ProductCard Product=product></ProductCard>
                                     }
                                 </div>
                             </div>

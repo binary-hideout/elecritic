@@ -1,0 +1,19 @@
+﻿@using Elecritic.Models;
+
+<div class="col-md-4" style=" margin-top:1rem;">
+    <div class="card shadow" style="width: 15rem;">
+        <div class="inner" style="padding:.5rem;">
+            <img src=@Product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
+        </div>
+        <div class="card-body text-center">
+            <h5 class="card-title">@Product.Name</h5>
+            <p class="card-text"> @Product.Description</p>
+            <a href="/product/@Product.Id" class="btn btn-primary">Ver reseñas</a>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public Product Product { get; set; }
+}
