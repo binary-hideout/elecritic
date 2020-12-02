@@ -25,7 +25,7 @@ namespace Elecritic.Services {
         /// <summary>
         /// Sets <see cref="LoggedUser"/> to be an empty instance of <see cref="User"/>.
         /// </summary>
-        public void LogOff() {
+        public void LogOut() {
             LoggedUser = new User();
         }
     }
