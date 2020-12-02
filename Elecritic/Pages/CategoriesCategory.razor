@@ -23,27 +23,10 @@ else {
                             <div class="carousel-item active">
                                 <div class="container-fluid">
                                     <div class="row">
-                                        @foreach (var productCard in Category.Products) {
-                                            <div class="col-md-4" style=" margin-top:1rem;">
-                                                <div class="card shadow" style="width: 15rem;">
-                                                    <div class="inner" style="padding:.5rem;">
-                                                        <img src=@productCard.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
-                                                    </div>
-                                                    <div class="card-body text-center">
-                                                        <h5 class="card-title">@productCard.Name</h5>
-                                                        <p class="card-text"> @productCard.Description</p>
-                                                        @if (productCard.GetAverageRating() > 0)
-                                                        {
-                                                            <p class="card-text"><img src="/vectors/star-fill.svg"> @productCard.GetAverageRating().ToString("N1")</p>
-                                                        }
-                                                        else
-                                                        {
-                                                            <p class="card-text text-black-50 font-italic">Sin reseñas</p>
-                                                        }
-                                                        <a href="/product/@productCard.Id" class="btn btn-primary">Ver reseñas</a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        @foreach (var productCard in Category.Products)
+                                        {
+                                            <ProductCard Product=productCard></ProductCard>
+                                            
                                         }
                                     </div>
                                 </div>
