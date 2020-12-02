@@ -26,8 +26,13 @@ namespace Elecritic.Shared {
                 UserLogged = true;
                 this.StateHasChanged();
             }
+            else {
+                UserLogged = false;
+                this.StateHasChanged();
+            }
         }
-        
+       
+
         /// <summary>
         /// Checks if the user has changed its state (logged or not) each time the page is refreshed
         /// </summary>
