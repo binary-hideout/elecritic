@@ -145,7 +145,10 @@ else {
                         <div class="col-sm-10" style=" margin-top:1rem; margin-left:3rem">
                             <div class="card shadow">
                                 <div class="card-body text-justify ">
-                                    <h5 class="card-title">@review.Title</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title">@review.Title</h5>
+                                        <h5 class="card-title text-black-50"><img src="/vectors/person.svg">@review.User.Username</h5>
+                                    </div>
                                     <p class="card-text" style="padding-top:1rem;"> @review.Text</p>
                                     <div class="card-text" style="padding-top:1.2rem;">
                                         <div class="row">
