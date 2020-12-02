@@ -24,7 +24,7 @@ namespace Elecritic.Pages {
 
             ResultMessage = "Cerrando sesión...";
 
-            UserService.LogOff();
+            UserService.LogOut();
 
             NavigationManager.NavigateTo("/");
 
