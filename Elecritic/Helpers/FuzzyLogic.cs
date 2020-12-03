@@ -1,32 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Elecritic.Models;
-using Elecritic.Services;
 
 namespace Elecritic.Helpers {
+
     public static class FuzzyLogic {
 
         public static List<Product> GetRecommended(List<Product> userFavorites, List<Product> products, int totalRecommendedItems) {
-            // Get favorites
-            // Count % of favorite's categories
-            // Fetch DB items with 4+ stars and within the same % of categories in favorites
-            // PROFIT $$$
-            List<Product> recommendedProducts = new List<Product>();
-            
-            float spPercentages = userFavorites.Count(p => p.Category.Id == 3) / userFavorites.Count;
-            float tvPercentages = userFavorites.Count(p => p.Category.Id == 2) / userFavorites.Count;
-            float lpPercentages = userFavorites.Count(p => p.Category.Id == 1) / userFavorites.Count;
+            var recommendedProducts = new List<Product>();
+            for (int i = 1; i < 4; i++) {
+                int number = userFavorites.Count(p => p.Category.Id == i);
+                float percentage = (float)number / (float)userFavorites.Count;
+                int total = (int)(percentage * totalRecommendedItems);
 
-            int recommendedSmartphones = (int)spPercentages * totalRecommendedItems;
-            int recommendedTv = (int)tvPercentages * totalRecommendedItems;
-            int recommendedLaptops = (int)lpPercentages * totalRecommendedItems;
+                var tempProducts = products
+                    .Where(p => p.Category.Id == i)
+                    .Take(total);
 
-            products = ProductService.GetRandomProductNotAsync().ToList();
+                recommendedProducts.AddRange(tempProducts);
+            }
 
-            return recommendedProducts;
+            int lacks = 10 - recommendedProducts.Count;
+            var remaining = products.Except(recommendedProducts).ToList();
+
+            if (remaining.Count > 0) {
+                var random = new Random();
+                int[] randomIndexes = Enumerable
+                    .Range(0, lacks)
+                    .Select(_ => random.Next(remaining.Count))
+                    .ToArray();
+
+                var randomProducts = randomIndexes
+                    .Select(i => remaining[i]);
+
+                recommendedProducts.AddRange(randomProducts);
+            }
+
+            return recommendedProducts
+                .OrderByDescending(p => p.GetAverageRating())
+                .ToList();
         }
 
     }
