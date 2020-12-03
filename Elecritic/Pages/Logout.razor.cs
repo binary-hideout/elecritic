@@ -24,7 +24,7 @@ namespace Elecritic.Pages {
         }
         
             
-        public async Task LogOutUser() {
+        public void LogOutUser() {
 
             ResultMessage = "Cerrando sesión...";
 
