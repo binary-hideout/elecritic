@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Elecritic.Models;
@@ -39,11 +40,23 @@ namespace Elecritic.Database {
         /// <param name="product"><see cref="Product"/> of the reviews.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="Review"/>s that correspond to <paramref name="product"/>.</returns>
         public async Task<List<Review>> GetReviewsAsync(Product product) {
-            return await Entry(product)
+            var reviews = await Entry(product)
                 .Collection(p => p.Reviews)
                 .Query()
-                .Include(r => r.User)
                 .ToListAsync();
+
+            foreach (var review in reviews) {
+                // get review's associated User object
+                var user = await Entry(review)
+                    .Reference(r => r.User)
+                    .Query()
+                    .SingleAsync();
+
+                // don't track review's user as it's used as read-only
+                Entry(user).State = EntityState.Detached;
+            }
+
+            return reviews;
         }
 
         /// <summary>
@@ -55,6 +68,7 @@ namespace Elecritic.Database {
         public async Task<bool> InsertReviewAsync(Review review) {
             try {
                 Entry(review.User).State = EntityState.Unchanged;
+                Entry(review.Product).State = EntityState.Unchanged;
 
                 await ReviewsTable.AddAsync(review);
                 await SaveChangesAsync();
@@ -114,8 +128,6 @@ namespace Elecritic.Database {
         /// <c>null</c> otherwise.</returns>
         public async Task<Favorite> GetFavoriteAsync(int userId, int productId) {
             return await FavoritesTable
-                .Include(f => f.User)
-                .Include(p => p.Product)
                 .SingleOrDefaultAsync(f => f.User.Id == userId && f.Product.Id == productId);
         }
     }
