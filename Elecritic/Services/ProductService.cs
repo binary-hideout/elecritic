@@ -22,7 +22,7 @@ namespace Elecritic.Services {
             return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
                 Id = index,
                 Category = new Category {
-                    Id = 1
+                    Id = rng.Next(1, 4)
                 },
                 Company = new Company {
                     Name = "Apple"
