@@ -67,6 +67,9 @@ namespace Elecritic.Database {
         /// <c>false</c> if an exception occurred.</returns>
         public async Task<bool> InsertReviewAsync(Review review) {
             try {
+                Entry(review.User).State = EntityState.Unchanged;
+                Entry(review.Product).State = EntityState.Unchanged;
+
                 await ReviewsTable.AddAsync(review);
                 await SaveChangesAsync();
 
