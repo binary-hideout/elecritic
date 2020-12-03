@@ -17,12 +17,29 @@ namespace Elecritic.Services {
             "carousel-images/alienware.jpg","carousel-images/laptop_hp.png", "carousel-images/lenovo.jpg"
         };
 
+        public static Product[] GetRandomProductNotAsync() {
+            var rng = new Random();
+            return Enumerable.Range(1, 20).Select(index => new Product {
+                Id = index,
+                Category = new Category {
+                    Id = rng.Next(1, 4)
+                },
+                Company = new Company {
+                    Name = "Apple"
+                },
+                Name = "Celular",
+                Description = "Buen estado",
+                ImagePath = ImagesPath[rng.Next(ImagesPath.Length)],
+                ReleaseDate = DateTime.Now.AddDays(index),
+            }).ToArray();
+        }
+
         public Task<Product[]> GetRandomProductsAsync(DateTime startDate) {
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 20).Select(index => new Product {
                 Id = index,
                 Category = new Category {
-                    Id = 1
+                    Id = rng.Next(1, 4)
                 },
                 Company = new Company {
                     Name = "Apple"
