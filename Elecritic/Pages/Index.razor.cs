@@ -40,11 +40,12 @@ namespace Elecritic.Pages {
             FavoriteProducts = await IndexContext.GetFavoriteProductsAsync();
 
             int userId = UserService.LoggedUser.Id;
+            // if there's a user logged in
             if (userId != 0) {
                 var userFavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
-                var products = await IndexContext.Get3StarsProductsAsync();
+                var products = await IndexContext.GetAllProductsAsync();
 
-                RecommendedProducts = FuzzyLogic.GetRecommended(userFavoriteProducts, products, 10);
+                RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 10);
             }
         }
     }
