@@ -60,16 +60,12 @@ namespace Elecritic.Database {
                 .ToListAsync();
         }
 
-        public async Task<List<Product>> Get3StarsProductsAsync() {
-            int[] productsIds = await ReviewsTable
-                .GroupBy(r => r.Product.Id)
-                .Where(g => g.Sum(r => r.Rating) > 3)
-                .Select(g => g.Key)
-                .ToArrayAsync();
-
+        /// <summary>
+        /// Queries the database for all the available products.
+        /// </summary>
+        /// <returns>A list of all <see cref="Product"/>s.</returns>
+        public async Task<List<Product>> GetAllProductsAsync() {
             return await ProductsTable
-                // until there are more reviews, leave commented
-                //.Where(p => productsIds.Contains(p.Id))
                 .Include(p => p.Reviews)
                 .Include(p => p.Category)
                 .ToListAsync();
