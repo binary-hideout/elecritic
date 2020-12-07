@@ -30,7 +30,10 @@ namespace Elecritic.Helpers {
                 .Where(p => noFavoritesIds.Contains(p.Id))
                 .ToList();
 
+            // TODO: also remove products that user has reviewed
+
             var recommendedProducts = new List<Product>();
+
             // TODO: fetch categories IDs from database
             // for each category ID (1 - 3)
             for (int i = 1; i < 4; i++) {
@@ -50,34 +53,6 @@ namespace Elecritic.Helpers {
                 // add filtered products of current category to recommended ones
                 recommendedProducts.AddRange(tempProducts);
             }
-
-            // how many products are lacking to complete the number of recommended products?
-            //int lacks = 10 - recommendedProducts.Count;
-            //// if there is a lack of products to recommend
-            //if (lacks > 0) {
-            //    // select IDs of not yet recommended products
-            //    var noRecommendedIds = products
-            //        .Select(p => p.Id)
-            //        .Except(recommendedProducts
-            //            .Select(p => p.Id));
-            //    // filter remaining products by above IDs
-            //    var remaining = products
-            //        .Where(p => noRecommendedIds.Contains(p.Id))
-            //        .ToList();
-
-            //    var random = new Random();
-            //    // select random indexes from the remaining list
-            //    int[] randomIndexes = Enumerable
-            //        .Range(0, lacks)
-            //        .Select(_ => random.Next(remaining.Count))
-            //        .ToArray();
-
-            //    // select random products to complete the number of recommended products
-            //    var randomProducts = randomIndexes
-            //        .Select(i => remaining[i]);
-
-            //    recommendedProducts.AddRange(randomProducts);
-            //}
 
             return recommendedProducts
                 // sort from highest to lowest rating
