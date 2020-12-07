@@ -38,7 +38,7 @@ namespace Elecritic.Helpers {
                 int number = userFavorites.Count(p => p.Category.Id == i);
                 float percentage = (float)number / (float)userFavorites.Count;
                 // number of products of current category to be recommended
-                int total = (int)(percentage * totalRecommendedItems);
+                int total = (int)Math.Round(percentage * totalRecommendedItems);
 
                 var tempProducts = products
                     // filter products of current category
@@ -52,32 +52,32 @@ namespace Elecritic.Helpers {
             }
 
             // how many products are lacking to complete the number of recommended products?
-            int lacks = 10 - recommendedProducts.Count;
-            // if there is a lack of products to recommend
-            if (lacks > 0) {
-                // select IDs of not yet recommended products
-                var noRecommendedIds = products
-                    .Select(p => p.Id)
-                    .Except(recommendedProducts
-                        .Select(p => p.Id));
-                // filter remaining products by above IDs
-                var remaining = products
-                    .Where(p => noRecommendedIds.Contains(p.Id))
-                    .ToList();
+            //int lacks = 10 - recommendedProducts.Count;
+            //// if there is a lack of products to recommend
+            //if (lacks > 0) {
+            //    // select IDs of not yet recommended products
+            //    var noRecommendedIds = products
+            //        .Select(p => p.Id)
+            //        .Except(recommendedProducts
+            //            .Select(p => p.Id));
+            //    // filter remaining products by above IDs
+            //    var remaining = products
+            //        .Where(p => noRecommendedIds.Contains(p.Id))
+            //        .ToList();
 
-                var random = new Random();
-                // select random indexes from the remaining list
-                int[] randomIndexes = Enumerable
-                    .Range(0, lacks)
-                    .Select(_ => random.Next(remaining.Count))
-                    .ToArray();
+            //    var random = new Random();
+            //    // select random indexes from the remaining list
+            //    int[] randomIndexes = Enumerable
+            //        .Range(0, lacks)
+            //        .Select(_ => random.Next(remaining.Count))
+            //        .ToArray();
 
-                // select random products to complete the number of recommended products
-                var randomProducts = randomIndexes
-                    .Select(i => remaining[i]);
+            //    // select random products to complete the number of recommended products
+            //    var randomProducts = randomIndexes
+            //        .Select(i => remaining[i]);
 
-                recommendedProducts.AddRange(randomProducts);
-            }
+            //    recommendedProducts.AddRange(randomProducts);
+            //}
 
             return recommendedProducts
                 // sort from highest to lowest rating
