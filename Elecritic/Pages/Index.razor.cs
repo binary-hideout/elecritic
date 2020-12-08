@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components;
 namespace Elecritic.Pages {
 
     public partial class Index {
+
         [Inject]
         private IndexContext IndexContext { get; set; }
 

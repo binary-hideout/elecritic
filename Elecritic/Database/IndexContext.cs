@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Elecritic.Helpers;
 using Elecritic.Models;
 
 using Microsoft.EntityFrameworkCore;
