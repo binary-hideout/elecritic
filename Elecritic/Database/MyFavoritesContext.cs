@@ -35,6 +35,7 @@ namespace Elecritic.Database {
             return await ProductsTable
                 .Where(p => productsIds.Contains(p.Id))
                 .Include(p => p.Reviews)
+                .Include(p => p.Category)
                 .ToListAsync();
         }
     }

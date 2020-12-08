@@ -2,14 +2,24 @@
 using System.Threading.Tasks;
 
 using Elecritic.Database;
+using Elecritic.Helpers;
 using Elecritic.Models;
+using Elecritic.Services;
+
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
 
     public partial class Index {
+
         [Inject]
         private IndexContext IndexContext { get; set; }
+
+        [Inject]
+        private MyFavoritesContext MyFavoritesContext { get; set; }
+
+        [Inject]
+        private UserService UserService { get; set; }
 
         /// <summary>
         /// Customized recommended products for logged in user.
@@ -29,6 +39,15 @@ namespace Elecritic.Pages {
         protected override async Task OnInitializedAsync() {
             PopularProducts = await IndexContext.GetPopularProductsAsync();
             FavoriteProducts = await IndexContext.GetFavoriteProductsAsync();
+
+            int userId = UserService.LoggedUser.Id;
+            // if there's a user logged in
+            if (userId != 0) {
+                var userFavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
+                var products = await IndexContext.GetAllProductsAsync();
+
+                RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 10);
+            }
         }
     }
 }

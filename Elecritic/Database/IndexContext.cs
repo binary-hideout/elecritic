@@ -18,6 +18,8 @@ namespace Elecritic.Database {
 
         public DbSet<Favorite> FavoritesTable { get; set; }
 
+        public DbSet<Review> ReviewsTable { get; set; }
+
         public IndexContext(DbContextOptions<IndexContext> options) : base(options) { }
 
         /// <summary>
@@ -42,19 +44,29 @@ namespace Elecritic.Database {
         /// <returns>The top <paramref name="number"/> most favorite products.</returns>
         public async Task<List<Product>> GetFavoriteProductsAsync(int number = 10) {
             // IDs of top favorite products
-            var productsIds = await FavoritesTable
-                .Include(f => f.Product)
+            int[] productsIds = await FavoritesTable
                 .GroupBy(f => f.Product.Id)
                 // count number of records of each product
-                .OrderByDescending(f => f.Count())
+                .OrderByDescending(g => g.Count())
                 // select only the product ID
-                .Select(f => f.Key)
+                .Select(g => g.Key)
                 .Take(number)
                 .ToArrayAsync();
 
             return await ProductsTable
                 .Where(p => productsIds.Contains(p.Id))
                 .Include(p => p.Reviews)
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Queries the database for all the available products.
+        /// </summary>
+        /// <returns>A list of all <see cref="Product"/>s.</returns>
+        public async Task<List<Product>> GetAllProductsAsync() {
+            return await ProductsTable
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
                 .ToListAsync();
         }
     }
