@@ -8,7 +8,7 @@ namespace Elecritic.Shared {
         [Parameter]
         public bool UserIsLogged { get; set; }
 
-        private bool CollapseNavMenu { get; set; }
+        private bool CollapseNavMenu { get; set; } = true;
 
         private string NavMenuCssClass => CollapseNavMenu ? "collapse" : null;
 
