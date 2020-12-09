@@ -1,6 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Components;
-
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Shared {
     public partial class NavMenu {
