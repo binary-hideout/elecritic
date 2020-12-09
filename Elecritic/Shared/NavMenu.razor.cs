@@ -1,13 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-
-using Elecritic.Database;
-using Elecritic.Models;
-using Elecritic.Services;
-
-using Microsoft.AspNetCore.Components;
-
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Shared {
     public partial class NavMenu {
@@ -15,15 +6,12 @@ namespace Elecritic.Shared {
         [Parameter]
         public bool UserIsLogged { get; set; }
 
-        private bool collapseNavMenu = true;
+        private bool CollapseNavMenu { get; set; } = true;
 
-        private string UserPage { get; set; }
-        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+        private string NavMenuCssClass => CollapseNavMenu ? "collapse" : null;
 
         private void ToggleNavMenu() {
-            collapseNavMenu = !collapseNavMenu;
+            CollapseNavMenu = !CollapseNavMenu;
         }
-
-
     }
 }
