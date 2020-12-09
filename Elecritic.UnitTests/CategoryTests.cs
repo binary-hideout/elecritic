@@ -1,9 +1,12 @@
-﻿
-using Elecritic.Models;
+﻿using Elecritic.Models;
 
 using Xunit;
 
 namespace Elecritic.UnitTests {
+
+    /// <summary>
+    /// Unit tests for <see cref="Category"/> model class.
+    /// </summary>
     public class CategoryTests {
 
         /// <summary>
