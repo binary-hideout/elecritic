@@ -7,6 +7,9 @@ using Xunit;
 
 namespace Elecritic.UnitTests {
 
+    /// <summary>
+    /// Unit tests for <see cref="Product"/> model class.
+    /// </summary>
     public class ProductTests {
 
         /// <summary>
