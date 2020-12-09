@@ -1,24 +1,26 @@
-﻿
-using Elecritic.Models;
+﻿using Elecritic.Models;
 using Elecritic.Services;
 
 using Xunit;
 
 namespace Elecritic.UnitTests {
 
+    /// <summary>
+    /// Unit tests for <see cref="UserService"/> class.
+    /// </summary>
     public class UserServiceTests : IClassFixture<UserService> {
 
         /// <summary>
-        /// Stub object for the dependency added in <see cref="Startup"/>.
+        /// Stub object to replace <see cref="UserService"/>.
         /// </summary>
-        public UserService UserService { get; set; }
+        public UserService StubUserService { get; set; }
 
         /// <summary>
-        /// Sets an empty instance of <see cref="UserService"/> each time this class is tested,
+        /// Sets an empty instance of <see cref="StubUserService"/> each time this class is tested,
         /// so the test methods share the same instance.
         /// </summary>
         public UserServiceTests(UserService userService) {
-            UserService = userService;
+            StubUserService = userService;
         }
 
         /// <summary>
@@ -32,10 +34,10 @@ namespace Elecritic.UnitTests {
                 Email = "e@mail.com"
             };
 
-            UserService.LogIn(userLoggingIn);
+            StubUserService.LogIn(userLoggingIn);
 
             var expectedLoggedUser = userLoggingIn;
-            Assert.Equal(expectedLoggedUser, UserService.LoggedUser);
+            Assert.Equal(expectedLoggedUser, StubUserService.LoggedUser);
         }
 
         /// <summary>
@@ -44,10 +46,10 @@ namespace Elecritic.UnitTests {
         /// </summary>
         [Fact]
         public void LogOut_ResetsLoggedUser() {
-            UserService.LogOut();
+            StubUserService.LogOut();
 
             int expectedNoLoggedUserId = 0;
-            Assert.Equal(UserService.LoggedUser.Id, expectedNoLoggedUserId);
+            Assert.Equal(StubUserService.LoggedUser.Id, expectedNoLoggedUserId);
         }
     }
 }
