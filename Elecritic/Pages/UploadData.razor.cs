@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,19 +9,39 @@ using CsvHelper;
 
 using Elecritic.Database;
 using Elecritic.Models;
+using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
 
 namespace Elecritic.Pages {
 
-    public partial class UploadFiles {
+    public partial class UploadData {
 
         [Inject]
         private UploadDataContext UploadDataContext { get; set; }
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private UserService UserService { get; set; }
+
+        private bool IsUserAllowed { get; set; } = false;
+
         private IFileListEntry FileEntry { get; set; }
 
         private Category NewCategory {get; set; } = new Category();
+
+        protected override async Task OnInitializedAsync() {
+            int[] allowedUsersIds = { 1, 2, 3 };
+            int loggedUserId = UserService.LoggedUser.Id;
+            IsUserAllowed = allowedUsersIds.Contains(loggedUserId);
+            if (!IsUserAllowed) {
+                NavigationManager.NavigateTo("/");
+            }
+
+            await base.OnInitializedAsync();
+        }
 
         private void OnFileUploaded(IFileListEntry[] files) {
             FileEntry = files.FirstOrDefault();
