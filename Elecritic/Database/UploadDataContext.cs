@@ -9,7 +9,7 @@ namespace Elecritic.Database {
 
     /// <summary>
     /// Database calls to allow administrators to upload data (new categories and new products).
-    /// See <see cref="Pages.UploadFiles"/>.
+    /// See <see cref="Pages.UploadData"/>.
     /// </summary>
     public class UploadDataContext : MainDbContext {
 

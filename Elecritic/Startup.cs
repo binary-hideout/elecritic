@@ -3,6 +3,8 @@ using System;
 using Elecritic.Database;
 using Elecritic.Services;
 
+using EntityFramework.Exceptions.MySQL.Pomelo;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +38,8 @@ namespace Elecritic {
                     Configuration.GetConnectionString("ElecriticDb"),
                     mySqlOptions => mySqlOptions
                         .ServerVersion(new Version(5, 7, 31), ServerType.MySql)
-                        .CharSetBehavior(CharSetBehavior.NeverAppend));
+                        .CharSetBehavior(CharSetBehavior.NeverAppend))
+                    .UseExceptionProcessor();
 #if DEBUG
                 options.EnableSensitiveDataLogging(true);
 #endif

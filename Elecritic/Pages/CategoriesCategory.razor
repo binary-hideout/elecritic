@@ -1,33 +1,33 @@
-﻿@page "/categorias/{CategoryId:int}"
+﻿@page "/category/{CategoryId:int}"
 
-@if (Category is null) {
-    <p><em>Cargando...</em></p>
-}
-else {
-    <h3>@CategoryNameDisplay</h3>
-
-    <br />
-
-    @if (Category.Products is null) {
-        <p><em>Cargando productos...</em></p>
-    }
-    else if (Category.Products.Count == 0) {
-        <p><b>No hay productos que mostrar.</b></p>
+@if (IsValidCategoryId) {
+    @if (Category is null) {
+        <p><em>Cargando...</em></p>
     }
     else {
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        @foreach (var productCard in Category.Products)
-                                        {
-                                            <ProductCard Product=productCard></ProductCard>
-                                            
-                                        }
+        <h3>@CategoryNameDisplay</h3>
+
+        <br />
+
+        @if (Category.Products is null) {
+            <p><em>Cargando productos...</em></p>
+        }
+        else if (Category.Products.Count == 0) {
+            <p><b>No hay productos que mostrar.</b></p>
+        }
+        else {
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            @foreach (var productCard in Category.Products) {
+                                                <ProductCard Product=@productCard></ProductCard>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -35,6 +35,9 @@ else {
                     </div>
                 </div>
             </div>
-        </div>
+        }
     }
+}
+else {
+    <h3>Lo sentimos, no existe la categoría número @CategoryId.</h3>
 }
