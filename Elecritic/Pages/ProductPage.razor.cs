@@ -18,6 +18,12 @@ namespace Elecritic.Pages {
         [Parameter]
         public int ProductId { get; set; }
 
+        /// <summary>
+        /// Determines if the passed parameter <see cref="ProductId"/> exists.
+        /// It's initialized to <c>true</c> so when the page is loading, the error message isn't immediately showed.
+        /// </summary>
+        private bool IsValidProductId { get; set; } = true;
+
         [Inject]
         private ProductContext ProductContext { get; set; }
 
@@ -42,12 +48,18 @@ namespace Elecritic.Pages {
 
         /// <summary>
         /// Message that explains if a database call with <see cref="Favorite"/> succeeded or not.
-        /// If it's not <see cref="string.Empty"/> then the buttons will be disabled.
+        /// If it's not empty then the buttons will be disabled.
         /// </summary>
         private string FavoriteChangedMessage { get; set; } = "";
 
         protected override async Task OnInitializedAsync() {
             Product = await ProductContext.GetProductAsync(ProductId);
+            IsValidProductId = Product.Id != 0;
+            // if the product doesn't exist in database
+            if (!IsValidProductId) {
+                return;
+            }
+
             Product.Reviews = await ProductContext.GetReviewsAsync(Product);
 
             var userId = UserService.LoggedUser.Id;
@@ -56,7 +68,7 @@ namespace Elecritic.Pages {
                 Favorite = await ProductContext.GetFavoriteAsync(userId, ProductId);
                 // favorite is null if the record doesn't exist,
                 // meaning that this product wouldn't be marked as favorite by logged user
-                IsFavorite = !(Favorite is null);
+                IsFavorite = Favorite != null;
             }
         }
 
