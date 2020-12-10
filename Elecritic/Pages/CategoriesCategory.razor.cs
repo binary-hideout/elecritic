@@ -12,6 +12,12 @@ namespace Elecritic.Pages {
         [Parameter]
         public int CategoryId { get; set; }
 
+        /// <summary>
+        /// Determines if the passed parameter <see cref="CategoryId"/> exists.
+        /// It's initialized to <c>true</c> so when the page is loading, the error message isn't immediately showed.
+        /// </summary>
+        private bool IsValidCategoryId { get; set; } = true;
+
         //Service
         [Inject]
         private CategoryProductsContext CategoryProductsContext { get; set; }
@@ -45,6 +51,7 @@ namespace Elecritic.Pages {
         /// </summary>
         protected override async Task OnInitializedAsync() {
             Category = await CategoryProductsContext.GetCategoryWithProductsAsync(CategoryId, 20);
+            IsValidCategoryId = Category.Id != 0;
         }
     }
 }
