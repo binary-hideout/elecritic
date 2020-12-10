@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Elecritic.Models;
@@ -28,10 +27,14 @@ namespace Elecritic.Database {
         /// <param name="productId">ID of the product to get.</param>
         /// <returns>The requested <see cref="Product"/>.</returns>
         public async Task<Product> GetProductAsync(int productId) {
-            return await ProductsTable
+            var product = await ProductsTable
                 .Include(p => p.Category)
                 .Include(p => p.Company)
-                .SingleAsync(p => p.Id == productId);
+                .SingleOrDefaultAsync(p => p.Id == productId);
+
+            // if the specified product wasn't found (is null),
+            // return a default instance with Id = 0
+            return product ?? new Product();
         }
 
         /// <summary>
