@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
@@ -7,8 +6,6 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq.Dynamic.Core;
 
 namespace Elecritic.Pages {
     public partial class MyFavorites {
@@ -19,17 +16,23 @@ namespace Elecritic.Pages {
         [Inject]
         private MyFavoritesContext MyFavoritesContext { get; set; }
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
         private List<Product> FavoriteProducts { get; set; }
 
-
         protected override async Task OnInitializedAsync() {
-            
             var userId = UserService.LoggedUser.Id;
+            // if no user logged in
+            if (userId == 0) {
+                // redirect to Login page
+                NavigationManager.NavigateTo("/login");
+            }
             // if there's a user logged in
-            if (userId != 0) {
+            else {
+                // load his/her favorite products
                 FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
             }
-            
         }
     }
 }
