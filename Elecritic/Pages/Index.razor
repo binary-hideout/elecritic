@@ -1,14 +1,15 @@
 ﻿@page "/"
-
-<center><h2>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos</h2></center>
+<div class="title-welcome" style="padding-top:40px; padding-bottom:20px;">
+    <center><h2>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos</h2></center>
+</div>
 
 <br />
 
 @if (RecommendedProducts is null) {
-    <p><em>Cargando recomendados...</em></p>
+    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando recomendados...</em></p>
 }
 else if (RecommendedProducts.Count > 0) {
-    <h3 style="text-align:center;"> Recomendados para ti</h3>
+    <h3 style="text-align:center; padding-top:20px;"> Recomendados para ti</h3>
     <br />
     <!-- Section row // Horizontal Cards-->
     <div class="container">
@@ -24,7 +25,7 @@ else if (RecommendedProducts.Count > 0) {
 <br />
 
 @if (FavoriteProducts is null) {
-    <p><em>Cargando favoritos...</em></p>
+    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando favoritos...</em></p>
 }
 else if (FavoriteProducts.Count > 0) {
     <h3 style="text-align:center;"> Favoritos de otros usuarios</h3>
@@ -42,7 +43,7 @@ else if (FavoriteProducts.Count > 0) {
 <br />
 
 @if (PopularProducts is null) {
-    <p><em>Cargando populares...</em></p>
+    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando populares...</em></p>
 }
 else if (PopularProducts.Count > 0) {
     <h3 style="text-align:center;"> Lo más popular</h3>
@@ -67,4 +68,9 @@ else if (PopularProducts.Count > 0) {
             </div>
         </div>
     </div>
+    <footer class="text-center text-lg-start">
+        <div class="container-fluid text-center p-3" style="background-color:rgba(0,0,0,0.2)">
+            <a href="https://github.com/binary-hideout/elecritic" class="text-dark" target="_blank"><h4>Nuestro Github</h4></a>
+        </div>
+    </footer>
 }
