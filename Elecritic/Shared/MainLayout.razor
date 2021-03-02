@@ -1,9 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
+<div class="sidebar">
+    <NavMenu UserIsLogged=@UserIsLogged> </NavMenu>
+</div>
 
 <div class="main">
-    <NavMenu UserIsLogged=@UserIsLogged> </NavMenu>
-    <div class="content">
+
+    <div class="top-row">
+        <h1><a href="" style="color: #ffd700">Elecritic</a></h1>
+        <NavLink href="https://github.com/binary-hideout/elecritic" class="p-2 text-light" target="_blank">Nuestro Github</NavLink>
+    </div>
+
+    <div class="content px-4">
         @Body
     </div>
 
