@@ -1,45 +1,44 @@
 ﻿@using Elecritic.Pages
 
-<div class="top-row pl-4 navbar navbar-dark">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a class="navbar-brand" href="">Elecritic</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3" id="@nameof(Pages.Index)">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Inicio
-            </NavLink>
-        </li>
-
-        <li class="nav-item px-3" id="@nameof(Categories)">
-            <NavLink class="nav-link" href="categories">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Categorías
-            </NavLink>
-        </li>
-
-        @if (UserIsLogged) {
-            <li class="nav-item px-3" id="@nameof(MyFavorites)">
-                <NavLink class="nav-link" href="myfavorites">
-                    <span class="oi oi-star" aria-hidden="true"></span> Mis favoritos
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" id="@nameof(Pages.Index)">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Inicio
                 </NavLink>
             </li>
+            <li class="nav-item" id="@nameof(Categories)">
+                <NavLink class="nav-link" href="categories">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Categorías
+                </NavLink>
+            </li>
+            @if (UserIsLogged)
+            {
+                <li class="nav-item" id="@nameof(MyFavorites)">
+                    <NavLink class="nav-link" href="myfavorites">
+                        <span class="oi oi-star" aria-hidden="true"></span> Mis favoritos
+                    </NavLink>
+                </li>
 
-            <li class="nav-item px-3" id="@nameof(Logout)">
-                <NavLink class="nav-link" href="logout">
-                    <span class="oi oi-account-logout" aria-hidden="true"></span> Cerrar sesión
-                </NavLink>
-            </li>
-        }
-        else {
-            <li class="nav-item px-3" id="@nameof(Login)">
-                <NavLink class="nav-link" href="login">
-                    <span class="oi oi-account-login" aria-hidden="true"></span> Iniciar sesión
-                </NavLink>
-            </li>
-        }
-    </ul>
-</div>
+                <li class="nav-item" id="@nameof(Logout)">
+                    <NavLink class="nav-link" href="logout">
+                        <span class="oi oi-account-logout" aria-hidden="true"></span> Cerrar sesión
+                    </NavLink>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item" id="@nameof(Login)">
+                    <NavLink class="nav-link" href="login">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> Iniciar sesión
+                    </NavLink>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
