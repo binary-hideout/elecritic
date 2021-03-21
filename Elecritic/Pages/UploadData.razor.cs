@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using BlazorInputFile;
-
 using CsvHelper;
 
 using Elecritic.Database;
@@ -12,6 +10,7 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Elecritic.Pages {
 
@@ -28,7 +27,7 @@ namespace Elecritic.Pages {
 
         private bool IsUserAllowed { get; set; } = false;
 
-        private IFileListEntry FileEntry { get; set; }
+        private IBrowserFile FileEntry { get; set; }
 
         private Category NewCategory {get; set; } = new Category();
 
@@ -43,8 +42,9 @@ namespace Elecritic.Pages {
             await base.OnInitializedAsync();
         }
 
-        private void OnFileUploaded(IFileListEntry[] files) {
-            FileEntry = files.FirstOrDefault();
+        private void OnFileUploaded(InputFileChangeEventArgs eventArgs) {
+            //FileEntry = files.FirstOrDefault();
+            FileEntry = eventArgs.GetMultipleFiles(1)[0];
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Elecritic.Pages {
             var categories = await UploadDataContext.GetCategoriesAsync();
             var companies = await UploadDataContext.GetCompaniesAsync();
 
-            using var reader = new StreamReader(FileEntry.Data);
+            using var reader = new StreamReader(FileEntry.OpenReadStream());
             using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
 
             await csvReader.ReadAsync();
