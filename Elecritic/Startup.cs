@@ -36,8 +36,8 @@ namespace Elecritic {
             void setDbContextOptions(DbContextOptionsBuilder options) {
                 options.UseMySql(
                     Configuration.GetConnectionString("ElecriticDb"),
+                    new MySqlServerVersion(new Version(5, 7, 31)),
                     mySqlOptions => mySqlOptions
-                        .ServerVersion(new Version(5, 7, 31), ServerType.MySql)
                         .CharSetBehavior(CharSetBehavior.NeverAppend))
                     .UseExceptionProcessor();
 #if DEBUG
