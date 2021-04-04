@@ -21,6 +21,9 @@ namespace Elecritic.Pages {
         [Inject]
         private UserService UserService { get; set; }
 
+        [Inject]
+        private AuthenticationService AuthenticationService { get; set; }
+
         private UserDto Model { get; set; } = new UserDto();
 
         /// <summary>
@@ -50,8 +53,11 @@ namespace Elecritic.Pages {
             bool signupSucceeded = await UserContext.InsertUserAsync(newUser);
             if (signupSucceeded) {
                 ResultMessage = "¡Cuenta creada con éxito! :D";
+
                 // update logged in user
-                UserService.LogIn(newUser);
+                //UserService.LogIn(newUser);
+                await AuthenticationService.LogIn(newUser);
+
                 NavigationManager.NavigateTo("/");
             }
             else {

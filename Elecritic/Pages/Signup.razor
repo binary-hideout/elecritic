@@ -11,7 +11,7 @@ else
         <div class="row">
             <div class="col-12">
                 <h2>Crea una nueva cuenta</h2>
-                <EditForm Model="Model" OnValidSubmit="SignUpUser">
+                <EditForm Model="Model" OnValidSubmit="async () => await SignUpUser()">
                     <RadzenCard>
                         @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                         <DataAnnotationsValidator />
