@@ -20,6 +20,9 @@ namespace Elecritic.Pages {
         [Inject]
         public UserService UserService { get; set; }
 
+        [Inject]
+        private AuthenticationService AuthenticationService { get; set; }
+
         private UserDto Model { get; set; } = new UserDto();
 
         private string ResultMessage { get; set; } = "";
@@ -50,7 +53,7 @@ namespace Elecritic.Pages {
                 // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
                 // update logged in user
-                UserService.LogIn(user);
+                await AuthenticationService.LogIn(user);
 
                 ResultMessage = "¡Sesión iniciada! :D";
                 NavigationManager.NavigateTo("/");

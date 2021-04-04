@@ -10,7 +10,7 @@ else
         <div class="row">
             <div class="col-12">
                 <h2>Ingresa a tu cuenta</h2>
-                <EditForm Model="Model" OnValidSubmit="LogInUser">
+                <EditForm Model="Model" OnValidSubmit="async() => await LogInUser()">
                     <RadzenCard>
                         @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                         <DataAnnotationsValidator />
