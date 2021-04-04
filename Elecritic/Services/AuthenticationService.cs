@@ -17,7 +17,7 @@ namespace Elecritic.Services {
         /// <summary>
         /// Current scoped logged-in user.
         /// </summary>
-        private User LoggedUser { get; set; }
+        public User LoggedUser { get; set; }
         
         /// <summary>
         /// Current scoped authentication state.
@@ -50,13 +50,13 @@ namespace Elecritic.Services {
         public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
             if (AuthState is null || LoggedUser is null) {
                 string token = await _localStorage.GetItemAsync<string>(USER_TOKEN_KEY);
-
-                var identity = !string.IsNullOrEmpty(token) && _tokenService.IsValid(token) ?
+                bool isTokenStored = !string.IsNullOrEmpty(token);
+                var identity = isTokenStored && _tokenService.IsValid(token) ?
                     new ClaimsIdentity(_tokenService.GetClaims(token), "login") :
                     new ClaimsIdentity();
 
                 var claimsPrincipal = new ClaimsPrincipal(identity);
-                LoggedUser = new User(claimsPrincipal);
+                LoggedUser = isTokenStored ? new User(claimsPrincipal) : new User { Id = 0 };
                 AuthState = new AuthenticationState(claimsPrincipal);
             }
 
