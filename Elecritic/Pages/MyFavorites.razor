@@ -1,31 +1,38 @@
 ﻿@page "/myfavorites"
 
-<h3>Mis favoritos</h3>
+<AuthorizeView>
+    <Authorized>
+        <h3>Mis favoritos</h3>
 
-@if (FavoriteProducts is null) {
-    <h2> Cargando...</h2>
-}
-else if (FavoriteProducts.Count == 0) {
-    <h2> No tienes productos marcados como favoritos</h2>
-}
-else {
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    @foreach (var productCard in FavoriteProducts) {
-                                        <ProductCard Product=@productCard></ProductCard>
-                                    }
+        @if (FavoriteProducts is null) {
+            <h2> Cargando...</h2>
+        }
+        else if (FavoriteProducts.Count == 0) {
+            <h2> No tienes productos marcados como favoritos</h2>
+        }
+        else {
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            @foreach (var productCard in FavoriteProducts) {
+                                                <ProductCard Product=@productCard></ProductCard>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-}
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h3>No has iniciado sesión.</h3>
+    </NotAuthorized>
+</AuthorizeView>

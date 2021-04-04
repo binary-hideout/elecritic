@@ -7,6 +7,7 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Pages {
 
@@ -19,17 +20,19 @@ namespace Elecritic.Pages {
         private UserContext UserContext { get; set; }
 
         [Inject]
-        private UserService UserService { get; set; }
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
 
-        [Inject]
-        private AuthenticationService AuthenticationService { get; set; }
-
-        private UserDto Model { get; set; } = new UserDto();
+        private UserDto Model { get; set; }
 
         /// <summary>
         /// Message to display after trying to create a new account.
         /// </summary>
-        private string ResultMessage { get; set; } = "";
+        private string ResultMessage { get; set; }
+
+        public Signup() {
+            Model = new UserDto();
+            ResultMessage = "";
+        }
 
         /// <summary>
         /// Calls the database to add the new account.
@@ -56,7 +59,7 @@ namespace Elecritic.Pages {
 
                 // update logged in user
                 //UserService.LogIn(newUser);
-                await AuthenticationService.LogIn(newUser);
+                await (AuthStateProvider as AuthenticationService).LogIn(newUser);
 
                 NavigationManager.NavigateTo("/");
             }

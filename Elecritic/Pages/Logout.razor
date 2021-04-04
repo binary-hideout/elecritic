@@ -1,7 +1,14 @@
 ﻿@page "/logout"
 
 <h3>Logout</h3>
-<h2>@UserName</h2>
 
-<button @onclick="async() => await LogOutUser()"> Cerrar Sesión</button>
-<p>@ResultMessage</p>
+<AuthorizeView>
+    <Authorized>
+        <button @onclick="async() => await LogOutUser()">Cerrar sesión</button>
+
+        <p>@ResultMessage</p>
+    </Authorized>
+    <NotAuthorized>
+        <h3>No ninguna sesión iniciada.</h3>
+    </NotAuthorized>
+</AuthorizeView>

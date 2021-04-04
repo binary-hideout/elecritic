@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-using Elecritic.Database;
-using Elecritic.Helpers;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Pages {
     public partial class Logout {
@@ -13,28 +11,19 @@ namespace Elecritic.Pages {
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public UserService UserService { get; set; }
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
 
-        [Inject]
-        private AuthenticationService AuthenticationService { get; set; }
+        private string ResultMessage { get; set; }
 
-        private string UserName { get; set; }
-
-        private string ResultMessage { get; set; } = "";
-
-        protected override void OnInitialized() {
-            UserName = UserService.LoggedUser.Username;
+        public Logout() {
+            ResultMessage = "";
         }
-        
-            
-        public async Task LogOutUser() {
 
+        public async Task LogOutUser() {
             ResultMessage = "Cerrando sesión...";
 
-            await AuthenticationService.LogOut();
+            await (AuthStateProvider as AuthenticationService).LogOut();
             NavigationManager.NavigateTo("/");
-
-            
         }
     }
 }

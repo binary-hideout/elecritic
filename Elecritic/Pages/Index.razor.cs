@@ -7,6 +7,7 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Pages {
 
@@ -19,7 +20,7 @@ namespace Elecritic.Pages {
         private MyFavoritesContext MyFavoritesContext { get; set; }
 
         [Inject]
-        private UserService UserService { get; set; }
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
 
         /// <summary>
         /// Customized recommended products for logged in user.
@@ -40,10 +41,10 @@ namespace Elecritic.Pages {
             PopularProducts = await IndexContext.GetPopularProductsAsync();
             FavoriteProducts = await IndexContext.GetFavoriteProductsAsync();
 
-            int userId = UserService.LoggedUser.Id;
+            var user = (AuthStateProvider as AuthenticationService).LoggedUser;
             // if there's a user logged in
-            if (userId != 0) {
-                var userFavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
+            if (user != null) {
+                var userFavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(user.Id);
                 var products = await IndexContext.GetAllProductsAsync();
 
                 RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 10);
