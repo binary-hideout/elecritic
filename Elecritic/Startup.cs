@@ -1,5 +1,7 @@
 using System;
 
+using Blazored.LocalStorage;
+
 using Elecritic.Database;
 using Elecritic.Services;
 
@@ -28,11 +30,17 @@ namespace Elecritic {
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddBlazoredLocalStorage();
+
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
+            //! deprecated
             services.AddSingleton<UserService>();
 
-            // local function
+            services.AddScoped<AuthenticationService>();
+            services.AddSingleton<TokenService>();
+
+            //! all this mess needs to be refactored
             void setDbContextOptions(DbContextOptionsBuilder options) {
                 options.UseMySql(
                     Configuration.GetConnectionString("ElecriticDb"),
@@ -70,6 +78,9 @@ namespace Elecritic {
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapBlazorHub();
