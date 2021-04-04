@@ -96,12 +96,21 @@ namespace Elecritic.Services {
         }
 
         /// <summary>
-        /// Gets the <see cref="Claim"/>s from <paramref name="encodedToken"/>.
+        /// Gets the <see cref="Claim"/>s from <paramref name="jwtEncodedString"/>.
         /// </summary>
-        /// <param name="encodedToken">The JWT security token <c>string</c> to get the claims from.</param>
-        /// <returns>An array of <paramref name="encodedToken"/>'s claims.</returns>
-        public Claim[] GetClaims(string encodedToken) {
-            return new JwtSecurityToken(encodedToken).Claims.ToArray();
+        /// <param name="jwtEncodedString">The JWT security token <c>string</c> to get the claims from.</param>
+        /// <returns>An array of <paramref name="jwtEncodedString"/>'s claims.</returns>
+        public Claim[] GetClaims(string jwtEncodedString) {
+            return GetJwtSecurityToken(jwtEncodedString).Claims.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the actual token object from <paramref name="jwtEncodedString"/>.
+        /// </summary>
+        /// <param name="jwtEncodedString">Encoded string of a token.</param>
+        /// <returns>An instance of <see cref="JwtSecurityToken"/>.</returns>
+        public JwtSecurityToken GetJwtSecurityToken(string jwtEncodedString) {
+            return new JwtSecurityToken(jwtEncodedString);
         }
     }
 }
