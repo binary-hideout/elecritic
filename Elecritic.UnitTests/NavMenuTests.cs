@@ -24,8 +24,7 @@ namespace Elecritic.UnitTests {
         [Fact]
         public void WhenNoUserIsLogged_RendersLoginButton() {
             Services.AddSingleton<NavigationManager, FakeNavigationManager>();
-            var navMenu = RenderComponent<NavMenu>(p => p
-                .Add(n => n.UserIsLogged, false));
+            var navMenu = RenderComponent<NavMenu>();
 
             var loginButton = navMenu
                 .FindAll("li")
@@ -41,8 +40,7 @@ namespace Elecritic.UnitTests {
         [Fact]
         public void WhenUserIsLogged_RendersFavoritesLogoutButtons() {
             Services.AddSingleton<NavigationManager, FakeNavigationManager>();
-            var navMenu = RenderComponent<NavMenu>(p => p
-                .Add(n => n.UserIsLogged, true));
+            var navMenu = RenderComponent<NavMenu>();
 
             var listItems = navMenu
                 .FindAll("li");
