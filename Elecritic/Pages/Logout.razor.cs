@@ -15,6 +15,9 @@ namespace Elecritic.Pages {
         [Inject]
         public UserService UserService { get; set; }
 
+        [Inject]
+        private AuthenticationService AuthenticationService { get; set; }
+
         private string UserName { get; set; }
 
         private string ResultMessage { get; set; } = "";
@@ -24,11 +27,11 @@ namespace Elecritic.Pages {
         }
         
             
-        public void LogOutUser() {
+        public async Task LogOutUser() {
 
             ResultMessage = "Cerrando sesión...";
 
-            UserService.LogOut();
+            await AuthenticationService.LogOut();
             NavigationManager.NavigateTo("/");
 
             
