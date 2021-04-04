@@ -8,6 +8,7 @@ using Elecritic.Services;
 using EntityFramework.Exceptions.MySQL.Pomelo;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -37,7 +38,7 @@ namespace Elecritic {
             //! deprecated
             services.AddSingleton<UserService>();
 
-            services.AddScoped<AuthenticationService>();
+            services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();
 
             //! all this mess needs to be refactored
