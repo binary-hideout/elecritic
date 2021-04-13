@@ -1,23 +1,28 @@
 ﻿@page "/uploaddata"
 
-@if (IsUserAllowed) {
-    <h1> Agregar información a base de datos </h1>
+<AuthorizeView>
+    <Authorized>
+        <h1> Agregar información a base de datos </h1>
 
-    <label>Seleccionar archivo: </label>
-    <InputFile OnChange="OnFileUploaded"></InputFile>
-    @if (FileEntry != null) {
-        <p>Name: @FileEntry.Name</p>
-        <p>Size: @FileEntry.Size bytes</p>
-        <p>Last modified: @FileEntry.LastModified.ToString()</p>
-        <p>Content type (not always supplied by the browser): @FileEntry.ContentType</p>
-    }
-    <br />
-    <button disabled="@(FileEntry is null)" @onclick="@UploadFileContentsAsync">Cargar archivo</button>
+        <label>Seleccionar archivo: </label>
+        <InputFile OnChange="OnFileUploaded"></InputFile>
+        @if (FileEntry != null) {
+            <p>Name: @FileEntry.Name</p>
+            <p>Size: @FileEntry.Size bytes</p>
+            <p>Last modified: @FileEntry.LastModified.ToString()</p>
+            <p>Content type (not always supplied by the browser): @FileEntry.ContentType</p>
+        }
+        <br />
+        <button disabled="@(FileEntry is null)" @onclick="@UploadFileContentsAsync">Cargar archivo</button>
 
-    <hr />
+        <hr />
 
-    <label>Categoría: </label>
-    <input @bind="NewCategory.Name" @bind:event="oninput" />
+        <label>Categoría: </label>
+        <input @bind="NewCategory.Name" @bind:event="oninput" />
 
-    <button disabled="@string.IsNullOrWhiteSpace(NewCategory.Name)" @onclick="@UploadNewCategoryAsync">Agregar categoría</button>
-}
+        <button disabled="@string.IsNullOrWhiteSpace(NewCategory.Name)" @onclick="@UploadNewCategoryAsync">Agregar categoría</button>
+    </Authorized>
+    <NotAuthorized>
+
+    </NotAuthorized>
+</AuthorizeView>
