@@ -58,6 +58,16 @@ namespace Elecritic.Models {
         /// </summary>
         public virtual List<Favorite> Favorites { get; set; }
 
+        /// <summary>
+        /// Identifier of the user's role.
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
+        /// Role object of the user.
+        /// </summary>
+        public virtual UserRole Role { get; set; }
+
         public User() { }
 
         /// <summary>
