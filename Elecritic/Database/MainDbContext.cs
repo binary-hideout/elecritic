@@ -43,7 +43,19 @@ namespace Elecritic.Database {
                 user.Property(u => u.LastName)
                     .HasMaxLength(25);
 
+                user.HasOne(u => u.Role)
+                        .WithMany(r => r.Users)
+                    .HasForeignKey(u => u.RoleId);
+
                 user.Ignore(u => u.Reliability);
+            });
+
+            modelBuilder.Entity<UserRole>(userRole => {
+                userRole.ToTable(typeof(UserRole).Name);
+
+                userRole.Property(r => r.Name)
+                    .HasMaxLength(50)
+                    .IsRequired();
             });
 
             modelBuilder.Entity<Review>(review => {
