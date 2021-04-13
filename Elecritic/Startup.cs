@@ -72,7 +72,7 @@ namespace Elecritic {
             services.AddDbContext<MyFavoritesContext>(options => setDbContextOptions(options));
             // only used when migrating to the database
             //! do not uncomment it
-            services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
+            //services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
