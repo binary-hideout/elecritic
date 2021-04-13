@@ -7,6 +7,7 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Pages {
 
@@ -18,21 +19,17 @@ namespace Elecritic.Pages {
         [Parameter]
         public int ProductId { get; set; }
 
-        /// <summary>
-        /// Determines if the passed parameter <see cref="ProductId"/> exists.
-        /// It's initialized to <c>true</c> so when the page is loading, the error message isn't immediately showed.
-        /// </summary>
-        private bool IsValidProductId { get; set; } = true;
-
         [Inject]
         private ProductContext ProductContext { get; set; }
 
         [Inject]
-        private UserService UserService { get; set; }
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
+
+        private AuthenticationService AuthenticationService => AuthStateProvider as AuthenticationService;
 
         private Product Product { get; set; }
 
-        private ReviewDto ReviewModel { get; set; } = new ReviewDto();
+        private ReviewDto ReviewModel { get; set; }
 
         private Favorite Favorite { get; set; }
 
@@ -42,15 +39,27 @@ namespace Elecritic.Pages {
         private bool IsFavorite { get; set; }
 
         /// <summary>
+        /// Determines if the passed parameter <see cref="ProductId"/> exists.
+        /// It's initialized to <c>true</c> so when the page is loading, the error message isn't immediately showed.
+        /// </summary>
+        private bool IsValidProductId { get; set; }
+
+        /// <summary>
         /// Message that explains the state of the published <see cref="ReviewModel"/>.
         /// </summary>
-        private string PublicationMessage { get; set; } = "";
+        private string PublicationMessage { get; set; }
 
         /// <summary>
         /// Message that explains if a database call with <see cref="Favorite"/> succeeded or not.
         /// If it's not empty then the buttons will be disabled.
         /// </summary>
-        private string FavoriteChangedMessage { get; set; } = "";
+        private string FavoriteChangedMessage { get; set; }
+
+        public ProductPage() {
+            IsValidProductId = true;
+            PublicationMessage = FavoriteChangedMessage = "";
+            ReviewModel = new ReviewDto();
+        }
 
         protected override async Task OnInitializedAsync() {
             Product = await ProductContext.GetProductAsync(ProductId);
@@ -62,7 +71,7 @@ namespace Elecritic.Pages {
 
             Product.Reviews = await ProductContext.GetReviewsAsync(Product);
 
-            var userId = UserService.LoggedUser.Id;
+            var userId = AuthenticationService.LoggedUser.Id;
             // if there's a user logged in
             if (userId != 0) {
                 Favorite = await ProductContext.GetFavoriteAsync(userId, ProductId);
@@ -77,7 +86,7 @@ namespace Elecritic.Pages {
         /// </summary>
         private async Task AddToFavoritesAsync() {
             Favorite = new Favorite {
-                User = UserService.LoggedUser,
+                User = AuthenticationService.LoggedUser,
                 Product = Product
             };
             var newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
@@ -103,7 +112,7 @@ namespace Elecritic.Pages {
                 Text = ReviewModel.Text,
                 Rating = (byte)ReviewModel.RatingProduct,
                 PublishDate = DateTime.Now,
-                User = UserService.LoggedUser,
+                User = AuthenticationService.LoggedUser,
                 Product = Product
             };
 

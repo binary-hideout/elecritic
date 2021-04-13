@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Elecritic.Models {
 
@@ -56,5 +57,17 @@ namespace Elecritic.Models {
         /// Favorite products as marked by the user.
         /// </summary>
         public virtual List<Favorite> Favorites { get; set; }
+
+        public User() { }
+
+        /// <summary>
+        /// Creates a new user based on <paramref name="claims"/>.
+        /// </summary>
+        /// <param name="claims">Claims from a JWT security token.</param>
+        public User(ClaimsPrincipal claims) {
+            Id = int.Parse(claims.FindFirstValue("NameId"));
+            Username = claims.FindFirstValue(nameof(ClaimTypes.Name));
+            Email = claims.FindFirstValue(nameof(ClaimTypes.Email));
+        }
     }
 }

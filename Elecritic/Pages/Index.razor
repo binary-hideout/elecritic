@@ -5,22 +5,29 @@
 
 <br />
 
-@if (RecommendedProducts is null) {
-    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando recomendados...</em></p>
-}
-else if (RecommendedProducts.Count > 0) {
-    <h3 style="text-align:center; padding-top:20px;"> Recomendados para ti</h3>
-    <br />
-    <!-- Section row // Horizontal Cards-->
-    <div class="container">
-        <div class="horizontal-row">
-            @foreach (var product in RecommendedProducts) {
-            <ProductCard Product=product></ProductCard>
-                
-            }
-        </div>
-    </div>
-}
+<AuthorizeView>
+    <Authorized>
+        @if (RecommendedProducts is null) {
+            <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando recomendados...</em></p>
+        }
+        else if (RecommendedProducts.Count > 0) {
+            <h3 style="text-align:center; padding-top:20px;"> Recomendados para ti</h3>
+            <br />
+            <!-- Section row // Horizontal Cards-->
+            <div class="container">
+                <div class="horizontal-row">
+                    @foreach (var product in RecommendedProducts) {
+                        <ProductCard Product=product></ProductCard>
+
+                    }
+                </div>
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h3 style="text-align:center; padding-top:20px;">Comienza a elegir tus productos favoritos. Crea una cuenta aquí.</h3>
+    </NotAuthorized>
+</AuthorizeView>
 
 <br />
 
@@ -34,7 +41,7 @@ else if (FavoriteProducts.Count > 0) {
     <div class="container">
         <div class="horizontal-row">
             @foreach (var product in FavoriteProducts) {
-            <ProductCard Product=product></ProductCard>
+                <ProductCard Product=product></ProductCard>
             }
         </div>
     </div>
@@ -58,7 +65,7 @@ else if (PopularProducts.Count > 0) {
                             <div class="container-fluid">
                                 <div class="row">
                                     @foreach (var product in PopularProducts) {
-                                    <ProductCard Product=product></ProductCard>
+                                        <ProductCard Product=product></ProductCard>
                                     }
                                 </div>
                             </div>
@@ -68,9 +75,10 @@ else if (PopularProducts.Count > 0) {
             </div>
         </div>
     </div>
-    <footer class="text-center text-lg-start">
-        <div class="container-fluid text-center p-3" style="background-color:rgba(0,0,0,0.2)">
-            <a href="https://github.com/binary-hideout/elecritic" class="text-dark" target="_blank"><h4>Nuestro Github</h4></a>
-        </div>
-    </footer>
 }
+
+<footer class="text-center text-lg-start">
+    <div class="container-fluid text-center p-3" style="background-color:rgba(0,0,0,0.2)">
+        <a href="https://github.com/binary-hideout/elecritic" class="text-dark" target="_blank"><h4>Nuestro Github</h4></a>
+    </div>
+</footer>

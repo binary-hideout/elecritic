@@ -6,6 +6,7 @@ using Elecritic.Helpers;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Pages {
 
@@ -18,11 +19,16 @@ namespace Elecritic.Pages {
         private UserContext UserContext { get; set; }
 
         [Inject]
-        public UserService UserService { get; set; }
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
 
-        private UserDto Model { get; set; } = new UserDto();
+        private UserDto Model { get; set; }
 
-        private string ResultMessage { get; set; } = "";
+        private string ResultMessage { get; set; }
+
+        public Login() {
+            Model = new UserDto();
+            ResultMessage = "";
+        }
 
         /// <summary>
         /// Queries the database for the password of a user whose email matches the one provided.
@@ -50,7 +56,7 @@ namespace Elecritic.Pages {
                 // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
                 // update logged in user
-                UserService.LogIn(user);
+                await (AuthStateProvider as AuthenticationService).LogIn(user);
 
                 ResultMessage = "¡Sesión iniciada! :D";
                 NavigationManager.NavigateTo("/");

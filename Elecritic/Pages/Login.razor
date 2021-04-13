@@ -1,37 +1,39 @@
 @page "/login"
 
-@if (UserService.LoggedUser.Id != 0)
-{
-    <p><b>Actualmente ya tienes una sesión activa, con correo <em>@UserService.LoggedUser.Email</em></b></p>
-}
-else
-{
-    <div class="middle-box" style="margin-top:40px">
-        <div class="row">
-            <div class="col-12">
-                <h2>Ingresa a tu cuenta</h2>
-                <EditForm Model="Model" OnValidSubmit="LogInUser">
-                    <RadzenCard>
-                        @*<AlertMessage Message="@message" MessageType="@messageType" />*@
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+<AuthorizeView>
+    <Authorized>
+        <p><b>Actualmente ya tienes una sesión active.</b></p>
+    </Authorized>
+    <NotAuthorized Context="NotAuthContext">
+        <div class="middle-box" style="margin-top:40px">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Ingresa a tu cuenta</h2>
 
-                        <label>Correo</label>
-                        <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
+                    <EditForm Model="Model" OnValidSubmit="async() => await LogInUser()">
+                        <RadzenCard>
+                            @*<AlertMessage Message="@message" MessageType="@messageType" />*@
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
 
-                        <label>Contraseña</label>
-                        <RadzenPassword @bind-Value="Model.Password" class="finalBox"></RadzenPassword>
+                            <label>Correo</label>
+                            <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
 
-                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
-                                      ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
-                        <hr />
-                        <label class="labelCenter">¿No tienes una cuenta?</label>
-                        <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Regístrate aquí"
-                                      ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToSignup" />
-                    </RadzenCard>
-                </EditForm>
+                            <label>Contraseña</label>
+                            <RadzenPassword @bind-Value="Model.Password" class="finalBox"></RadzenPassword>
+
+                            <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
+                                          ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                            <hr />
+                            <label class="labelCenter">¿No tienes una cuenta?</label>
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Regístrate aquí"
+                                          ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToSignup" />
+                        </RadzenCard>
+                    </EditForm>
+                </div>
             </div>
         </div>
-    </div>
-    <p>@ResultMessage</p>
-}
+
+        <p>@ResultMessage</p>
+    </NotAuthorized>
+</AuthorizeView>

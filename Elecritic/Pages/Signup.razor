@@ -1,48 +1,49 @@
 ﻿@page "/signup"
 
-@if (UserService.LoggedUser.Id != 0)
-{
-    <p><b>Actualmente ya tienes una sesión activa, con correo <em>@UserService.LoggedUser.Email</em></b></p>
-}
-else
-{
-    <div class="middle-box">
-        <h3>Registro</h3>
-        <div class="row">
-            <div class="col-12">
-                <h2>Crea una nueva cuenta</h2>
-                <EditForm Model="Model" OnValidSubmit="SignUpUser">
-                    <RadzenCard>
-                        @*<AlertMessage Message="@message" MessageType="@messageType" />*@
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+<AuthorizeView>
+    <Authorized>
+        <p><b>Actualmente ya tienes una sesión activa, con correo.</b></p>
+    </Authorized>
+    <NotAuthorized Context="NotAuthContext">
+        <div class="middle-box">
+            <h3>Registro</h3>
+            <div class="row">
+                <div class="col-12">
+                    <h2>Crea una nueva cuenta</h2>
+                    <EditForm Model="Model" OnValidSubmit="async () => await SignUpUser()">
+                        <RadzenCard>
+                            @*<AlertMessage Message="@message" MessageType="@messageType" />*@
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
 
-                        <label>Nombre de usuario</label>
-                        <RadzenTextBox @bind-Value="Model.Username"></RadzenTextBox>
+                            <label>Nombre de usuario</label>
+                            <RadzenTextBox @bind-Value="Model.Username"></RadzenTextBox>
 
-                        <label>Primer nombre</label>
-                        <RadzenTextBox @bind-Value="Model.FirstName"></RadzenTextBox>
+                            <label>Primer nombre</label>
+                            <RadzenTextBox @bind-Value="Model.FirstName"></RadzenTextBox>
 
-                        <label>Segundo nombre</label>
-                        <RadzenTextBox @bind-Value="Model.LastName"></RadzenTextBox>
+                            <label>Segundo nombre</label>
+                            <RadzenTextBox @bind-Value="Model.LastName"></RadzenTextBox>
 
-                        <label>Correo</label>
-                        <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
+                            <label>Correo</label>
+                            <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
 
-                        <label>Contraseña</label>
-                        <RadzenPassword @bind-Value="Model.Password"></RadzenPassword>
+                            <label>Contraseña</label>
+                            <RadzenPassword @bind-Value="Model.Password"></RadzenPassword>
 
-                        <label>Confirmar contraseña</label>
-                        <RadzenPassword @bind-Value="Model.ConfirmPassword" class="finalBox"></RadzenPassword>
-                        <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Crear cuenta"
-                                      ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
-                        <hr />
-                        <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Ya tengo una cuenta"
-                                      ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToLogin" />
-                    </RadzenCard>
-                </EditForm>
+                            <label>Confirmar contraseña</label>
+                            <RadzenPassword @bind-Value="Model.ConfirmPassword" class="finalBox"></RadzenPassword>
+                            <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Crear cuenta"
+                                          ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                            <hr />
+                            <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Ya tengo una cuenta"
+                                          ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToLogin" />
+                        </RadzenCard>
+                    </EditForm>
+                </div>
             </div>
         </div>
-    </div>
-    <p>@ResultMessage</p>
-}
+
+        <p>@ResultMessage</p>
+    </NotAuthorized>
+</AuthorizeView>

@@ -17,6 +17,7 @@
                 </div>
                 <br />
             </div>
+
             <div class="col-sm-7">
                 <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
                     <h3> @Product.Company.Name </h3>
@@ -28,34 +29,37 @@
                 <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
                     <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
                 </div>
-                @if (UserService.LoggedUser.Id == 0) {
-                    <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                        <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
-                    </div>
-                }
-                else {
-                    @if (IsFavorite) {
+
+                <AuthorizeView>
+                    <Authorized>
+                        @if (IsFavorite) {
+                            <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                                <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                                        class="btn btn-outline-dark"
+                                        @onclick="RemoveFromFavoritesAsync">
+                                    <i class="oi oi-delete pr-2" aria-hidden="true"></i>
+                                    Eliminar de favoritos
+                                </button>
+                            </div>
+                        }
+                        else {
+                            <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                                <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                                        class="btn btn-warning"
+                                        @onclick="AddToFavoritesAsync">
+                                    <i class="oi oi-star pr-2" aria-hidden="true"></i>
+                                    Agregar a favoritos
+                                </button>
+                            </div>
+                        }
+                        <p>@FavoriteChangedMessage</p>
+                    </Authorized>
+                    <NotAuthorized>
                         <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                            <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
-                                    class="btn btn-outline-dark"
-                                    @onclick="RemoveFromFavoritesAsync">
-                                <i class="oi oi-delete pr-2" aria-hidden="true"></i>
-                                Eliminar de favoritos
-                            </button>
+                            <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
                         </div>
-                    }
-                    else {
-                        <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                            <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
-                                    class="btn btn-warning"
-                                    @onclick="AddToFavoritesAsync">
-                                <i class="oi oi-star pr-2" aria-hidden="true"></i>
-                                Agregar a favoritos
-                            </button>
-                        </div>
-                    }
-                }
-                <p>@FavoriteChangedMessage</p>
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         </div>
 
@@ -65,56 +69,61 @@
                     <div class="col-md-4" style=" margin-top:1rem;">
                         <div class="card shadow" style="width: 18rem;">
                             <div class="card-body text-center">
-                                @if (UserService.LoggedUser.Id == 0) {
-                                    <h5 class="card-title">Inicia sesión para escribir tu reseña</h5>
-                                }
-                                else {
-                                    <h5 class="card-title">Agrega una reseña</h5>
-                                    <div class="card-text">
-                                        <EditForm Model="@ReviewModel" OnValidSubmit="@PublishReview">
-                                            <DataAnnotationsValidator />
+                                
+                                <AuthorizeView>
+                                    <Authorized Context="AuthContext">
+                                        <h5 class="card-title">Agrega una reseña</h5>
 
-                                            <div>
-                                                <div class="card-body" font-weight-bold"> Título: </div>
-                                                <InputTextArea class="form-control" @bind-Value="ReviewModel.Title" placeholder="Título"></InputTextArea>
-                                                <ValidationMessage For="@(() => ReviewModel.Title)" />
-                                            </div>
+                                        <div class="card-text">
+                                            <EditForm Model="@ReviewModel" OnValidSubmit="@PublishReview">
+                                                <DataAnnotationsValidator />
 
-                                            <div>
-                                                <div class="card-body" font-weight-bold"> Reseña: </div>
-                                                <InputTextArea class="form-control" @bind-Value="ReviewModel.Text" placeholder="Reseña"></InputTextArea>
-                                                <ValidationMessage For="@(() => ReviewModel.Text)" />
-                                            </div>
+                                                <div>
+                                                    <div class="card-body" font-weight-bold"> Título: </div>
+                                                    <InputTextArea class="form-control" @bind-Value="ReviewModel.Title" placeholder="Título"></InputTextArea>
+                                                    <ValidationMessage For="@(() => ReviewModel.Title)" />
+                                                </div>
 
-                                            <div>
-                                                <label class="card-body"> Rating 1-5: </label>
-                                                <InputNumber class="form-control" @bind-Value="ReviewModel.RatingProduct" placeholder="Rating"></InputNumber>
-                                                <ValidationMessage For="@(() => ReviewModel.RatingProduct)" />
-                                            </div>
-                                            <br />
-                                            <div class="card-body">
-                                                <label class="font-weight-bold"> Recomendar </label>
-                                                <InputSelect @bind-Value="ReviewModel.Recommended">
-                                                    <option value="">Selecciona...</option>
-                                                    <option value="si">Sí</option>
-                                                    <option value="no">No</option>
-                                                    <option value="Tal vez">Tal vez</option>
+                                                <div>
+                                                    <div class="card-body" font-weight-bold"> Reseña: </div>
+                                                    <InputTextArea class="form-control" @bind-Value="ReviewModel.Text" placeholder="Reseña"></InputTextArea>
+                                                    <ValidationMessage For="@(() => ReviewModel.Text)" />
+                                                </div>
 
-                                                </InputSelect>
-                                                <ValidationMessage For="@(() => ReviewModel.Recommended)" />
-                                            </div>
+                                                <div>
+                                                    <label class="card-body"> Rating 1-5: </label>
+                                                    <InputNumber class="form-control" @bind-Value="ReviewModel.RatingProduct" placeholder="Rating"></InputNumber>
+                                                    <ValidationMessage For="@(() => ReviewModel.RatingProduct)" />
+                                                </div>
 
-                                            <div class="card-body">
-                                                <span class=""></span>
-                                                <input type="submit" class="form-control btn btn-primary" value="Publicar" />
-                                                <span> &nbsp;</span>
-                                            </div>
+                                                <br />
 
-                                        </EditForm>
-                                    </div>
+                                                <div class="card-body">
+                                                    <label class="font-weight-bold"> Recomendar </label>
+                                                    <InputSelect @bind-Value="ReviewModel.Recommended">
+                                                        <option value="">Selecciona...</option>
+                                                        <option value="si">Sí</option>
+                                                        <option value="no">No</option>
+                                                        <option value="Tal vez">Tal vez</option>
+                                                    </InputSelect>
 
-                                    <p><b>@PublicationMessage</b></p>
-                                }
+                                                    <ValidationMessage For="@(() => ReviewModel.Recommended)" />
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <span class=""></span>
+                                                    <input type="submit" class="form-control btn btn-primary" value="Publicar" />
+                                                    <span> &nbsp;</span>
+                                                </div>
+                                            </EditForm>
+                                        </div>
+
+                                        <p><b>@PublicationMessage</b></p>
+                                    </Authorized>
+                                    <NotAuthorized>
+                                        <h5 class="card-title">Inicia sesión para escribir tu reseña</h5>
+                                    </NotAuthorized>
+                                </AuthorizeView>
                             </div>
                         </div>
                     </div>

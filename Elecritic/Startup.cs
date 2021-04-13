@@ -1,11 +1,14 @@
 using System;
 
+using Blazored.LocalStorage;
+
 using Elecritic.Database;
 using Elecritic.Services;
 
 using EntityFramework.Exceptions.MySQL.Pomelo;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,16 +31,22 @@ namespace Elecritic {
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddBlazoredLocalStorage();
+
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
+            //! deprecated
             services.AddSingleton<UserService>();
 
-            // local function
+            services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
+            services.AddSingleton<TokenService>();
+
+            //! all this mess needs to be refactored
             void setDbContextOptions(DbContextOptionsBuilder options) {
                 options.UseMySql(
                     Configuration.GetConnectionString("ElecriticDb"),
+                    new MySqlServerVersion(new Version(5, 7, 31)),
                     mySqlOptions => mySqlOptions
-                        .ServerVersion(new Version(5, 7, 31), ServerType.MySql)
                         .CharSetBehavior(CharSetBehavior.NeverAppend))
                     .UseExceptionProcessor();
 #if DEBUG
@@ -70,6 +79,9 @@ namespace Elecritic {
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapBlazorHub();
