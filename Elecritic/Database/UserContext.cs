@@ -4,7 +4,6 @@ using System.Linq;
 using Elecritic.Models;
 
 using Microsoft.EntityFrameworkCore;
-using Elecritic.Pages;
 
 namespace Elecritic.Database {
 
@@ -42,7 +41,7 @@ namespace Elecritic.Database {
         /// <returns>hashed password if the user exists, otherwise an empty string.</returns>
         public async Task<string> GetHashedPasswordAsync(string userEmail) {
             var user = await UsersTable
-                .Select(u => new Login.UserDto {
+                .Select(u => new Pages.Login.UserDto {
                     Email = u.Email,
                     Password = u.Password
                 })

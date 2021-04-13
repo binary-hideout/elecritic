@@ -19,11 +19,15 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Elecritic {
     public class Startup {
-        public Startup(IConfiguration configuration) {
-            Configuration = configuration;
-        }
 
         public IConfiguration Configuration { get; }
+
+        public IWebHostEnvironment Environment { get; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment) {
+            Configuration = configuration;
+            Environment = environment;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -41,17 +45,24 @@ namespace Elecritic {
             services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();
 
-            //! all this mess needs to be refactored
+            // TODO: refactor all this db contexts mess
             void setDbContextOptions(DbContextOptionsBuilder options) {
+                string connectionString = "";
+                if (Environment.IsDevelopment()) {
+                    options.EnableSensitiveDataLogging();
+                    options.EnableDetailedErrors();
+                    options.UseExceptionProcessor();
+
+                    connectionString = Configuration.GetConnectionString("ElecriticDev");
+                }
+                else {
+                    connectionString = Configuration.GetConnectionString("ElecriticDb");
+                }
+
                 options.UseMySql(
-                    Configuration.GetConnectionString("ElecriticDb"),
+                    connectionString,
                     new MySqlServerVersion(new Version(5, 7, 31)),
-                    mySqlOptions => mySqlOptions
-                        .CharSetBehavior(CharSetBehavior.NeverAppend))
-                    .UseExceptionProcessor();
-#if DEBUG
-                options.EnableSensitiveDataLogging(true);
-#endif
+                    mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
             }
             services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
             services.AddDbContext<CategoryProductsContext>(options => setDbContextOptions(options));
@@ -65,8 +76,8 @@ namespace Elecritic {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment()) {
+        public void Configure(IApplicationBuilder app) {
+            if (Environment.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
             else {

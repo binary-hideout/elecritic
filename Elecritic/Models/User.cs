@@ -58,6 +58,16 @@ namespace Elecritic.Models {
         /// </summary>
         public virtual List<Favorite> Favorites { get; set; }
 
+        /// <summary>
+        /// Identifier of the user's role.
+        /// </summary>
+        public int RoleId { get; set; }
+
+        /// <summary>
+        /// Role object of the user.
+        /// </summary>
+        public virtual UserRole Role { get; set; }
+
         public User() { }
 
         /// <summary>
@@ -68,6 +78,7 @@ namespace Elecritic.Models {
             Id = int.Parse(claims.FindFirstValue("NameId"));
             Username = claims.FindFirstValue(nameof(ClaimTypes.Name));
             Email = claims.FindFirstValue(nameof(ClaimTypes.Email));
+            RoleId = int.Parse(claims.FindFirstValue(nameof(ClaimTypes.Role)));
         }
     }
 }

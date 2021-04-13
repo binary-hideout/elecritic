@@ -42,7 +42,8 @@ namespace Elecritic.Services {
             var claims = new Claim[] {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.RoleId.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor {

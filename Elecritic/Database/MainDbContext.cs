@@ -23,7 +23,7 @@ namespace Elecritic.Database {
             // e.g. a property named "Id" will be a Primary Key in the database table
 
             modelBuilder.Entity<User>(user => {
-                user.ToTable(typeof(User).Name);
+                user.ToTable(nameof(User));
 
                 user.Property(u => u.Username)
                     .HasMaxLength(20)
@@ -43,11 +43,23 @@ namespace Elecritic.Database {
                 user.Property(u => u.LastName)
                     .HasMaxLength(25);
 
+                user.HasOne(u => u.Role)
+                        .WithMany(r => r.Users)
+                    .HasForeignKey(u => u.RoleId);
+
                 user.Ignore(u => u.Reliability);
             });
 
+            modelBuilder.Entity<UserRole>(userRole => {
+                userRole.ToTable(nameof(UserRole));
+
+                userRole.Property(r => r.Name)
+                    .HasMaxLength(50)
+                    .IsRequired();
+            });
+
             modelBuilder.Entity<Review>(review => {
-                review.ToTable(typeof(Review).Name);
+                review.ToTable(nameof(Review));
 
                 review.Property(r => r.Title)
                     .HasMaxLength(50)
@@ -62,7 +74,7 @@ namespace Elecritic.Database {
             });
 
             modelBuilder.Entity<Product>(product => {
-                product.ToTable(typeof(Product).Name);
+                product.ToTable(nameof(Product));
 
                 product.Property(p => p.Name)
                     .HasMaxLength(60)
@@ -74,7 +86,7 @@ namespace Elecritic.Database {
             });
 
             modelBuilder.Entity<Category>(category => {
-                category.ToTable(typeof(Category).Name);
+                category.ToTable(nameof(Category));
 
                 category.Property(c => c.Name)
                     .HasMaxLength(25)
@@ -82,7 +94,7 @@ namespace Elecritic.Database {
             });
 
             modelBuilder.Entity<Company>(company => {
-                company.ToTable(typeof(Company).Name);
+                company.ToTable(nameof(Company));
 
                 company.Property(c => c.Name)
                     .HasMaxLength(25)
@@ -90,11 +102,11 @@ namespace Elecritic.Database {
             });
 
             modelBuilder.Entity<Favorite>(favorite => {
-                favorite.ToTable(typeof(Favorite).Name);
+                favorite.ToTable(nameof(Favorite));
             });
 
             modelBuilder.Entity<Opinion>(opinion => {
-                opinion.ToTable(typeof(Opinion).Name);
+                opinion.ToTable(nameof(Opinion));
             });
 
             base.OnModelCreating(modelBuilder);

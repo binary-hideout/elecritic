@@ -10,6 +10,7 @@ using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Elecritic.Pages {
@@ -23,27 +24,25 @@ namespace Elecritic.Pages {
         private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private UserService UserService { get; set; }
-
-        private bool IsUserAllowed { get; set; } = false;
+        private AuthenticationStateProvider AuthStateProvider { get; set; }
 
         private IBrowserFile FileEntry { get; set; }
 
-        private Category NewCategory {get; set; } = new Category();
+        private Category NewCategory {get; set; }
 
-        protected override async Task OnInitializedAsync() {
-            int[] allowedUsersIds = { 1, 2, 3 };
-            int loggedUserId = UserService.LoggedUser.Id;
-            IsUserAllowed = allowedUsersIds.Contains(loggedUserId);
-            if (!IsUserAllowed) {
+        public UploadData() {
+            NewCategory = new Category();
+        }
+
+        protected override void OnInitialized() {
+            // TODO: use [Authorize] attribute on class
+            var user = (AuthStateProvider as AuthenticationService).LoggedUser;
+            if (user.RoleId != 1) {
                 NavigationManager.NavigateTo("/");
             }
-
-            await base.OnInitializedAsync();
         }
 
         private void OnFileUploaded(InputFileChangeEventArgs eventArgs) {
-            //FileEntry = files.FirstOrDefault();
             FileEntry = eventArgs.GetMultipleFiles(1)[0];
         }
 
