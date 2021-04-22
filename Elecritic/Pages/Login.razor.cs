@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using Elecritic.Database;
 using Elecritic.Helpers;
+using Elecritic.Models;
 using Elecritic.Services;
 
 using Microsoft.AspNetCore.Components;
@@ -21,13 +22,25 @@ namespace Elecritic.Pages {
         [Inject]
         private AuthenticationStateProvider AuthStateProvider { get; set; }
 
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthStateTask { get; set; }
+
         private UserDto Model { get; set; }
+
+        private User LoggedInUser { get; set; }
 
         private string ResultMessage { get; set; }
 
         public Login() {
             Model = new UserDto();
             ResultMessage = "";
+        }
+
+        protected override async Task OnInitializedAsync() {
+            var authState = await AuthStateTask;
+            if (authState.User.Identity.IsAuthenticated) {
+                LoggedInUser = new User(authState.User);
+            }
         }
 
         /// <summary>
@@ -52,23 +65,20 @@ namespace Elecritic.Pages {
 
             // if both passwords match
             if (hashedPassword == dbPassword) {
-                
                 // retrieve user from database with all data
                 var user = await UserContext.GetUserAsync(Model.Email);
                 // update logged in user
                 await (AuthStateProvider as AuthenticationService).LogIn(user);
 
                 ResultMessage = "¡Sesión iniciada! :D";
-                NavigationManager.NavigateTo("/");
-                
-                
+                NavigationManager.NavigateTo("/", forceLoad: true);
             }
             else {
                 ResultMessage = "Contraseña incorrecta.";
             }
         }
 
-        void GoToSignup() {
+        private void GoToSignup() {
             NavigationManager.NavigateTo("/signup");
         }
 

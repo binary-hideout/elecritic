@@ -22,10 +22,8 @@ namespace Elecritic.Pages {
         [Inject]
         private ProductContext ProductContext { get; set; }
 
-        [Inject]
-        private AuthenticationStateProvider AuthStateProvider { get; set; }
-
-        private AuthenticationService AuthenticationService => AuthStateProvider as AuthenticationService;
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthStateTask { get; set; }
 
         private Product Product { get; set; }
 
@@ -71,10 +69,11 @@ namespace Elecritic.Pages {
 
             Product.Reviews = await ProductContext.GetReviewsAsync(Product);
 
-            var userId = AuthenticationService.LoggedUser.Id;
+            var authState = await AuthStateTask;
             // if there's a user logged in
-            if (userId != 0) {
-                Favorite = await ProductContext.GetFavoriteAsync(userId, ProductId);
+            if (authState.User.Identity.IsAuthenticated) {
+                var user = new User(authState.User);
+                Favorite = await ProductContext.GetFavoriteAsync(user.Id, ProductId);
                 // favorite is null if the record doesn't exist,
                 // meaning that this product wouldn't be marked as favorite by logged user
                 IsFavorite = Favorite != null;
@@ -85,8 +84,9 @@ namespace Elecritic.Pages {
         /// Marks <see cref="Product"/> as favorite of <see cref="UserService.LoggedUser"/>.
         /// </summary>
         private async Task AddToFavoritesAsync() {
+            var authState = await AuthStateTask;
             Favorite = new Favorite {
-                User = AuthenticationService.LoggedUser,
+                User = new User(authState.User),
                 Product = Product
             };
             var newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
@@ -107,12 +107,14 @@ namespace Elecritic.Pages {
         /// Try to publish <see cref="ReviewModel"/> to the database.
         /// </summary>
         private async Task PublishReview() {
+            var authState = await AuthStateTask;
+
             var review = new Review {
                 Title = ReviewModel.Title,
                 Text = ReviewModel.Text,
                 Rating = (byte)ReviewModel.RatingProduct,
                 PublishDate = DateTime.Now,
-                User = AuthenticationService.LoggedUser,
+                User = new User(authState.User),
                 Product = Product
             };
 

@@ -7,13 +7,14 @@ using CsvHelper;
 
 using Elecritic.Database;
 using Elecritic.Models;
-using Elecritic.Services;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Elecritic.Pages {
+    // TODO: use Roles-based [Authorize] attribute
 
     public partial class UploadData {
 
@@ -23,8 +24,8 @@ namespace Elecritic.Pages {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        [Inject]
-        private AuthenticationStateProvider AuthStateProvider { get; set; }
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthStateTask { get; set; }
 
         private IBrowserFile FileEntry { get; set; }
 
@@ -34,11 +35,16 @@ namespace Elecritic.Pages {
             NewCategory = new Category();
         }
 
-        protected override void OnInitialized() {
-            // TODO: use [Authorize] attribute on class
-            var user = (AuthStateProvider as AuthenticationService).LoggedUser;
-            if (user.RoleId != 1) {
-                NavigationManager.NavigateTo("/");
+        protected override async Task OnInitializedAsync() {
+            var authState = await AuthStateTask;
+            if (authState.User.Identity.IsAuthenticated) {
+                var user = new User(authState.User);
+                if (user.RoleId != 1) {
+                    NavigationManager.NavigateTo("/");
+                }
+            }
+            else {
+                NavigationManager.NavigateTo("/login");
             }
         }
 

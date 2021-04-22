@@ -17,22 +17,22 @@ namespace Elecritic.Pages {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
-        [Inject]
-        private AuthenticationStateProvider AuthStateProvider { get; set; }
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthStateTask { get; set; }
 
         private List<Product> FavoriteProducts { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            var userId = (AuthStateProvider as AuthenticationService).LoggedUser.Id;
-            // if no user logged in
-            if (userId == 0) {
+            var authState = await AuthStateTask;
+            // if there's a logged in user
+            if (authState.User.Identity.IsAuthenticated) {
+                // load his/her favorite products
+                var user = new User(authState.User);
+                FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(user.Id);
+            }
+            else {
                 // redirect to Login page
                 NavigationManager.NavigateTo("/login");
-            }
-            // if there's a user logged in
-            else {
-                // load his/her favorite products
-                FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(userId);
             }
         }
     }

@@ -1,14 +1,15 @@
 ﻿@page "/logout"
 
-<h3>Logout</h3>
+<h3>Cerrar sesión</h3>
 
 <AuthorizeView>
     <Authorized>
+        <p><b>@LoggedInUser.Username</b></p>
         <button @onclick="async() => await LogOutUser()">Cerrar sesión</button>
 
         <p>@ResultMessage</p>
     </Authorized>
     <NotAuthorized>
-        <h3>No ninguna sesión iniciada.</h3>
+        <h3>Ninguna sesión iniciada.</h3>
     </NotAuthorized>
 </AuthorizeView>

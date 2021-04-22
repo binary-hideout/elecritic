@@ -78,7 +78,11 @@ namespace Elecritic.Models {
             Id = int.Parse(claims.FindFirstValue("NameId"));
             Username = claims.FindFirstValue(nameof(ClaimTypes.Name));
             Email = claims.FindFirstValue(nameof(ClaimTypes.Email));
-            RoleId = int.Parse(claims.FindFirstValue(nameof(ClaimTypes.Role)));
+            RoleId = int.Parse(claims.FindFirstValue("RoleId"));
+            Role = new UserRole {
+                Id = RoleId,
+                Name = claims.FindFirstValue(nameof(ClaimTypes.Role))
+            };
         }
     }
 }

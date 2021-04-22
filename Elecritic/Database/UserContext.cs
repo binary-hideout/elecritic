@@ -59,6 +59,7 @@ namespace Elecritic.Database {
             return await UsersTable
                 .Include(u => u.Favorites)
                 .Include(u => u.Reviews)
+                .Include(u => u.Role)
                 .SingleOrDefaultAsync(u => u.Email == userEmail);
         }
     }

@@ -6,6 +6,7 @@ using Blazored.LocalStorage;
 using Elecritic.Models;
 
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace Elecritic.Services {
 
@@ -13,16 +14,6 @@ namespace Elecritic.Services {
     /// Custom authentication state provider to authorize users.
     /// </summary>
     public class AuthenticationService : AuthenticationStateProvider {
-
-        /// <summary>
-        /// Current scoped logged-in user.
-        /// </summary>
-        public User LoggedUser { get; set; }
-        
-        /// <summary>
-        /// Current scoped authentication state.
-        /// </summary>
-        private AuthenticationState AuthState { get; set; }
 
         /// <summary>
         /// Name of the key that holds the token string in browser's local storage.
@@ -39,28 +30,34 @@ namespace Elecritic.Services {
         /// </summary>
         private readonly TokenService _tokenService;
 
-        public AuthenticationService(ILocalStorageService localStorage, TokenService tokenService) {
+        private readonly ILogger<AuthenticationService> _logger;
+
+        public AuthenticationService(ILocalStorageService localStorage, TokenService tokenService, ILogger<AuthenticationService> logger) {
             _localStorage = localStorage;
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         /// <summary>
         /// Gets the current authentication state when it's needed to authorize views or actions.
         /// </summary>
         public override async Task<AuthenticationState> GetAuthenticationStateAsync() {
-            if (AuthState is null || LoggedUser is null) {
-                string token = await _localStorage.GetItemAsync<string>(USER_TOKEN_KEY);
-                bool isTokenStored = !string.IsNullOrEmpty(token);
-                var identity = isTokenStored && _tokenService.IsValid(token) ?
-                    new ClaimsIdentity(_tokenService.GetClaims(token), "login") :
-                    new ClaimsIdentity();
+            _logger.LogInformation("Getting authentication state.");
 
-                var claimsPrincipal = new ClaimsPrincipal(identity);
-                LoggedUser = isTokenStored ? new User(claimsPrincipal) : new User { Id = 0 };
-                AuthState = new AuthenticationState(claimsPrincipal);
-            }
+            string token = await _localStorage.GetItemAsync<string>(USER_TOKEN_KEY);
 
-            return AuthState;
+            _logger.LogInformation($"Token retrieved from local storage: {token}");
+
+            var identity = !string.IsNullOrEmpty(token) && _tokenService.IsValid(token) ?
+                new ClaimsIdentity(_tokenService.GetClaims(token), "login") :
+                new ClaimsIdentity();
+
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+            var authState = new AuthenticationState(claimsPrincipal);
+
+            _logger.LogInformation($"Auth state created.");
+
+            return authState;
         }
 
         /// <summary>
@@ -68,9 +65,13 @@ namespace Elecritic.Services {
         /// </summary>
         /// <param name="user">User logging in.</param>
         public async Task LogIn(User user) {
+            _logger.LogInformation($"Logging in {user.Id}, {user.Username}.");
+
             string token = _tokenService.CreateToken(user);
             await _localStorage.SetItemAsync(USER_TOKEN_KEY, token);
-            LoggedUser = user;
+
+            _logger.LogInformation($"Token created and saved in local storage: {token}.");
+
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
@@ -79,8 +80,12 @@ namespace Elecritic.Services {
         /// </summary>
         /// <returns></returns>
         public async Task LogOut() {
+            _logger.LogInformation("Logging out current user.");
+
             await _localStorage.RemoveItemAsync(USER_TOKEN_KEY);
-            LoggedUser = null;
+
+            _logger.LogInformation("Token deleted from local storage.");
+
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
     }
