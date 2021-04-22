@@ -39,8 +39,6 @@ namespace Elecritic {
 
             services.AddSingleton<ProductService>();
             services.AddSingleton<ReviewService>();
-            //! deprecated
-            services.AddSingleton<UserService>();
 
             services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();

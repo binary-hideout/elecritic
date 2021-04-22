@@ -32,7 +32,7 @@ namespace Elecritic.Pages {
         private Favorite Favorite { get; set; }
 
         /// <summary>
-        /// Determines if <see cref="Product"/> is marked as favorite by <see cref="UserService.LoggedUser"/>.
+        /// Determines if <see cref="Product"/> is marked as favorite by logged in user.
         /// </summary>
         private bool IsFavorite { get; set; }
 
@@ -81,7 +81,7 @@ namespace Elecritic.Pages {
         }
 
         /// <summary>
-        /// Marks <see cref="Product"/> as favorite of <see cref="UserService.LoggedUser"/>.
+        /// Marks <see cref="Product"/> as favorite of logged in user.
         /// </summary>
         private async Task AddToFavoritesAsync() {
             var authState = await AuthStateTask;
@@ -95,7 +95,7 @@ namespace Elecritic.Pages {
         }
 
         /// <summary>
-        /// Removes <see cref="Product"/> from favorites of <see cref="UserService.LoggedUser"/>.
+        /// Removes <see cref="Product"/> from favorites of logged in user.
         /// </summary>
         private async Task RemoveFromFavoritesAsync() {
             var removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
