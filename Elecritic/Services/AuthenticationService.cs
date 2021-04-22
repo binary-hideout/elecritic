@@ -55,7 +55,7 @@ namespace Elecritic.Services {
             var claimsPrincipal = new ClaimsPrincipal(identity);
             var authState = new AuthenticationState(claimsPrincipal);
 
-            _logger.LogInformation("Auth state created: {@authState}", authState);
+            _logger.LogInformation($"Auth state created.");
 
             return authState;
         }
