@@ -19,8 +19,8 @@ namespace Elecritic.Pages {
         [Inject]
         private MyFavoritesContext MyFavoritesContext { get; set; }
 
-        [Inject]
-        private AuthenticationStateProvider AuthStateProvider { get; set; }
+        [CascadingParameter]
+        private Task<AuthenticationState> AuthStateTask { get; set; }
 
         /// <summary>
         /// Customized recommended products for logged in user.
@@ -41,9 +41,10 @@ namespace Elecritic.Pages {
             PopularProducts = await IndexContext.GetPopularProductsAsync();
             FavoriteProducts = await IndexContext.GetFavoriteProductsAsync();
 
-            var user = (AuthStateProvider as AuthenticationService).LoggedUser;
+            var authState = await AuthStateTask;
             // if there's a user logged in
-            if (user != null) {
+            if (authState.User.Identity.IsAuthenticated) {
+                var user = new User(authState.User);
                 var userFavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(user.Id);
                 var products = await IndexContext.GetAllProductsAsync();
 
