@@ -14,9 +14,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Elecritic.Pages {
-    // TODO: use roles
+    // TODO: use Roles-based [Authorize] attribute
 
-    [Authorize]
     public partial class UploadData {
 
         [Inject]
