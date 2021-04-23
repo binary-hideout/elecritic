@@ -103,10 +103,11 @@ namespace Elecritic.Features.Products.Queries {
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
-                            .Join(dbContext.Favorites,
+                            .Join(dbContext.Favorites
+                                    .Where(f => f.UserId == request.FavoritesByUserId),
                                 p => p.Id,
                                 f => f.ProductId,
-                                (p, f) => new ProductDto(p))
+                                (p, _) => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
