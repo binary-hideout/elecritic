@@ -1,0 +1,36 @@
+﻿@using Elecritic.Features.Products.Queries;
+
+@if (Products is null) {
+    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando @Title...</em></p>
+}
+else if (Products.Count > 0) {
+    <h3 style="text-align:center;">@Title</h3>
+    <br />
+    <!-- Vertical Cards-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    @foreach (var product in Products) {
+                                        <Card Product=@product></Card>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<List.ProductDto> Products { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+}
