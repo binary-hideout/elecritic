@@ -34,6 +34,8 @@ namespace Elecritic.Models {
         /// </summary>
         public DateTime ReleaseDate { get; set; }
 
+        public int CategoryId { get; set; }
+
         /// <summary>
         /// Category of the product.
         /// </summary>

@@ -85,6 +85,9 @@ namespace Elecritic.Database {
                     .HasMaxLength(500);
                 product.Property(p => p.ImagePath)
                     .HasMaxLength(100);
+                product.HasOne(p => p.Category)
+                        .WithMany(c => c.Products)
+                    .HasForeignKey(p => p.CategoryId);
             });
 
             modelBuilder.Entity<Category>(category => {
