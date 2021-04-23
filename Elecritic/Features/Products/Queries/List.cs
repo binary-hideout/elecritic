@@ -10,6 +10,7 @@ using Elecritic.Models;
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Elecritic.Features.Products.Queries {
     public class List {
@@ -46,15 +47,21 @@ namespace Elecritic.Features.Products.Queries {
 
         public class QueryHandler : IRequestHandler<Query, Response> {
             private readonly IDbContextFactory<ElecriticContext> _factory;
+            private readonly ILogger<QueryHandler> _logger;
 
-            public QueryHandler(IDbContextFactory<ElecriticContext> factory) {
+            public QueryHandler(IDbContextFactory<ElecriticContext> factory, ILogger<QueryHandler> logger) {
                 _factory = factory;
+                _logger = logger;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
+                _logger.LogInformation($"Handling {request}: {{@request}}", request);
+
                 using var dbContext = _factory.CreateDbContext();
 
                 if (request.TopFavorites > 0) {
+                    _logger.LogInformation("Getting top favorite products.");
+
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
@@ -67,6 +74,8 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.TopPopular > 0) {
+                    _logger.LogInformation("Getting top popular products.");
+
                     return new Response {
                         Products = await dbContext.Products
                             .OrderByDescending(p => p.Reviews.Count)
@@ -78,6 +87,8 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.CategoryId > 0) {
+                    _logger.LogInformation("Getting products by category.");
+
                     return new Response {
                         Products = await dbContext.Products
                             .Where(p => p.CategoryId == request.CategoryId)
@@ -87,6 +98,8 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.FavoritesByUserId > 0) {
+                    _logger.LogInformation("Getting user's favorite products.");
+
                     // IDs of top favorite products
                     var productsIds = await dbContext.Favorites
                         //Gather products marked as favorite where the user is the current user
@@ -105,6 +118,8 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else {
+                    _logger.LogInformation("Getting all products.");
+
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
