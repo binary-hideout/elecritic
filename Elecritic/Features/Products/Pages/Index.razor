@@ -1,0 +1,32 @@
+﻿@page "/"
+
+@using Elecritic.Features.Products.Components;
+
+<div class="title-welcome" style="padding-top:40px; padding-bottom:20px;">
+    <center><h2>Bienvenido a una nueva experiencia de reseñas sobre productos electrónicos</h2></center>
+</div>
+
+<br />
+
+<AuthorizeView>
+    <Authorized>
+        <Horizontal Products="@RecommendedProducts" Title="Recomendados para ti"/>
+    </Authorized>
+    <NotAuthorized>
+        <h3 style="text-align:center; padding-top:20px;">Comienza a elegir tus productos favoritos. Crea una cuenta aquí.</h3>
+    </NotAuthorized>
+</AuthorizeView>
+
+<br />
+
+<Horizontal Products="@FavoriteProducts" Title="Favoritos de otros usuarios"/>
+
+<br />
+
+<Vertical Products="@PopularProducts" Title="Lo más popular"/>
+
+<footer class="text-center text-lg-start">
+    <div class="container-fluid text-center p-3" style="background-color:rgba(0,0,0,0.2)">
+        <a href="https://github.com/binary-hideout/elecritic" class="text-dark" target="_blank"><h4>Nuestro GitHub</h4></a>
+    </div>
+</footer>
