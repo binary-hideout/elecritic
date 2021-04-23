@@ -94,6 +94,8 @@ namespace Elecritic.Features.Products.Queries {
                     return new Response {
                         Products = await dbContext.Products
                             .Where(p => p.CategoryId == request.CategoryId)
+                            .Skip(request.SkipNumber)
+                            .Take(request.TakeNumber)
                             .Include(p => p.Reviews)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
