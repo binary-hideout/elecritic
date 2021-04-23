@@ -1,4 +1,4 @@
-﻿@using Elecritic.Models;
+﻿@using Elecritic.Features.Products.Queries;
 
 <div class="col-md-4" style=" margin-top:1rem;">
     <div class="card shadow" style="width: 15rem;">
@@ -8,12 +8,10 @@
         <div class="card-body text-center">
             <h5 class="card-title">@Product.Name</h5>
             <p class="card-text"> @Product.Description</p>
-            @if (Product.GetAverageRating() > 0)
-            {
-                <p class="card-text"><img src="/vectors/star-fill.svg"> @Product.GetAverageRating().ToString("N1")</p>
+            @if (Product.AverageRating > 0) {
+                <p class="card-text"><img src="/vectors/star-fill.svg"> @Product.AverageRating.ToString("N1")</p>
             }
-            else
-            {
+            else {
                 <p class="card-text text-black-50 font-italic">Sin reseñas</p>
             }
             <a href="/product/@Product.Id" class="btn btn-primary">Ver reseñas</a>
@@ -23,5 +21,5 @@
 
 @code{
     [Parameter]
-    public Product Product { get; set; }
+    public List.ProductDto Product { get; set; }
 }
