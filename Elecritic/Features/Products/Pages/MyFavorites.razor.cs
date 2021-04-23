@@ -1,26 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Elecritic.Database;
+using Elecritic.Features.Products.Queries;
 using Elecritic.Models;
-using Elecritic.Services;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Pages {
+namespace Elecritic.Features.Products.Pages {
     public partial class MyFavorites {
-
-        [Inject]
-        private MyFavoritesContext MyFavoritesContext { get; set; }
 
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        private IMediator Mediator { get; set; }
+
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private List<Product> FavoriteProducts { get; set; }
+        private List<List.ProductDto> FavoriteProducts { get; set; }
 
         protected override async Task OnInitializedAsync() {
             var authState = await AuthStateTask;
@@ -28,7 +29,9 @@ namespace Elecritic.Pages {
             if (authState.User.Identity.IsAuthenticated) {
                 // load his/her favorite products
                 var user = new User(authState.User);
-                FavoriteProducts = await MyFavoritesContext.GetFavoriteProductsAsync(user.Id);
+                FavoriteProducts = (await Mediator.Send(
+                    new List.Query { FavoritesByUserId = user.Id }))
+                    .Products;
             }
             else {
                 // redirect to Login page

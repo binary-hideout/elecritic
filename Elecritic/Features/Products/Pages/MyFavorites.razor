@@ -1,0 +1,12 @@
+﻿@page "/myfavorites"
+
+@using Elecritic.Features.Products.Components 
+
+<AuthorizeView>
+    <Authorized>
+        <Vertical Products="@FavoriteProducts" Title="Mis favoritos"/>
+    </Authorized>
+    <NotAuthorized>
+        <h3>No has iniciado sesión.</h3>
+    </NotAuthorized>
+</AuthorizeView>
