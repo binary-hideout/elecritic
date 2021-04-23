@@ -7,6 +7,8 @@ using Elecritic.Services;
 
 using EntityFramework.Exceptions.MySQL.Pomelo;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +44,8 @@ namespace Elecritic {
 
             services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();
+
+            services.AddMediatR(typeof(Startup));
 
             // TODO: refactor all this db contexts mess
             void setDbContextOptions(DbContextOptionsBuilder options) {
