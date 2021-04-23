@@ -16,6 +16,7 @@ namespace Elecritic.Features.Products.Queries {
         public class ProductDto {
             public int Id { get; set; }
             public string Name { get; set; }
+            public int CategoryId { get; set; }
             public string Description { get; set; }
             public string ImagePath { get; set; }
             public double AverageRating { get; set; }
@@ -23,6 +24,7 @@ namespace Elecritic.Features.Products.Queries {
             public ProductDto(Product product) {
                 Id = product.Id;
                 Name = product.Name;
+                CategoryId = product.CategoryId;
                 Description = product.Description;
                 ImagePath = product.ImagePath;
                 AverageRating = product.GetAverageRating();
@@ -86,7 +88,7 @@ namespace Elecritic.Features.Products.Queries {
                 else if (request.CategoryId > 0) {
                     return new Response {
                         Products = await dbContext.Products
-                            .Where(p => p.Category.Id == request.CategoryId)
+                            .Where(p => p.CategoryId == request.CategoryId)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
