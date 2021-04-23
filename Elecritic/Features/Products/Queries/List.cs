@@ -100,19 +100,13 @@ namespace Elecritic.Features.Products.Queries {
                 else if (request.FavoritesByUserId > 0) {
                     _logger.LogInformation("Getting user's favorite products.");
 
-                    // IDs of top favorite products
-                    var productsIds = await dbContext.Favorites
-                        //Gather products marked as favorite where the user is the current user
-                        .Where(f => f.UserId == request.FavoritesByUserId)
-                        // select only the product ID
-                        .Select(f => f.ProductId)
-                        .ToArrayAsync();
-
                     return new Response {
                         Products = await dbContext.Products
-                            .Where(p => productsIds.Contains(p.Id))
                             .Include(p => p.Reviews)
-                            .Select(p => new ProductDto(p))
+                            .Join(dbContext.Favorites,
+                                p => p.Id,
+                                f => f.ProductId,
+                                (p, f) => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
