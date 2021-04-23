@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,6 +91,7 @@ namespace Elecritic.Features.Products.Queries {
                     return new Response {
                         Products = await dbContext.Products
                             .Where(p => p.CategoryId == request.CategoryId)
+                            .Include(p => p.Reviews)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
