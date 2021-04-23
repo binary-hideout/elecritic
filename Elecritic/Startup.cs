@@ -47,6 +47,25 @@ namespace Elecritic {
 
             services.AddMediatR(typeof(Startup));
 
+            services.AddDbContextFactory<ElecriticContext>(options => {
+                string connectionString = "";
+                if (Environment.IsDevelopment()) {
+                    options.EnableSensitiveDataLogging();
+                    options.EnableDetailedErrors();
+                    options.UseExceptionProcessor();
+
+                    connectionString = Configuration.GetConnectionString("ElecriticDev");
+                }
+                else {
+                    connectionString = Configuration.GetConnectionString("ElecriticDb");
+                }
+
+                options.UseMySql(
+                    connectionString,
+                    new MySqlServerVersion(new Version(5, 7, 31)),
+                    mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
+            });
+
             // TODO: refactor all this db contexts mess
             void setDbContextOptions(DbContextOptionsBuilder options) {
                 string connectionString = "";
