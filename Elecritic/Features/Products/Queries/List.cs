@@ -64,10 +64,13 @@ namespace Elecritic.Features.Products.Queries {
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
-                            .Join(dbContext.Favorites,
-                                p => p.Id,
-                                f => f.ProductId,
-                                (p, f) => new ProductDto(p))
+                            .Where(p => dbContext.Favorites
+                                .GroupBy(f => f.ProductId)
+                                .OrderByDescending(g => g.Count())
+                                .Select(g => g.Key)
+                                .Take(request.TopFavorites)
+                                .Contains(p.Id))
+                            .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
