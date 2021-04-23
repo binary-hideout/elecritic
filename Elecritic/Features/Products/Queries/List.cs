@@ -57,7 +57,7 @@ namespace Elecritic.Features.Products.Queries {
                 if (request.TopFavorites > 0) {
                     // IDs of top favorite products
                     int[] productsIds = await dbContext.Favorites
-                        .GroupBy(f => f.Product.Id)
+                        .GroupBy(f => f.ProductId)
                         // count number of records of each product
                         .OrderByDescending(g => g.Count())
                         // select only the product ID
@@ -98,18 +98,15 @@ namespace Elecritic.Features.Products.Queries {
                     // IDs of top favorite products
                     var productsIds = await dbContext.Favorites
                         //Gather products marked as favorite where the user is the current user
-                        .Include(f => f.User)
-                        .Where(f => f.User.Id == request.FavoritesByUserId)
-                        .Include(f => f.Product)
+                        .Where(f => f.UserId == request.FavoritesByUserId)
                         // select only the product ID
-                        .Select(f => f.Product.Id)
+                        .Select(f => f.ProductId)
                         .ToArrayAsync();
 
                     return new Response {
                         Products = await dbContext.Products
                             .Where(p => productsIds.Contains(p.Id))
                             .Include(p => p.Reviews)
-                            .Include(p => p.Category)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
@@ -119,7 +116,6 @@ namespace Elecritic.Features.Products.Queries {
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
-                            .Include(p => p.Category)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };

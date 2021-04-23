@@ -108,6 +108,10 @@ namespace Elecritic.Database {
 
             modelBuilder.Entity<Favorite>(favorite => {
                 favorite.ToTable(nameof(Favorite));
+
+                favorite.HasOne(f => f.User)
+                        .WithMany(u => u.Favorites)
+                    .HasForeignKey(f => f.UserId);
             });
 
             modelBuilder.Entity<Opinion>(opinion => {
