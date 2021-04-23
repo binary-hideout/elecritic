@@ -55,21 +55,13 @@ namespace Elecritic.Features.Products.Queries {
                 using var dbContext = _factory.CreateDbContext();
 
                 if (request.TopFavorites > 0) {
-                    // IDs of top favorite products
-                    int[] productsIds = await dbContext.Favorites
-                        .GroupBy(f => f.ProductId)
-                        // count number of records of each product
-                        .OrderByDescending(g => g.Count())
-                        // select only the product ID
-                        .Select(g => g.Key)
-                        .Take(request.TopFavorites)
-                        .ToArrayAsync();
-
                     return new Response {
                         Products = await dbContext.Products
-                            .Where(p => productsIds.Contains(p.Id))
                             .Include(p => p.Reviews)
-                            .Select(p => new ProductDto(p))
+                            .Join(dbContext.Favorites,
+                                p => p.Id,
+                                f => f.ProductId,
+                                (p, f) => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
