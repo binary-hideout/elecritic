@@ -21,7 +21,7 @@ namespace Elecritic.Features.Products.Pages {
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private List<List.ProductDto> FavoriteProducts { get; set; }
+        private List<Lists.ProductDto> FavoriteProducts { get; set; }
 
         protected override async Task OnInitializedAsync() {
             var authState = await AuthStateTask;
@@ -30,7 +30,7 @@ namespace Elecritic.Features.Products.Pages {
                 // load his/her favorite products
                 var user = new User(authState.User);
                 FavoriteProducts = (await Mediator.Send(
-                    new List.Query { FavoritesByUserId = user.Id }))
+                    new Lists.Query { FavoritesByUserId = user.Id }))
                     .Products;
             }
             else {

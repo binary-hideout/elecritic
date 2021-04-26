@@ -19,9 +19,9 @@ namespace Elecritic.Features.Products.Modules {
         /// <param name="products">Products from which the recommended ones will be filtered.</param>
         /// <param name="totalRecommendedItems">Size of the recommended products' list.</param>
         /// <returns>A list that contains <paramref name="totalRecommendedItems"/> <see cref="Product"/>s.</returns>
-        public static List<List.ProductDto> RecommendProducts(
-            List<List.ProductDto> userFavorites,
-            List<List.ProductDto> products,
+        public static List<Lists.ProductDto> RecommendProducts(
+            List<Lists.ProductDto> userFavorites,
+            List<Lists.ProductDto> products,
             int totalRecommendedItems) {
             // select IDs of products others than user favorites
             var noFavoritesIds = products
@@ -36,7 +36,7 @@ namespace Elecritic.Features.Products.Modules {
 
             // TODO: also remove products that user has reviewed
 
-            var recommendedProducts = new List<List.ProductDto>();
+            var recommendedProducts = new List<Lists.ProductDto>();
 
             // TODO: fetch categories IDs from database
             // for each category ID (1 - 3)
