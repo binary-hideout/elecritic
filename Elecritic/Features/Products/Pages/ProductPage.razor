@@ -75,39 +75,39 @@
                                         <h5 class="card-title">Agrega una reseña</h5>
 
                                         <div class="card-text">
-                                            <EditForm Model="@ReviewModel" OnValidSubmit="@PublishReview">
+                                            <EditForm Model="@ReviewForm" OnValidSubmit="@PublishReview">
                                                 <DataAnnotationsValidator />
 
                                                 <div>
                                                     <div class="card-body" font-weight-bold"> Título: </div>
-                                                    <InputTextArea class="form-control" @bind-Value="ReviewModel.Title" placeholder="Título"></InputTextArea>
-                                                    <ValidationMessage For="@(() => ReviewModel.Title)" />
+                                                    <InputTextArea class="form-control" @bind-Value="ReviewForm.Title" placeholder="Título"></InputTextArea>
+                                                    <ValidationMessage For="@(() => ReviewForm.Title)" />
                                                 </div>
 
                                                 <div>
                                                     <div class="card-body" font-weight-bold"> Reseña: </div>
-                                                    <InputTextArea class="form-control" @bind-Value="ReviewModel.Text" placeholder="Reseña"></InputTextArea>
-                                                    <ValidationMessage For="@(() => ReviewModel.Text)" />
+                                                    <InputTextArea class="form-control" @bind-Value="ReviewForm.Text" placeholder="Reseña"></InputTextArea>
+                                                    <ValidationMessage For="@(() => ReviewForm.Text)" />
                                                 </div>
 
                                                 <div>
                                                     <label class="card-body"> Rating 1-5: </label>
-                                                    <InputNumber class="form-control" @bind-Value="ReviewModel.RatingProduct" placeholder="Rating"></InputNumber>
-                                                    <ValidationMessage For="@(() => ReviewModel.RatingProduct)" />
+                                                    <InputNumber class="form-control" @bind-Value="ReviewForm.RatingProduct" placeholder="Rating"></InputNumber>
+                                                    <ValidationMessage For="@(() => ReviewForm.RatingProduct)" />
                                                 </div>
 
                                                 <br />
 
                                                 <div class="card-body">
                                                     <label class="font-weight-bold"> Recomendar </label>
-                                                    <InputSelect @bind-Value="ReviewModel.Recommended">
+                                                    <InputSelect @bind-Value="ReviewForm.Recommended">
                                                         <option value="">Selecciona...</option>
                                                         <option value="si">Sí</option>
                                                         <option value="no">No</option>
                                                         <option value="Tal vez">Tal vez</option>
                                                     </InputSelect>
 
-                                                    <ValidationMessage For="@(() => ReviewModel.Recommended)" />
+                                                    <ValidationMessage For="@(() => ReviewForm.Recommended)" />
                                                 </div>
 
                                                 <div class="card-body">

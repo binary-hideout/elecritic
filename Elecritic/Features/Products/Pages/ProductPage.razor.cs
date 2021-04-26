@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
+using Elecritic.Features.Products.Queries;
 using Elecritic.Models;
-using Elecritic.Services;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Pages {
+namespace Elecritic.Features.Products.Pages {
 
     /// <summary>
     /// Partial class to implement all needed code of ProductPage razor component
@@ -20,6 +22,9 @@ namespace Elecritic.Pages {
         public int ProductId { get; set; }
 
         [Inject]
+        private IMediator Mediator { get; set; }
+
+        [Inject]
         private ProductContext ProductContext { get; set; }
 
         [CascadingParameter]
@@ -27,7 +32,7 @@ namespace Elecritic.Pages {
 
         private Product Product { get; set; }
 
-        private ReviewDto ReviewModel { get; set; }
+        private ReviewDto ReviewForm { get; set; }
 
         private Favorite Favorite { get; set; }
 
@@ -43,7 +48,7 @@ namespace Elecritic.Pages {
         private bool IsValidProductId { get; set; }
 
         /// <summary>
-        /// Message that explains the state of the published <see cref="ReviewModel"/>.
+        /// Message that explains the state of the published <see cref="ReviewForm"/>.
         /// </summary>
         private string PublicationMessage { get; set; }
 
@@ -56,18 +61,19 @@ namespace Elecritic.Pages {
         public ProductPage() {
             IsValidProductId = true;
             PublicationMessage = FavoriteChangedMessage = "";
-            ReviewModel = new ReviewDto();
+            ReviewForm = new ReviewDto();
         }
 
         protected override async Task OnInitializedAsync() {
-            Product = await ProductContext.GetProductAsync(ProductId);
-            IsValidProductId = Product.Id != 0;
+            //Product = await ProductContext.GetProductAsync(ProductId);
+            Product = (await Mediator.Send(
+                new Details.Query { ProductId = ProductId }))
+                .Product;
+            IsValidProductId = Product is not null;
             // if the product doesn't exist in database
             if (!IsValidProductId) {
                 return;
             }
-
-            Product.Reviews = await ProductContext.GetReviewsAsync(Product);
 
             var authState = await AuthStateTask;
             // if there's a user logged in
@@ -104,15 +110,15 @@ namespace Elecritic.Pages {
         }
 
         /// <summary>
-        /// Try to publish <see cref="ReviewModel"/> to the database.
+        /// Try to publish <see cref="ReviewForm"/> to the database.
         /// </summary>
         private async Task PublishReview() {
             var authState = await AuthStateTask;
 
             var review = new Review {
-                Title = ReviewModel.Title,
-                Text = ReviewModel.Text,
-                Rating = (byte)ReviewModel.RatingProduct,
+                Title = ReviewForm.Title,
+                Text = ReviewForm.Text,
+                Rating = (byte)ReviewForm.RatingProduct,
                 PublishDate = DateTime.Now,
                 User = new User(authState.User),
                 Product = Product
@@ -121,7 +127,7 @@ namespace Elecritic.Pages {
             var publicationSucceeded = await ProductContext.InsertReviewAsync(review);
             if (publicationSucceeded) {
                 PublicationMessage = "¡Reseña publicada con éxito!";
-                ReviewModel.Clear();
+                ReviewForm.Clear();
             }
             else {
                 PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
@@ -132,7 +138,6 @@ namespace Elecritic.Pages {
         /// Review Model with DataAnnotations to apply on EditForm inside ProductPage.razor page
         /// </summary>
         public class ReviewDto {
-
             [Required(ErrorMessage = "Este campo no puede estar vacío")]
             public string Title { get; set; }
 
