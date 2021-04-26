@@ -36,12 +36,12 @@ namespace Elecritic.Features.Products.Queries {
         }
 
         public class Query : IRequest<Response> {
-            public int TopFavorites { get; set; }
-            public int TopPopular { get; set; }
-            public int CategoryId { get; set; }
-            public int SkipNumber { get; set; }
-            public int TakeNumber { get; set; }
-            public int FavoritesByUserId { get; set; }
+            public int? TopFavorites { get; set; }
+            public int? TopPopular { get; set; }
+            public int? CategoryId { get; set; }
+            public int? SkipNumber { get; set; }
+            public int? TakeNumber { get; set; }
+            public int? FavoritesByUserId { get; set; }
         }
 
         public class QueryHandler : IRequestHandler<Query, Response> {
@@ -58,7 +58,7 @@ namespace Elecritic.Features.Products.Queries {
 
                 using var dbContext = _factory.CreateDbContext();
 
-                if (request.TopFavorites > 0) {
+                if (request.TopFavorites is not null) {
                     _logger.LogInformation("Getting top favorite products.");
 
                     return new Response {
@@ -68,48 +68,48 @@ namespace Elecritic.Features.Products.Queries {
                                 .GroupBy(f => f.ProductId)
                                 .OrderByDescending(g => g.Count())
                                 .Select(g => g.Key)
-                                .Take(request.TopFavorites)
+                                .Take((int)request.TopFavorites)
                                 .Contains(p.Id))
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
 
-                else if (request.TopPopular > 0) {
+                else if (request.TopPopular is not null) {
                     _logger.LogInformation("Getting top popular products.");
 
                     return new Response {
                         Products = await dbContext.Products
                             .OrderByDescending(p => p.Reviews.Count)
-                            .Take(request.TopPopular)
+                            .Take((int)request.TopPopular)
                             .Include(p => p.Reviews)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
 
-                else if (request.CategoryId > 0) {
+                else if (request.CategoryId is not null) {
                     _logger.LogInformation("Getting products by category.");
 
                     return new Response {
                         Products = await dbContext.Products
                             .Where(p => p.CategoryId == request.CategoryId)
-                            .Skip(request.SkipNumber)
-                            .Take(request.TakeNumber)
+                            .Skip((int)request.SkipNumber)
+                            .Take((int)request.TakeNumber)
                             .Include(p => p.Reviews)
                             .Select(p => new ProductDto(p))
                             .ToListAsync()
                     };
                 }
 
-                else if (request.FavoritesByUserId > 0) {
+                else if (request.FavoritesByUserId is not null) {
                     _logger.LogInformation("Getting user's favorite products.");
 
                     return new Response {
                         Products = await dbContext.Products
                             .Include(p => p.Reviews)
                             .Join(dbContext.Favorites
-                                    .Where(f => f.UserId == request.FavoritesByUserId),
+                                    .Where(f => f.UserId == (int)request.FavoritesByUserId),
                                 p => p.Id,
                                 f => f.ProductId,
                                 (p, _) => new ProductDto(p))
