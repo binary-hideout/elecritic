@@ -21,13 +21,13 @@ namespace Elecritic.Features.Products.Queries {
             public string ImagePath { get; set; }
             public double AverageRating { get; set; }
 
-            public ProductDto(Product product) {
+            public ProductDto(Product product, double averageRating) {
                 Id = product.Id;
                 Name = product.Name;
                 CategoryId = product.CategoryId;
                 Description = product.Description;
                 ImagePath = product.ImagePath;
-                AverageRating = product.GetAverageRating();
+                AverageRating = averageRating;
             }
         }
 
@@ -57,76 +57,61 @@ namespace Elecritic.Features.Products.Queries {
                 _logger.LogInformation($"Handling {request}: {{@request}}", request);
 
                 using var dbContext = _factory.CreateDbContext();
-
+                IQueryable<Product> products;
                 if (request.TopFavorites is not null) {
                     _logger.LogInformation("Getting top favorite products.");
 
-                    return new Response {
-                        Products = await dbContext.Products
-                            .Include(p => p.Reviews)
-                            .Where(p => dbContext.Favorites
-                                .GroupBy(f => f.ProductId)
-                                .OrderByDescending(g => g.Count())
-                                .Select(g => g.Key)
-                                .Take((int)request.TopFavorites)
-                                .Contains(p.Id))
-                            .Select(p => new ProductDto(p))
-                            .ToListAsync()
-                    };
+                    products = dbContext.Products
+                        .Where(p => dbContext.Favorites
+                            .GroupBy(f => f.ProductId)
+                            .OrderByDescending(g => g.Count())
+                            .Select(g => g.Key)
+                            .Take((int)request.TopFavorites)
+                            .Contains(p.Id));
                 }
 
                 else if (request.TopPopular is not null) {
                     _logger.LogInformation("Getting top popular products.");
 
-                    return new Response {
-                        Products = await dbContext.Products
-                            .OrderByDescending(p => p.Reviews.Count)
-                            .Take((int)request.TopPopular)
-                            .Include(p => p.Reviews)
-                            .Select(p => new ProductDto(p))
-                            .ToListAsync()
-                    };
+                    products = dbContext.Products
+                        .OrderByDescending(p => p.Reviews.Count)
+                        .Take((int)request.TopPopular);
                 }
 
                 else if (request.CategoryId is not null) {
                     _logger.LogInformation("Getting products by category.");
 
-                    return new Response {
-                        Products = await dbContext.Products
-                            .Where(p => p.CategoryId == request.CategoryId)
-                            .Skip((int)request.SkipNumber)
-                            .Take((int)request.TakeNumber)
-                            .Include(p => p.Reviews)
-                            .Select(p => new ProductDto(p))
-                            .ToListAsync()
-                    };
+                    products = dbContext.Products
+                        .Where(p => p.CategoryId == request.CategoryId)
+                        .Skip((int)request.SkipNumber)
+                        .Take((int)request.TakeNumber);
                 }
 
                 else if (request.FavoritesByUserId is not null) {
                     _logger.LogInformation("Getting user's favorite products.");
 
-                    return new Response {
-                        Products = await dbContext.Products
-                            .Include(p => p.Reviews)
-                            .Join(dbContext.Favorites
-                                    .Where(f => f.UserId == (int)request.FavoritesByUserId),
-                                p => p.Id,
-                                f => f.ProductId,
-                                (p, _) => new ProductDto(p))
-                            .ToListAsync()
-                    };
+                    products = dbContext.Products
+                        .Join(dbContext.Favorites
+                                .Where(f => f.UserId == (int)request.FavoritesByUserId),
+                            p => p.Id,
+                            f => f.ProductId,
+                            (p, _) => p);
                 }
 
                 else {
                     _logger.LogInformation("Getting all products.");
 
-                    return new Response {
-                        Products = await dbContext.Products
-                            .Include(p => p.Reviews)
-                            .Select(p => new ProductDto(p))
-                            .ToListAsync()
-                    };
+                    products = dbContext.Products
+                        .Where(p => true);
                 }
+
+                return new Response {
+                    Products = await products
+                        .Select(p => new ProductDto(p,
+                            p.Reviews.Count == 0 ?
+                                -1 : p.Reviews.Average(r => r.Rating)))
+                        .ToListAsync()
+                };
             }
         }
     }
