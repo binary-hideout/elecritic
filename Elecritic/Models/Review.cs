@@ -30,11 +30,13 @@ namespace Elecritic.Models {
         /// </summary>
         public DateTime PublishDate { get; set; }
 
+        public int UserId { get; set; }
         /// <summary>
         /// User who made the review.
         /// </summary>
         public virtual User User { get; set; }
 
+        public int ProductId { get; set; }
         /// <summary>
         /// Product that gets the review.
         /// </summary>

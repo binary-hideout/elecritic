@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
-using Elecritic.Features.Products.Queries;
+using Elecritic.Features.ProductDetails.Commands;
+using Elecritic.Features.ProductDetails.Queries;
 using Elecritic.Models;
 
 using MediatR;
@@ -11,7 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Features.Products.Pages {
+namespace Elecritic.Features.ProductDetails.Pages {
 
     /// <summary>
     /// Partial class to implement all needed code of ProductPage razor component
@@ -30,9 +31,9 @@ namespace Elecritic.Features.Products.Pages {
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private Product Product { get; set; }
+        public ReviewDto ReviewForm { get; set; }
 
-        private ReviewDto ReviewForm { get; set; }
+        private Product Product { get; set; }
 
         private Favorite Favorite { get; set; }
 
@@ -114,18 +115,19 @@ namespace Elecritic.Features.Products.Pages {
         /// </summary>
         private async Task PublishReview() {
             var authState = await AuthStateTask;
+            var user = new User(authState.User);
 
             var review = new Review {
                 Title = ReviewForm.Title,
                 Text = ReviewForm.Text,
                 Rating = (byte)ReviewForm.RatingProduct,
                 PublishDate = DateTime.Now,
-                User = new User(authState.User),
-                Product = Product
+                UserId = user.Id,
+                ProductId = ProductId
             };
 
-            var publicationSucceeded = await ProductContext.InsertReviewAsync(review);
-            if (publicationSucceeded) {
+            bool didPublicationSucceed = await Mediator.Send(new AddReview.Command { Review = review });
+            if (didPublicationSucceed) {
                 PublicationMessage = "¡Reseña publicada con éxito!";
                 ReviewForm.Clear();
             }
