@@ -62,12 +62,8 @@ namespace Elecritic.Features.Products.Queries {
                     _logger.LogInformation("Getting top favorite products.");
 
                     products = dbContext.Products
-                        .Where(p => dbContext.Favorites
-                            .GroupBy(f => f.ProductId)
-                            .OrderByDescending(g => g.Count())
-                            .Select(g => g.Key)
-                            .Take((int)request.TopFavorites)
-                            .Contains(p.Id));
+                        .OrderByDescending(p => p.Favorites.Count)
+                        .Take((int)request.TopFavorites);
                 }
 
                 else if (request.TopPopular is not null) {
@@ -84,18 +80,15 @@ namespace Elecritic.Features.Products.Queries {
                     products = dbContext.Products
                         .Where(p => p.CategoryId == (int)request.CategoryId)
                         .Skip((int)request.SkipNumber)
-                        .Take((int)request.TakeNumber);
+                        .Take((int)request.TakeNumber); 
                 }
 
                 else if (request.FavoritesByUserId is not null) {
                     _logger.LogInformation("Getting user's favorite products.");
 
                     products = dbContext.Products
-                        .Join(dbContext.Favorites
-                                .Where(f => f.UserId == (int)request.FavoritesByUserId),
-                            p => p.Id,
-                            f => f.ProductId,
-                            (p, _) => p);
+                        .Where(p => p.Favorites
+                            .Any(f => f.UserId == (int)request.FavoritesByUserId));
                 }
 
                 else {
