@@ -1,7 +1,7 @@
 ﻿@page "/product/{ProductId:int}"
 
 @if (IsValidProductId) {
-    @if (Product is null) {
+    @if (IsLoading) {
         <p><em>Cargando...</em></p>
     }
     else {
@@ -44,7 +44,7 @@
                         }
                         else {
                             <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                                <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                                <button disabled="@IsLoading"
                                         class="btn btn-warning"
                                         @onclick="AddToFavoritesAsync">
                                     <i class="oi oi-star pr-2" aria-hidden="true"></i>
@@ -114,7 +114,7 @@
                                                     <span class=""></span>
                                                     <button type="submit"
                                                             class="form-control btn btn-primary"
-                                                            disabled="@IsReviewPublishing">
+                                                            disabled="@IsLoading">
                                                         Publicar
                                                     </button>
                                                     <span> &nbsp;</span>

@@ -30,8 +30,9 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
+        private User AuthUser { get; set; }
 
-        public ReviewDto ReviewForm { get; set; }
+        private ReviewDto ReviewForm { get; set; }
 
         private Product Product { get; set; }
 
@@ -48,7 +49,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
         /// </summary>
         private bool IsValidProductId { get; set; }
 
-        private bool IsReviewPublishing { get; set; }
+        private bool IsLoading { get; set; }
 
         /// <summary>
         /// Message that explains the state of the published <see cref="ReviewForm"/>.
@@ -63,13 +64,14 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         public ProductPage() {
             IsValidProductId = true;
-            IsReviewPublishing = false;
+            IsLoading = false;
             PublicationMessage = FavoriteChangedMessage = "";
             ReviewForm = new ReviewDto();
         }
 
         protected override async Task OnInitializedAsync() {
-            //Product = await ProductContext.GetProductAsync(ProductId);
+            IsLoading = true;
+
             Product = (await Mediator.Send(
                 new Details.Query { ProductId = ProductId }))
                 .Product;
@@ -82,54 +84,61 @@ namespace Elecritic.Features.ProductDetails.Pages {
             var authState = await AuthStateTask;
             // if there's a user logged in
             if (authState.User.Identity.IsAuthenticated) {
-                var user = new User(authState.User);
-                Favorite = await ProductContext.GetFavoriteAsync(user.Id, ProductId);
+                AuthUser = new User(authState.User);
+                Favorite = await ProductContext.GetFavoriteAsync(AuthUser.Id, ProductId);
                 // favorite is null if the record doesn't exist,
                 // meaning that this product wouldn't be marked as favorite by logged user
                 IsFavorite = Favorite != null;
             }
+
+            IsLoading = false;
         }
 
         /// <summary>
         /// Marks <see cref="Product"/> as favorite of logged in user.
         /// </summary>
         private async Task AddToFavoritesAsync() {
-            var authState = await AuthStateTask;
+            IsLoading = true;
+            await Task.Delay(1);
+
             Favorite = new Favorite {
-                User = new User(authState.User),
+                User = AuthUser,
                 Product = Product
             };
             var newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
             FavoriteChangedMessage = newFavoriteSucceeded ?
                 $"¡Ahora te gusta {Product.Name}!" : "Lo sentimos, ocurrió un error al marcar como favorito :(";
+
+            IsLoading = false;
         }
 
         /// <summary>
         /// Removes <see cref="Product"/> from favorites of logged in user.
         /// </summary>
         private async Task RemoveFromFavoritesAsync() {
+            IsLoading = true;
+
             var removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
             FavoriteChangedMessage = removedFavoriteSucceeded ?
                 $"Ya no te gusta {Product.Name}." : "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
+
+            IsLoading = false;
         }
 
         /// <summary>
         /// Try to publish <see cref="ReviewForm"/> to the database.
         /// </summary>
         private async Task PublishReview() {
-            IsReviewPublishing = true;
+            IsLoading = true;
             // make the button to catch up
             await Task.Delay(1);
-
-            var authState = await AuthStateTask;
-            var user = new User(authState.User);
 
             var review = new Review {
                 Title = ReviewForm.Title,
                 Text = ReviewForm.Text,
                 Rating = (byte)ReviewForm.RatingProduct,
                 PublishDate = DateTime.Now,
-                User = user,
+                User = AuthUser,
                 ProductId = ProductId
             };
 
@@ -143,7 +152,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
             }
 
-            IsReviewPublishing = false;
+            IsLoading = false;
         }
 
         /// <summary>
