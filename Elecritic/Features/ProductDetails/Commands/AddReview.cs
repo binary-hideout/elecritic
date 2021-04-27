@@ -30,6 +30,8 @@ namespace Elecritic.Features.ProductDetails.Commands {
                 try {
                     using var dbContext = _factory.CreateDbContext();
 
+                    dbContext.Entry(request.Review.User).State = EntityState.Unchanged;
+
                     await dbContext.Reviews.AddAsync(request.Review);
                     await dbContext.SaveChangesAsync();
 

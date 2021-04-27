@@ -48,6 +48,8 @@ namespace Elecritic.Features.ProductDetails.Pages {
         /// </summary>
         private bool IsValidProductId { get; set; }
 
+        private bool IsReviewPublishing { get; set; }
+
         /// <summary>
         /// Message that explains the state of the published <see cref="ReviewForm"/>.
         /// </summary>
@@ -61,6 +63,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         public ProductPage() {
             IsValidProductId = true;
+            IsReviewPublishing = false;
             PublicationMessage = FavoriteChangedMessage = "";
             ReviewForm = new ReviewDto();
         }
@@ -114,6 +117,10 @@ namespace Elecritic.Features.ProductDetails.Pages {
         /// Try to publish <see cref="ReviewForm"/> to the database.
         /// </summary>
         private async Task PublishReview() {
+            IsReviewPublishing = true;
+            // make the button to catch up
+            await Task.Delay(1);
+
             var authState = await AuthStateTask;
             var user = new User(authState.User);
 
@@ -122,18 +129,21 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 Text = ReviewForm.Text,
                 Rating = (byte)ReviewForm.RatingProduct,
                 PublishDate = DateTime.Now,
-                UserId = user.Id,
+                User = user,
                 ProductId = ProductId
             };
 
-            bool didPublicationSucceed = await Mediator.Send(new AddReview.Command { Review = review });
-            if (didPublicationSucceed) {
+            bool wasPublished = await Mediator.Send(new AddReview.Command { Review = review });
+            if (wasPublished) {
+                Product.Reviews.Add(review);
                 PublicationMessage = "¡Reseña publicada con éxito!";
                 ReviewForm.Clear();
             }
             else {
                 PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
             }
+
+            IsReviewPublishing = false;
         }
 
         /// <summary>
