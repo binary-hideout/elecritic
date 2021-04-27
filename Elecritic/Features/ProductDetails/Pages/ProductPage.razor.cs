@@ -18,13 +18,11 @@ namespace Elecritic.Features.ProductDetails.Pages {
     /// Partial class to implement all needed code of ProductPage razor component
     /// </summary>
     public partial class ProductPage {
-
         [Parameter]
         public int ProductId { get; set; }
 
         [Inject]
         private IMediator Mediator { get; set; }
-
         [Inject]
         private ProductContext ProductContext { get; set; }
 
@@ -42,20 +40,19 @@ namespace Elecritic.Features.ProductDetails.Pages {
         /// Determines if <see cref="Product"/> is marked as favorite by logged in user.
         /// </summary>
         private bool IsFavorite { get; set; }
-
         /// <summary>
         /// Determines if the passed parameter <see cref="ProductId"/> exists.
         /// It's initialized to <c>true</c> so when the page is loading, the error message isn't immediately showed.
         /// </summary>
         private bool IsValidProductId { get; set; }
-
         private bool IsLoading { get; set; }
+        private bool IsPublishingReview { get; set; }
+        private bool IsChangingFavorite { get; set; }
 
         /// <summary>
         /// Message that explains the state of the published <see cref="ReviewForm"/>.
         /// </summary>
         private string PublicationMessage { get; set; }
-
         /// <summary>
         /// Message that explains if a database call with <see cref="Favorite"/> succeeded or not.
         /// If it's not empty then the buttons will be disabled.
@@ -64,7 +61,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         public ProductPage() {
             IsValidProductId = true;
-            IsLoading = false;
+            IsLoading = IsPublishingReview = IsChangingFavorite = false;
             PublicationMessage = FavoriteChangedMessage = "";
             ReviewForm = new ReviewDto();
         }
@@ -98,7 +95,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
         /// Marks <see cref="Product"/> as favorite of logged in user.
         /// </summary>
         private async Task AddToFavoritesAsync() {
-            IsLoading = true;
+            IsChangingFavorite = true;
             await Task.Delay(1);
 
             Favorite = new Favorite {
@@ -109,27 +106,27 @@ namespace Elecritic.Features.ProductDetails.Pages {
             FavoriteChangedMessage = newFavoriteSucceeded ?
                 $"¡Ahora te gusta {Product.Name}!" : "Lo sentimos, ocurrió un error al marcar como favorito :(";
 
-            IsLoading = false;
+            IsChangingFavorite = false;
         }
 
         /// <summary>
         /// Removes <see cref="Product"/> from favorites of logged in user.
         /// </summary>
         private async Task RemoveFromFavoritesAsync() {
-            IsLoading = true;
+            IsChangingFavorite = true;
 
             var removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
             FavoriteChangedMessage = removedFavoriteSucceeded ?
                 $"Ya no te gusta {Product.Name}." : "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
 
-            IsLoading = false;
+            IsChangingFavorite = false;
         }
 
         /// <summary>
         /// Try to publish <see cref="ReviewForm"/> to the database.
         /// </summary>
-        private async Task PublishReview() {
-            IsLoading = true;
+        private async Task PublishReviewAsync() {
+            IsPublishingReview = true;
             // make the button to catch up
             await Task.Delay(1);
 
@@ -152,7 +149,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
             }
 
-            IsLoading = false;
+            IsPublishingReview = false;
         }
 
         /// <summary>

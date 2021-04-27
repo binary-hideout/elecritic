@@ -32,26 +32,24 @@
 
                 <AuthorizeView>
                     <Authorized>
-                        @if (IsFavorite) {
-                            <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                                <button disabled="@(!string.IsNullOrEmpty(FavoriteChangedMessage))"
+                        <div class="card-body" style="padding-top:1rem; margin-left:3rem">
+                            @if (IsFavorite) {
+                                <button disabled="@IsChangingFavorite"
                                         class="btn btn-outline-dark"
-                                        @onclick="RemoveFromFavoritesAsync">
+                                        @onclick="async() => await RemoveFromFavoritesAsync()">
                                     <i class="oi oi-delete pr-2" aria-hidden="true"></i>
                                     Eliminar de favoritos
                                 </button>
-                            </div>
-                        }
-                        else {
-                            <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                                <button disabled="@IsLoading"
+                            }
+                            else {
+                                <button disabled="@IsChangingFavorite"
                                         class="btn btn-warning"
-                                        @onclick="AddToFavoritesAsync">
+                                        @onclick="async () => await AddToFavoritesAsync()">
                                     <i class="oi oi-star pr-2" aria-hidden="true"></i>
                                     Agregar a favoritos
                                 </button>
-                            </div>
-                        }
+                            }
+                        </div>
                         <p>@FavoriteChangedMessage</p>
                     </Authorized>
                     <NotAuthorized>
@@ -75,7 +73,7 @@
                                         <h5 class="card-title">Agrega una reseña</h5>
 
                                         <div class="card-text">
-                                            <EditForm Model="@ReviewForm" OnValidSubmit="@PublishReview">
+                                            <EditForm Model="@ReviewForm" OnValidSubmit="async () => await PublishReviewAsync()">
                                                 <DataAnnotationsValidator />
 
                                                 <div>
@@ -114,7 +112,7 @@
                                                     <span class=""></span>
                                                     <button type="submit"
                                                             class="form-control btn btn-primary"
-                                                            disabled="@IsLoading">
+                                                            disabled="@IsPublishingReview">
                                                         Publicar
                                                     </button>
                                                     <span> &nbsp;</span>
@@ -139,11 +137,11 @@
                         Reseñas de usuarios
                     </h3>
 
-                    @if (Product.Reviews is null) {
+                    @if (IsLoading) {
                         <p><em>Cargando reseñas...</em></p>
                     }
                     else if (Product.Reviews.Count == 0) {
-                        <p><b>No hay reseñas de este producto.</b></p>
+                        <p><b>No hay reseñas para este dispositivo.</b></p>
                     }
                     else {
                         <h4 class="text-center col-sm-10" style="margin-left:3rem;">
