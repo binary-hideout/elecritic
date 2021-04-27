@@ -51,12 +51,15 @@ namespace Elecritic.Models {
         /// </summary>
         public virtual List<Review> Reviews { get; set; }
 
+        public virtual List<Favorite> Favorites { get; set; }
+
         /// <summary>
-        /// Calculates the average rating of <see cref="Reviews"/>.
+        /// Calculates the average rating of this product <see cref="Reviews"/> property.
         /// </summary>
         /// <returns>Average rating of this product.</returns>
         public double GetAverageRating() {
-            return Reviews is null || Reviews.Count == 0 ? -1 : Reviews.Average(r => r.Rating);
+            return Reviews is null || Reviews.Count == 0 ?
+                -1 : Reviews.Average(r => r.Rating);
         }
     }
 }
