@@ -1,0 +1,15 @@
+﻿@page "/products"
+
+@using Elecritic.Features.Products.Components
+
+@if (IsLoading) {
+    <p><em>Cargando...</em></p>
+}
+else {
+    @if (IsValidCategoryId) {
+        <Vertical Products="@Products" />
+    }
+    else {
+        <h3>@InvalidMessage</h3>
+    }
+}
