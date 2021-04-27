@@ -54,7 +54,7 @@ namespace Elecritic.Features.Products.Queries {
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken) {
-                _logger.LogInformation($"Handling {request}: {{@request}}", request);
+                _logger.LogInformation($"Handling query {request}: {{@request}}", request);
 
                 using var dbContext = _factory.CreateDbContext();
                 IQueryable<Product> products;
@@ -82,7 +82,7 @@ namespace Elecritic.Features.Products.Queries {
                     _logger.LogInformation("Getting products by category.");
 
                     products = dbContext.Products
-                        .Where(p => p.CategoryId == request.CategoryId)
+                        .Where(p => p.CategoryId == (int)request.CategoryId)
                         .Skip((int)request.SkipNumber)
                         .Take((int)request.TakeNumber);
                 }
