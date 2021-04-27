@@ -1,0 +1,25 @@
+﻿@page "/categories"
+
+@using Elecritic.Features.Categories.Components 
+
+<div class="container-fluid">
+    <h3 class="title-welcome text-center">Categorías</h3>
+    <div class="container-fluid align-items-center" style="margin:3rem; padding-top:3rem; border:10px;">
+        @if (IsLoading) {
+            <p><em>Cargando...</em></p>
+        }
+        else {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @foreach (var category in Categories) {
+                                <Card Category="@category"></Card>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
