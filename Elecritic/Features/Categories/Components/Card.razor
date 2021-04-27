@@ -1,0 +1,40 @@
+﻿@using Elecritic.Features.Categories.Queries 
+
+<div class="col-md-4">
+    <div class="card shadow" style="width: 15rem; ">
+        <div class="carousel-inner" style="padding:1rem">
+            <img src="@Category.ImagePath" class="d-block w-100" style="width: 10rem; height:10rem;" alt="...">
+        </div>
+        <div class="card-body text-center">
+            <h5 class="card-title">@PluralName</h5>
+            <p class="card-text">@Category.ProductsCount productos</p>
+            <a href="@ProductsUri" class="btn btn-primary">Ver reseñas</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Lists.CategoryDto Category { get; set; }
+
+    private string ProductsUri => $"/products?categoryId={Category.Id}&skip=0&take=20";
+
+    private string PluralName {
+        get {
+            switch (Category.Name) {
+                case "Laptop": {
+                    return "Laptops";
+                }
+                case "TV": {
+                    return "Televisiones";
+                }
+                case "Celular": {
+                    return "Celulares";
+                }
+                default: {
+                    return "";
+                }
+            }
+        }
+    }
+}
