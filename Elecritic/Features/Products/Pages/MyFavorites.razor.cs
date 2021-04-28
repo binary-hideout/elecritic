@@ -11,10 +11,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Products.Pages {
     public partial class MyFavorites {
-
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-
         [Inject]
         private IMediator Mediator { get; set; }
 
@@ -23,7 +21,11 @@ namespace Elecritic.Features.Products.Pages {
 
         private List<Lists.ProductDto> FavoriteProducts { get; set; }
 
+        private bool IsLoading { get; set; }
+
         protected override async Task OnInitializedAsync() {
+            IsLoading = true;
+
             var authState = await AuthStateTask;
             // if there's a logged in user
             if (authState.User.Identity.IsAuthenticated) {
@@ -37,6 +39,8 @@ namespace Elecritic.Features.Products.Pages {
                 // redirect to Login page
                 NavigationManager.NavigateTo("/login");
             }
+
+            IsLoading = false;
         }
     }
 }

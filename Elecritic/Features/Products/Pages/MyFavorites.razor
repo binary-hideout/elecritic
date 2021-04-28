@@ -1,17 +1,22 @@
 ﻿@page "/myfavorites"
 
-@using Elecritic.Features.Products.Components 
+@using Elecritic.Features.Products.Components
 
-<AuthorizeView>
-    <Authorized>
-        @if (FavoriteProducts.Count > 0) {
-            <Vertical Products="@FavoriteProducts" Title="Mis favoritos" />
-        }
-        else {
-            <h3>No has agregado ningún producto a tus favoritos.</h3>
-        }
-    </Authorized>
-    <NotAuthorized>
-        <h3>No has iniciado sesión.</h3>
-    </NotAuthorized>
-</AuthorizeView>
+@if (IsLoading) {
+    <p><em>Cargando...</em></p>
+}
+else {
+    <AuthorizeView>
+        <Authorized>
+            @if (FavoriteProducts.Count > 0) {
+                <Vertical Products="@FavoriteProducts" Title="Mis favoritos" />
+            }
+            else {
+                <h3>No has agregado ningún producto a tus favoritos.</h3>
+            }
+        </Authorized>
+        <NotAuthorized>
+            <h3>No has iniciado sesión.</h3>
+        </NotAuthorized>
+    </AuthorizeView>
+}
