@@ -6,13 +6,10 @@ using Elecritic.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Pages {
-
-    public partial class Logout {
-        
+namespace Elecritic.Features.Logout.Pages {
+    public partial class LogoutPage {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-
         [Inject]
         private AuthenticationStateProvider AuthStateProvider { get; set; }
 
@@ -23,7 +20,7 @@ namespace Elecritic.Pages {
 
         private string ResultMessage { get; set; }
 
-        public Logout() {
+        public LogoutPage() {
             ResultMessage = "";
         }
 
@@ -41,7 +38,7 @@ namespace Elecritic.Pages {
             ResultMessage = "Cerrando sesión...";
 
             await (AuthStateProvider as AuthenticationService).LogOut();
-            NavigationManager.NavigateTo("/", forceLoad: true);
+            NavigationManager.NavigateTo("/");
         }
     }
 }
