@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Products.Pages {
-
     public partial class Index {
         [Inject]
         private IMediator Mediator { get; set; }
@@ -23,25 +22,16 @@ namespace Elecritic.Features.Products.Pages {
         /// Customized recommended products for logged in user.
         /// </summary>
         private List<Lists.ProductDto> RecommendedProducts { get; set; }
-
         /// <summary>
         /// Top most popular products.
         /// </summary>
         private List<Lists.ProductDto> PopularProducts { get; set; }
-
         /// <summary>
         /// Top favorite products.
         /// </summary>
         private List<Lists.ProductDto> FavoriteProducts { get; set; }
 
         protected override async Task OnInitializedAsync() {
-            PopularProducts = (await Mediator.Send(
-                new Lists.Query { TopPopular = 10 }))
-                .Products;
-            FavoriteProducts = (await Mediator.Send(
-                new Lists.Query { TopFavorites = 10 }))
-                .Products;
-
             var authState = await AuthStateTask;
             // if there's a user logged in
             if (authState.User.Identity.IsAuthenticated) {
@@ -52,8 +42,15 @@ namespace Elecritic.Features.Products.Pages {
                 var products = (await Mediator.Send(new Lists.Query()))
                     .Products;
 
-                RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 10);
+                RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 9);
             }
+
+            FavoriteProducts = (await Mediator.Send(
+                    new Lists.Query { TopFavorites = 9 }))
+                .Products;
+            PopularProducts = (await Mediator.Send(
+                    new Lists.Query { TopPopular = 9 }))
+                .Products;
         }
     }
 }
