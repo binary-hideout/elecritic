@@ -86,7 +86,6 @@ namespace Elecritic {
                     mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
             }
             services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
-            services.AddDbContext<CategoryProductsContext>(options => setDbContextOptions(options));
             services.AddDbContext<UserContext>(options => setDbContextOptions(options));
             // only used when migrating to the database
             //! do not uncomment it
