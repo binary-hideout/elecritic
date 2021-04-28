@@ -22,13 +22,13 @@
                             <label>Contraseña</label>
                             <RadzenPassword @bind-Value="@LoginForm.Password" class="finalBox"></RadzenPassword>
 
-                            <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
-                                          ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2"
+                            <RadzenButton ButtonType="@ButtonType.Submit" Text="Iniciar sesión"
+                                          ButtonStyle="@ButtonStyle.Primary" class="btn-block mr-2"
                                           Disabled="@IsLoggingIn"/>
                             <hr />
                             <label class="labelCenter">¿No tienes una cuenta?</label>
-                            <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Regístrate aquí"
-                                          ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2"
+                            <RadzenButton ButtonType="@ButtonType.Button" Text="Regístrate aquí"
+                                          ButtonStyle="@ButtonStyle.Secondary" class="btn-block mr-2"
                                           Disabled="@IsLoggingIn" Click="@GoToSignup" />
                         </RadzenCard>
                     </EditForm>
