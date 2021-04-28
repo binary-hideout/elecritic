@@ -88,7 +88,6 @@ namespace Elecritic {
             services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
             services.AddDbContext<CategoryProductsContext>(options => setDbContextOptions(options));
             services.AddDbContext<UserContext>(options => setDbContextOptions(options));
-            services.AddDbContext<ProductContext>(options => setDbContextOptions(options));
             services.AddDbContext<IndexContext>(options => setDbContextOptions(options));
             services.AddDbContext<MyFavoritesContext>(options => setDbContextOptions(options));
             // only used when migrating to the database
