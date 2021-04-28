@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 
 using Elecritic.Features.Products.Modules;
-using Elecritic.Features.Products.Queries;
 using Elecritic.Models;
 
 using MediatR;
@@ -21,15 +20,15 @@ namespace Elecritic.Features.Products.Pages {
         /// <summary>
         /// Customized recommended products for logged in user.
         /// </summary>
-        private List<Lists.ProductDto> RecommendedProducts { get; set; }
+        private List<Queries.List.ProductDto> RecommendedProducts { get; set; }
         /// <summary>
         /// Top most popular products.
         /// </summary>
-        private List<Lists.ProductDto> PopularProducts { get; set; }
+        private List<Queries.List.ProductDto> PopularProducts { get; set; }
         /// <summary>
         /// Top favorite products.
         /// </summary>
-        private List<Lists.ProductDto> FavoriteProducts { get; set; }
+        private List<Queries.List.ProductDto> FavoriteProducts { get; set; }
 
         protected override async Task OnInitializedAsync() {
             var authState = await AuthStateTask;
@@ -37,19 +36,19 @@ namespace Elecritic.Features.Products.Pages {
             if (authState.User.Identity.IsAuthenticated) {
                 var user = new User(authState.User);
                 var userFavoriteProducts = (await Mediator.Send(
-                    new Lists.Query { FavoritesByUserId = user.Id }))
+                    new Queries.List.Query { FavoritesByUserId = user.Id }))
                     .Products;
-                var products = (await Mediator.Send(new Lists.Query()))
+                var products = (await Mediator.Send(new Queries.List.Query()))
                     .Products;
 
                 RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 9);
             }
 
             FavoriteProducts = (await Mediator.Send(
-                    new Lists.Query { TopFavorites = 9 }))
+                    new Queries.List.Query { TopFavorites = 9 }))
                 .Products;
             PopularProducts = (await Mediator.Send(
-                    new Lists.Query { TopPopular = 9 }))
+                    new Queries.List.Query { TopPopular = 9 }))
                 .Products;
         }
     }

@@ -1,6 +1,4 @@
-﻿@using Elecritic.Features.Products.Queries;
-
-<div class="col-md-4" style=" margin-top:1rem;">
+﻿<div class="col-md-4" style=" margin-top:1rem;">
     <div class="card shadow" style="width: 15rem;">
         <div class="inner" style="padding:.5rem;">
             <img src=@Product.ImagePath class="d-block w-100" style="width: 10rem; height:10rem;" alt="imagenProducto">
@@ -21,5 +19,5 @@
 
 @code{
     [Parameter]
-    public Lists.ProductDto Product { get; set; }
+    public Queries.List.ProductDto Product { get; set; }
 }

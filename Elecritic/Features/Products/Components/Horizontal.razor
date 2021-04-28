@@ -1,6 +1,4 @@
-﻿@using Elecritic.Features.Products.Queries;
-
-@if (Products is null) {
+﻿@if (Products is null) {
     <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando @Title...</em></p>
 }
 else if (Products.Count > 0) {
@@ -19,7 +17,7 @@ else if (Products.Count > 0) {
 
 @code {
     [Parameter]
-    public List<Lists.ProductDto> Products { get; set; }
+    public List<Queries.List.ProductDto> Products { get; set; }
     [Parameter]
     public string Title { get; set; }
 }

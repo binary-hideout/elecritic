@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Elecritic.Features.Products.Queries;
-
 using MediatR;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Elecritic.Features.Products.Pages {
-    public partial class ListsPage {
+    public partial class List {
         public int CategoryId { get; set; }
         public int SkipNumber { get; set; }
         public int TakeNumber { get; set; }
@@ -26,11 +24,11 @@ namespace Elecritic.Features.Products.Pages {
         private bool IsValidCategoryId { get; set; }
         private string InvalidMessage { get; set; }
 
-        private List<Lists.ProductDto> Products { get; set; }
+        private List<Queries.List.ProductDto> Products { get; set; }
 
         private bool IsLoading { get; set; }
 
-        public ListsPage() {
+        public List() {
             CategoryId = 0;
             SkipNumber = 0;
             TakeNumber = 18;
@@ -64,7 +62,7 @@ namespace Elecritic.Features.Products.Pages {
             }
 
             Products = (await Mediator.Send(
-                    new Lists.Query {
+                    new Queries.List.Query {
                         CategoryId = CategoryId,
                         SkipNumber = SkipNumber,
                         TakeNumber = TakeNumber

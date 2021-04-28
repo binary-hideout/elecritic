@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Elecritic.Features.Products.Queries;
 using Elecritic.Models;
 
 using MediatR;
@@ -19,7 +18,7 @@ namespace Elecritic.Features.Products.Pages {
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private List<Lists.ProductDto> FavoriteProducts { get; set; }
+        private List<Queries.List.ProductDto> FavoriteProducts { get; set; }
 
         private bool IsLoading { get; set; }
 
@@ -32,7 +31,7 @@ namespace Elecritic.Features.Products.Pages {
                 // load his/her favorite products
                 var user = new User(authState.User);
                 FavoriteProducts = (await Mediator.Send(
-                    new Lists.Query { FavoritesByUserId = user.Id }))
+                    new Queries.List.Query { FavoritesByUserId = user.Id }))
                     .Products;
             }
             else {
