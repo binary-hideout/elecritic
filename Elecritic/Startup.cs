@@ -48,7 +48,7 @@ namespace Elecritic {
             services.AddMediatR(typeof(Startup));
 
             services.AddDbContextFactory<ElecriticContext>(options => {
-                string connectionString = "";
+                string connectionString;
                 if (Environment.IsDevelopment()) {
                     options.EnableSensitiveDataLogging();
                     options.EnableDetailedErrors();
@@ -86,10 +86,6 @@ namespace Elecritic {
                     mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
             }
             services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
-            services.AddDbContext<UserContext>(options => setDbContextOptions(options));
-            // only used when migrating to the database
-            //! do not uncomment it
-            //services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
