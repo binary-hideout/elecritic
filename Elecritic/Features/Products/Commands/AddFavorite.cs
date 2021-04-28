@@ -9,8 +9,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.ProductDetails.Commands {
-    public class DeleteFavorite {
+namespace Elecritic.Features.Products.Commands {
+    public class AddFavorite {
         public class Command : IRequest<bool> {
             public Favorite Favorite { get; set; }
         }
@@ -30,7 +30,10 @@ namespace Elecritic.Features.ProductDetails.Commands {
                 try {
                     using var dbContext = _factory.CreateDbContext();
 
-                    dbContext.Entry(request.Favorite).State = EntityState.Deleted;
+                    dbContext.Entry(request.Favorite.User).State = EntityState.Unchanged;
+                    dbContext.Entry(request.Favorite.Product).State = EntityState.Unchanged;
+
+                    await dbContext.Favorites.AddAsync(request.Favorite);
                     await dbContext.SaveChangesAsync();
 
                     return true;

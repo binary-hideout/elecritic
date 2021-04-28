@@ -10,7 +10,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.ProductDetails.Queries {
+namespace Elecritic.Features.Products.Queries {
     public class GetProduct {
         public class Response {
             public Product Product { get; set; }

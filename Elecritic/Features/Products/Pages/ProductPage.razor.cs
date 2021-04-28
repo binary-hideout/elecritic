@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-using Elecritic.Features.ProductDetails.Commands;
-using Elecritic.Features.ProductDetails.Queries;
+using Elecritic.Features.Products.Commands;
+using Elecritic.Features.Products.Queries;
 using Elecritic.Models;
 
 using MediatR;
@@ -11,7 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Features.ProductDetails.Pages {
+namespace Elecritic.Features.Products.Pages {
 
     /// <summary>
     /// Partial class to implement all needed code of ProductPage razor component

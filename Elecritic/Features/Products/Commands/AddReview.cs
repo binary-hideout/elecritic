@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.ProductDetails.Commands {
+namespace Elecritic.Features.Products.Commands {
     public class AddReview {
         public class Command : IRequest<bool> {
             public Review Review { get; set; }

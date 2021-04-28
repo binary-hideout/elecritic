@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.ProductDetails.Queries {
+namespace Elecritic.Features.Products.Queries {
     public class GetFavorite {
         public class Response {
             public Favorite Favorite { get; set; }
