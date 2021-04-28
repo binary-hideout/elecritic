@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Users.Pages {
-    public partial class SignupPage {
+    public partial class Signup {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
@@ -30,7 +30,7 @@ namespace Elecritic.Features.Users.Pages {
 
         private bool IsSigningUp { get; set; }
 
-        public SignupPage() {
+        public Signup() {
             SignupForm = new SignupForm();
             ResultMessage = "";
             IsSigningUp = false;
@@ -55,7 +55,7 @@ namespace Elecritic.Features.Users.Pages {
                 Role = (await Mediator.Send(new GetRole.Query { RoleId = 2 })).Role
             };
 
-            if (await Mediator.Send(new AddUser.Command { User = newUser })) {
+            if (await Mediator.Send(new Add.Command { User = newUser })) {
                 ResultMessage = "¡Cuenta creada con éxito! :D";
 
                 // update logged in user

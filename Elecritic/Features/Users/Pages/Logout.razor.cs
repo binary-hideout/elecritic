@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Users.Pages {
-    public partial class LogoutPage {
+    public partial class Logout {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
@@ -20,7 +20,7 @@ namespace Elecritic.Features.Users.Pages {
 
         private string ResultMessage { get; set; }
 
-        public LogoutPage() {
+        public Logout() {
             ResultMessage = "";
         }
 

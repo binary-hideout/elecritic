@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Users.Pages {
-    public partial class LoginPage {
+    public partial class Login {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
@@ -31,7 +31,7 @@ namespace Elecritic.Features.Users.Pages {
 
         private bool IsLoggingIn { get; set; }
 
-        public LoginPage() {
+        public Login() {
             LoginForm = new LoginForm();
             ResultMessage = "";
             IsLoggingIn = false;
@@ -55,7 +55,7 @@ namespace Elecritic.Features.Users.Pages {
 
             // hash input password
             var requestedUser = (await Mediator.Send(
-                    new GetUser.Query {
+                    new Get.Query {
                         Email = LoginForm.Email,
                         Password = Hasher.GetHashedPassword(LoginForm.Password)
                     }))

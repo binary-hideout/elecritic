@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Elecritic.Features.Users.Commands {
-    public class AddUser {
+    public class Add {
         public class Command : IRequest<bool> {
             public User User { get; set; }
         }

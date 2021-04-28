@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Elecritic.Features.Users.Queries {
-    public class GetUser {
+    public class Get {
         public class UserDto {
             public int Id { get; set; }
             public string Name { get; set; }
