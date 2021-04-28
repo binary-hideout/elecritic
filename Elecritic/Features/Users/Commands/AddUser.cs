@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.Signup.Commands {
+namespace Elecritic.Features.Users.Commands {
     public class AddUser {
         public class Command : IRequest<bool> {
             public User User { get; set; }

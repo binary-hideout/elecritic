@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 
-using Elecritic.Features.Login.Models;
-using Elecritic.Features.Login.Queries;
+using Elecritic.Features.Users.Models;
+using Elecritic.Features.Users.Queries;
 using Elecritic.Helpers;
 using Elecritic.Models;
 using Elecritic.Services;
@@ -11,7 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Features.Login.Pages {
+namespace Elecritic.Features.Users.Pages {
     public partial class LoginPage {
         [Inject]
         private NavigationManager NavigationManager { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Elecritic.Features.Login.Models {
+namespace Elecritic.Features.Users.Models {
     public class LoginForm {
         [Required]
         [StringLength(50)]

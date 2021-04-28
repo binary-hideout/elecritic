@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-using Elecritic.Database;
 using Elecritic.Features.ProductDetails.Commands;
 using Elecritic.Features.ProductDetails.Queries;
 using Elecritic.Models;
@@ -110,7 +109,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
             }
             else {
-                FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
+                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al agregar a tus favoritos.";
             }
 
             IsChangingFavorite = false;
@@ -127,7 +126,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 FavoriteChangedMessage = $"Ya no te gusta {Product.Name}.";
             }
             else {
-                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
+                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al quitar de tus favoritos.";
             }
 
             IsChangingFavorite = false;

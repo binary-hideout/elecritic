@@ -6,7 +6,7 @@ using Elecritic.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Features.Logout.Pages {
+namespace Elecritic.Features.Users.Pages {
     public partial class LogoutPage {
         [Inject]
         private NavigationManager NavigationManager { get; set; }

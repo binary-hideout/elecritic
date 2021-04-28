@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Elecritic.Features.Signup.Models {
+namespace Elecritic.Features.Users.Models {
     public class SignupForm {
         [Required]
         [EmailAddress]

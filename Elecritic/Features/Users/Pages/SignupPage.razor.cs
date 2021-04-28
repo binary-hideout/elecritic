@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-using Elecritic.Features.Signup.Commands;
-using Elecritic.Features.Signup.Models;
-using Elecritic.Features.Signup.Queries;
+using Elecritic.Features.Users.Commands;
+using Elecritic.Features.Users.Models;
+using Elecritic.Features.Users.Queries;
 using Elecritic.Helpers;
 using Elecritic.Models;
 using Elecritic.Services;
@@ -12,7 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Features.Signup.Pages {
+namespace Elecritic.Features.Users.Pages {
     public partial class SignupPage {
         [Inject]
         private NavigationManager NavigationManager { get; set; }

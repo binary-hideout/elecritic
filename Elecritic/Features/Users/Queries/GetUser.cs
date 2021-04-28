@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
+using Elecritic.Features.Users.Models;
 using Elecritic.Models;
 
 using MediatR;
@@ -9,15 +11,19 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.Signup.Queries {
-    public class GetRole {
-        public class Response {
+namespace Elecritic.Features.Users.Queries {
+    public class GetUser {
+        public class UserDto {
+            public int Id { get; set; }
+            public string Name { get; set; }
             public UserRole Role { get; set; }
         }
 
-        public class Query : IRequest<Response> {
-            public int RoleId { get; set; }
+        public class Response {
+            public UserDto UserDto { get; set; }
         }
+
+        public class Query : LoginForm, IRequest<Response> { }
 
         public class QueryHandler : IRequestHandler<Query, Response> {
             private readonly IDbContextFactory<ElecriticContext> _factory;
@@ -34,8 +40,14 @@ namespace Elecritic.Features.Signup.Queries {
                 using var dbContext = _factory.CreateDbContext();
 
                 return new Response {
-                    Role = await dbContext.UserRoles
-                        .FindAsync(request.RoleId)
+                    UserDto = await dbContext.Users
+                        .Where(u => u.Email == request.Email && u.Password == request.Password)
+                        .Select(u => new UserDto {
+                            Id = u.Id,
+                            Name = u.Username,
+                            Role = u.Role
+                        })
+                        .SingleOrDefaultAsync()
                 };
             }
         }
