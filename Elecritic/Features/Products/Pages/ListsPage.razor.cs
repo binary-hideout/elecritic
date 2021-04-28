@@ -33,7 +33,7 @@ namespace Elecritic.Features.Products.Pages {
         public ListsPage() {
             CategoryId = 0;
             SkipNumber = 0;
-            TakeNumber = 20;
+            TakeNumber = 18;
 
             IsValidCategoryId = true;
             InvalidMessage = "";
@@ -45,7 +45,6 @@ namespace Elecritic.Features.Products.Pages {
         /// </summary>
         protected override async Task OnInitializedAsync() {
             IsLoading = true;
-            await Task.Delay(1);
 
             var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue(nameof(CategoryId), out var categoryId)) {
