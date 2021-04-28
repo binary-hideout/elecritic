@@ -61,7 +61,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         public ProductPage() {
             IsValidProductId = true;
-            IsLoading = IsPublishingReview = IsChangingFavorite = false;
+            IsLoading = IsPublishingReview = IsChangingFavorite = IsFavorite = false;
             PublicationMessage = FavoriteChangedMessage = "";
             ReviewForm = new ReviewDto();
         }
@@ -70,7 +70,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
             IsLoading = true;
 
             Product = (await Mediator.Send(
-                new Details.Query { ProductId = ProductId }))
+                    new Details.Query { ProductId = ProductId }))
                 .Product;
             IsValidProductId = Product is not null;
             // if the product doesn't exist in database
@@ -102,9 +102,13 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 User = AuthUser,
                 Product = Product
             };
-            var newFavoriteSucceeded = await ProductContext.InsertFavoriteAsync(Favorite);
-            FavoriteChangedMessage = newFavoriteSucceeded ?
-                $"¡Ahora te gusta {Product.Name}!" : "Lo sentimos, ocurrió un error al marcar como favorito :(";
+            if (await ProductContext.InsertFavoriteAsync(Favorite)) {
+                IsFavorite = true;
+                FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
+            }
+            else {
+                FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
+            }
 
             IsChangingFavorite = false;
         }
@@ -115,9 +119,13 @@ namespace Elecritic.Features.ProductDetails.Pages {
         private async Task RemoveFromFavoritesAsync() {
             IsChangingFavorite = true;
 
-            var removedFavoriteSucceeded = await ProductContext.DeleteFavoriteAsync(Favorite);
-            FavoriteChangedMessage = removedFavoriteSucceeded ?
-                $"Ya no te gusta {Product.Name}." : "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
+            if (await ProductContext.DeleteFavoriteAsync(Favorite)) {
+                IsFavorite = false;
+                FavoriteChangedMessage = $"Ya no te gusta {Product.Name}.";
+            }
+            else {
+                FavoriteChangedMessage = "Lo sentimos, ocurrió un error al quitar de tus favoritos :(";
+            }
 
             IsChangingFavorite = false;
         }
@@ -139,11 +147,10 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 ProductId = ProductId
             };
 
-            bool wasPublished = await Mediator.Send(new AddReview.Command { Review = review });
-            if (wasPublished) {
+            if (await Mediator.Send(new AddReview.Command { Review = review })) {
                 Product.Reviews.Add(review);
-                PublicationMessage = "¡Reseña publicada con éxito!";
                 ReviewForm.Clear();
+                PublicationMessage = "¡Reseña publicada con éxito!";
             }
             else {
                 PublicationMessage = "Lo sentimos, tu reseña no pudo ser publicada :(";
