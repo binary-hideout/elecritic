@@ -20,15 +20,6 @@ namespace Elecritic.Features.Products.Queries {
             public string Description { get; set; }
             public string ImagePath { get; set; }
             public double AverageRating { get; set; }
-
-            public ProductDto(Product product, double averageRating) {
-                Id = product.Id;
-                Name = product.Name;
-                CategoryId = product.CategoryId;
-                Description = product.Description;
-                ImagePath = product.ImagePath;
-                AverageRating = averageRating;
-            }
         }
 
         public class Response {
@@ -100,9 +91,15 @@ namespace Elecritic.Features.Products.Queries {
 
                 return new Response {
                     Products = await products
-                        .Select(p => new ProductDto(p,
-                            p.Reviews.Count == 0 ?
-                                -1 : p.Reviews.Average(r => r.Rating)))
+                        .Select(p => new ProductDto {
+                            Id = p.Id,
+                            Name = p.Name,
+                            CategoryId = p.CategoryId,
+                            Description = p.Description,
+                            ImagePath = p.ImagePath,
+                            AverageRating = p.Reviews.Count == 0 ?
+                                -1 : p.Reviews.Average(r => r.Rating)
+                        })
                         .ToListAsync()
                 };
             }
