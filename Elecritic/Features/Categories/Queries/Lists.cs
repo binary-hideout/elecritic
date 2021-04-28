@@ -48,7 +48,6 @@ namespace Elecritic.Features.Categories.Queries {
                             Name = c.Name,
                             ProductsCount = c.Products.Count,
                             ImagePath = c.Products
-                                .OrderBy(_ => Guid.NewGuid())
                                 .FirstOrDefault()
                                 .ImagePath
                         })
