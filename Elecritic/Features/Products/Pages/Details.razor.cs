@@ -16,7 +16,7 @@ namespace Elecritic.Features.Products.Pages {
     /// <summary>
     /// Partial class to implement all needed code of ProductPage razor component
     /// </summary>
-    public partial class ProductPage {
+    public partial class Details {
         [Parameter]
         public int ProductId { get; set; }
 
@@ -56,7 +56,7 @@ namespace Elecritic.Features.Products.Pages {
         /// </summary>
         private string FavoriteChangedMessage { get; set; }
 
-        public ProductPage() {
+        public Details() {
             IsValidProductId = true;
             IsLoading = IsPublishingReview = IsChangingFavorite = IsFavorite = false;
             PublicationMessage = FavoriteChangedMessage = "";
