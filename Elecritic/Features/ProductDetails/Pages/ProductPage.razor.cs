@@ -23,8 +23,6 @@ namespace Elecritic.Features.ProductDetails.Pages {
 
         [Inject]
         private IMediator Mediator { get; set; }
-        [Inject]
-        private ProductContext ProductContext { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
@@ -70,7 +68,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
             IsLoading = true;
 
             Product = (await Mediator.Send(
-                    new Details.Query { ProductId = ProductId }))
+                    new GetProduct.Query { ProductId = ProductId }))
                 .Product;
             IsValidProductId = Product is not null;
             // if the product doesn't exist in database
@@ -82,7 +80,12 @@ namespace Elecritic.Features.ProductDetails.Pages {
             // if there's a user logged in
             if (authState.User.Identity.IsAuthenticated) {
                 AuthUser = new User(authState.User);
-                Favorite = await ProductContext.GetFavoriteAsync(AuthUser.Id, ProductId);
+                Favorite = (await Mediator.Send(
+                        new GetFavorite.Query {
+                            UserId = AuthUser.Id,
+                            ProductId = ProductId
+                        }))
+                    .Favorite;
                 // favorite is null if the record doesn't exist,
                 // meaning that this product wouldn't be marked as favorite by logged user
                 IsFavorite = Favorite != null;
@@ -102,7 +105,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
                 User = AuthUser,
                 Product = Product
             };
-            if (await ProductContext.InsertFavoriteAsync(Favorite)) {
+            if (await Mediator.Send(new AddFavorite.Command { Favorite = Favorite })) {
                 IsFavorite = true;
                 FavoriteChangedMessage = $"¡Ahora te gusta {Product.Name}!";
             }
@@ -119,7 +122,7 @@ namespace Elecritic.Features.ProductDetails.Pages {
         private async Task RemoveFromFavoritesAsync() {
             IsChangingFavorite = true;
 
-            if (await ProductContext.DeleteFavoriteAsync(Favorite)) {
+            if (await Mediator.Send(new DeleteFavorite.Command { Favorite = Favorite })) {
                 IsFavorite = false;
                 FavoriteChangedMessage = $"Ya no te gusta {Product.Name}.";
             }
