@@ -4,7 +4,12 @@
 
 <AuthorizeView>
     <Authorized>
-        <Vertical Products="@FavoriteProducts" Title="Mis favoritos"/>
+        @if (FavoriteProducts.Count > 0) {
+            <Vertical Products="@FavoriteProducts" Title="Mis favoritos" />
+        }
+        else {
+            <h3>No has agregado ningún producto a tus favoritos.</h3>
+        }
     </Authorized>
     <NotAuthorized>
         <h3>No has iniciado sesión.</h3>
