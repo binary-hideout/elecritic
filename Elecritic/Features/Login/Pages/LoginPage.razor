@@ -10,24 +10,26 @@
                 <div class="col-12">
                     <h2>Ingresa a tu cuenta</h2>
 
-                    <EditForm Model="Model" OnValidSubmit="async() => await LogInUser()">
+                    <EditForm Model="@LoginForm" OnValidSubmit="async() => await LogInAsync()">
                         <RadzenCard>
                             @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                             <DataAnnotationsValidator />
                             <ValidationSummary />
 
                             <label>Correo</label>
-                            <RadzenTextBox @bind-Value="Model.Email"></RadzenTextBox>
+                            <RadzenTextBox @bind-Value="@LoginForm.Email"></RadzenTextBox>
 
                             <label>Contraseña</label>
-                            <RadzenPassword @bind-Value="Model.Password" class="finalBox"></RadzenPassword>
+                            <RadzenPassword @bind-Value="@LoginForm.Password" class="finalBox"></RadzenPassword>
 
                             <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Iniciar sesión"
-                                          ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2" />
+                                          ButtonStyle="Radzen.ButtonStyle.Primary" class="btn-block mr-2"
+                                          Disabled="@IsLoggingIn"/>
                             <hr />
                             <label class="labelCenter">¿No tienes una cuenta?</label>
                             <RadzenButton ButtonType="Radzen.ButtonType.Button" Text="Regístrate aquí"
-                                          ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2" Click="GoToSignup" />
+                                          ButtonStyle="Radzen.ButtonStyle.Secondary" class="btn-block mr-2"
+                                          Disabled="@IsLoggingIn" Click="@GoToSignup" />
                         </RadzenCard>
                     </EditForm>
                 </div>

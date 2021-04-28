@@ -1,39 +1,40 @@
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-using Elecritic.Database;
+using Elecritic.Features.Login.Models;
+using Elecritic.Features.Login.Queries;
 using Elecritic.Helpers;
 using Elecritic.Models;
 using Elecritic.Services;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace Elecritic.Pages {
-
-    public partial class Login {
-
+namespace Elecritic.Features.Login.Pages {
+    public partial class LoginPage {
         [Inject]
         private NavigationManager NavigationManager { get; set; }
-
         [Inject]
-        private UserContext UserContext { get; set; }
-
+        private IMediator Mediator { get; set; }
         [Inject]
         private AuthenticationStateProvider AuthStateProvider { get; set; }
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private UserDto Model { get; set; }
+        private LoginForm LoginForm { get; set; }
 
         private User LoggedInUser { get; set; }
 
         private string ResultMessage { get; set; }
 
-        public Login() {
-            Model = new UserDto();
+        private bool IsLoggingIn { get; set; }
+
+        public LoginPage() {
+            LoginForm = new LoginForm();
             ResultMessage = "";
+            IsLoggingIn = false;
         }
 
         protected override async Task OnInitializedAsync() {
@@ -47,50 +48,39 @@ namespace Elecritic.Pages {
         /// Queries the database for the password of a user whose email matches the one provided.
         /// If both passwords match, the rest of the user's data is retrieved.
         /// </summary>
-        public async Task LogInUser() {
+        public async Task LogInAsync() {
+            IsLoggingIn = true;
+            await Task.Delay(1);
             ResultMessage = "Iniciando sesión...";
 
             // hash input password
-            string hashedPassword = Hasher.GetHashedPassword(Model.Password);
-            // get corresponding password from database
-            string dbPassword = await UserContext.GetHashedPasswordAsync(Model.Email);
+            var requestedUser = (await Mediator.Send(
+                    new GetUser.Query {
+                        Email = LoginForm.Email,
+                        Password = Hasher.GetHashedPassword(LoginForm.Password)
+                    }))
+                .UserDto;
 
-            // an empty password means that the input user doesn't exist
-            if (string.IsNullOrEmpty(dbPassword)) {
-                ResultMessage =
-                    $"Parece que no existe ninguna cuenta con el correo '{Model.Email}'. " +
-                    "Intenta crear una nueva ;)";
-                return;
-            }
-
-            // if both passwords match
-            if (hashedPassword == dbPassword) {
-                // retrieve user from database with all data
-                var user = await UserContext.GetUserAsync(Model.Email);
+            if (requestedUser is not null) {
+                var user = new User {
+                    Id = requestedUser.Id,
+                    Username = requestedUser.Name,
+                    Role = requestedUser.Role
+                };
                 // update logged in user
                 await (AuthStateProvider as AuthenticationService).LogIn(user);
-
                 ResultMessage = "¡Sesión iniciada! :D";
-                NavigationManager.NavigateTo("/", forceLoad: true);
+                NavigationManager.NavigateTo("/");
             }
             else {
-                ResultMessage = "Contraseña incorrecta.";
+                ResultMessage = "La contraseña es incorrecta o el correo electrónico no existe.";
             }
+
+            IsLoggingIn = false;
         }
 
         private void GoToSignup() {
             NavigationManager.NavigateTo("/signup");
-        }
-
-        public class UserDto {
-            [Required]
-            [StringLength(50)]
-            [EmailAddress]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(50)]
-            public string Password { get; set; }
         }
     }
 }
