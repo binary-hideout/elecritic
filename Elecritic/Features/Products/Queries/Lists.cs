@@ -50,7 +50,7 @@ namespace Elecritic.Features.Products.Queries {
                 using var dbContext = _factory.CreateDbContext();
                 IQueryable<Product> products;
                 if (request.TopFavorites is not null) {
-                    _logger.LogInformation("Getting top favorite products.");
+                    _logger.LogInformation($"Getting {request.TopFavorites} top favorite products.");
 
                     products = dbContext.Products
                         .OrderByDescending(p => p.Favorites.Count)
@@ -58,7 +58,7 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.TopPopular is not null) {
-                    _logger.LogInformation("Getting top popular products.");
+                    _logger.LogInformation($"Getting {request.TopPopular} top popular products.");
 
                     products = dbContext.Products
                         .OrderByDescending(p => p.Reviews.Count)
@@ -66,7 +66,7 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.CategoryId is not null) {
-                    _logger.LogInformation("Getting products by category.");
+                    _logger.LogInformation($"Getting products by category ID: {request.CategoryId}");
 
                     products = dbContext.Products
                         .Where(p => p.CategoryId == (int)request.CategoryId)
@@ -75,7 +75,7 @@ namespace Elecritic.Features.Products.Queries {
                 }
 
                 else if (request.FavoritesByUserId is not null) {
-                    _logger.LogInformation("Getting user's favorite products.");
+                    _logger.LogInformation($"Getting favorite products of user ID: {request.FavoritesByUserId}");
 
                     products = dbContext.Products
                         .Where(p => p.Favorites
