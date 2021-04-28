@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Elecritic.Features.ProductDetails.Queries {
-    public class Details {
+    public class GetProduct {
         public class Response {
             public Product Product { get; set; }
         }
