@@ -11,8 +11,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Elecritic.Features.Categories.Queries {
-    public class Lists {
+namespace Elecritic.Features.Products.Queries {
+    public class ListCategories {
         public class CategoryDto {
             public int Id { get; set; }
             public string Name { get; set; }

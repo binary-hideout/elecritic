@@ -1,4 +1,4 @@
-﻿@using Elecritic.Features.Categories.Queries 
+﻿@using Elecritic.Features.Products.Queries
 
 <div class="col-md-4">
     <div class="card shadow" style="width: 15rem; ">
@@ -15,7 +15,7 @@
 
 @code {
     [Parameter]
-    public Lists.CategoryDto Category { get; set; }
+    public ListCategories.CategoryDto Category { get; set; }
 
     private string ProductsUri => $"/products?categoryId={Category.Id}&skip=0&take=20";
 

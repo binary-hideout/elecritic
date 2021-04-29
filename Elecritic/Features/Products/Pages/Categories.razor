@@ -1,6 +1,6 @@
 ﻿@page "/categories"
 
-@using Elecritic.Features.Categories.Components 
+@using Elecritic.Features.Products.Components
 
 <div class="container-fluid">
     <h3 class="title-welcome text-center">Categorías</h3>
@@ -13,7 +13,7 @@
                 <div class="col-sm-12">
                     <div class="container-fluid">
                         <div class="row">
-                            @foreach (var category in Categories) {
+                            @foreach (var category in CategoriesList) {
                                 <CategoryCard Category="@category"></CategoryCard>
                             }
                         </div>

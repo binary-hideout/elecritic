@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Elecritic.Features.Categories.Queries;
+using Elecritic.Features.Products.Queries;
 
 using MediatR;
 
 using Microsoft.AspNetCore.Components;
 
-namespace Elecritic.Features.Categories.Pages {
-    public partial class CategoriesPage {
+namespace Elecritic.Features.Products.Pages {
+    public partial class Categories {
         [Inject]
         private IMediator Mediator { get; set; }
-        private List<Lists.CategoryDto> Categories { get; set; }
+        private List<ListCategories.CategoryDto> CategoriesList { get; set; }
         private bool IsLoading { get; set; }
 
-        public CategoriesPage() {
-            Categories = new List<Lists.CategoryDto>();
+        public Categories() {
+            CategoriesList = new List<ListCategories.CategoryDto>();
             IsLoading = false;
         }
 
         protected override async Task OnInitializedAsync() {
             IsLoading = true;
 
-            Categories = (await Mediator.Send(new Lists.Query()))
+            CategoriesList = (await Mediator.Send(
+                    new ListCategories.Query()))
                 .Categories;
 
             IsLoading = false;
