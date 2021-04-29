@@ -6,8 +6,13 @@
     <p><em>Cargando...</em></p>
 }
 else {
-    @if (IsValidCategoryId) {
-        <VerticalProductCards Products="@Products" />
+    @if (IsValidQuery) {
+        @if (Products.Count > 0) {
+            <VerticalProductCards Products="@Products" Title="@Title"/>
+        }
+        else {
+            <h3>No hay productos por mostrar.</h3>
+        }
     }
     else {
         <h3>@InvalidMessage</h3>
