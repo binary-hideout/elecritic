@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
-using Elecritic.Models;
 
 using MediatR;
 
@@ -33,6 +32,7 @@ namespace Elecritic.Features.Products.Queries {
             public int? SkipNumber { get; set; }
             public int? TakeNumber { get; set; }
             public int? FavoritesByUserId { get; set; }
+            public bool? All { get; set; }
         }
 
         public class QueryHandler : IRequestHandler<Query, Response> {
@@ -48,45 +48,45 @@ namespace Elecritic.Features.Products.Queries {
                 _logger.LogInformation($"Handling query {request}: {{@request}}", request);
 
                 using var dbContext = _factory.CreateDbContext();
-                IQueryable<Product> products;
+                var products = dbContext.Products.AsQueryable();
+
                 if (request.TopFavorites is not null) {
                     _logger.LogInformation($"Getting {request.TopFavorites} top favorite products.");
 
-                    products = dbContext.Products
+                    products = products
                         .OrderByDescending(p => p.Favorites.Count)
                         .Take((int)request.TopFavorites);
                 }
-
                 else if (request.TopPopular is not null) {
                     _logger.LogInformation($"Getting {request.TopPopular} top popular products.");
 
-                    products = dbContext.Products
+                    products = products
                         .OrderByDescending(p => p.Reviews.Count)
                         .Take((int)request.TopPopular);
                 }
-
-                else if (request.CategoryId is not null) {
-                    _logger.LogInformation($"Getting products by category ID: {request.CategoryId}");
-
-                    products = dbContext.Products
-                        .Where(p => p.CategoryId == (int)request.CategoryId)
-                        .Skip((int)request.SkipNumber)
-                        .Take((int)request.TakeNumber); 
-                }
-
-                else if (request.FavoritesByUserId is not null) {
-                    _logger.LogInformation($"Getting favorite products of user ID: {request.FavoritesByUserId}");
-
-                    products = dbContext.Products
-                        .Where(p => p.Favorites
-                            .Any(f => f.UserId == (int)request.FavoritesByUserId));
-                }
-
-                else {
+                else if (request.All is not null and true) {
                     _logger.LogInformation("Getting all products.");
+                }
+                else {
+                    if (request.CategoryId is not null) {
+                        _logger.LogInformation($"Getting products by category ID: {request.CategoryId}");
 
-                    products = dbContext.Products
-                        .Where(p => true);
+                        products = products
+                            .Where(p => p.CategoryId == (int)request.CategoryId);
+                    }
+                    if (request.FavoritesByUserId is not null) {
+                        _logger.LogInformation($"Getting favorite products of user ID: {request.FavoritesByUserId}");
+
+                        products = products
+                            .Where(p => p.Favorites
+                                .Any(f => f.UserId == (int)request.FavoritesByUserId));
+                    }
+                    if (request.SkipNumber is not null && request.TakeNumber is not null) {
+                        products = products
+                            .OrderBy(p => p.Id)
+                            .Skip((int)request.SkipNumber)
+                            .Take((int)request.TakeNumber);
+                    }
                 }
 
                 return new Response {
