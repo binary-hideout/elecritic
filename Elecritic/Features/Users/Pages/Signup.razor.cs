@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 using Elecritic.Features.Users.Commands;
-using Elecritic.Features.Users.Models;
+using Elecritic.Features.Users.Modules;
 using Elecritic.Features.Users.Queries;
-using Elecritic.Helpers;
 using Elecritic.Models;
 using Elecritic.Services;
 
@@ -14,6 +14,31 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Users.Pages {
     public partial class Signup {
+        public class Form {
+            [Required]
+            [EmailAddress]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(20, MinimumLength = 3)]
+            public string Username { get; set; }
+
+            [StringLength(25)]
+            public string FirstName { get; set; }
+
+            [StringLength(25)]
+            public string LastName { get; set; }
+
+            [Required]
+            [StringLength(50, MinimumLength = 4)]
+            public string Password { get; set; }
+
+            [Required]
+            [StringLength(50, MinimumLength = 4)]
+            [Compare(nameof(Password), ErrorMessage = "La contraseña debe coincidir.")]
+            public string ConfirmPassword { get; set; }
+        }
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
@@ -21,7 +46,7 @@ namespace Elecritic.Features.Users.Pages {
         [Inject]
         private AuthenticationStateProvider AuthStateProvider { get; set; }
 
-        private SignupForm SignupForm { get; set; }
+        private Form SignupForm { get; set; }
 
         /// <summary>
         /// Message to display after trying to create a new account.
@@ -31,7 +56,7 @@ namespace Elecritic.Features.Users.Pages {
         private bool IsSigningUp { get; set; }
 
         public Signup() {
-            SignupForm = new SignupForm();
+            SignupForm = new Form();
             ResultMessage = "";
             IsSigningUp = false;
         }

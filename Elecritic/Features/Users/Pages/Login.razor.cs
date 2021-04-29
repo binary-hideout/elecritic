@@ -1,8 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-using Elecritic.Features.Users.Models;
+using Elecritic.Features.Users.Modules;
 using Elecritic.Features.Users.Queries;
-using Elecritic.Helpers;
 using Elecritic.Models;
 using Elecritic.Services;
 
@@ -13,6 +13,17 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Elecritic.Features.Users.Pages {
     public partial class Login {
+        public class Form {
+            [Required]
+            [StringLength(50)]
+            [EmailAddress]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(50)]
+            public string Password { get; set; }
+        }
+
         [Inject]
         private NavigationManager NavigationManager { get; set; }
         [Inject]
@@ -23,8 +34,7 @@ namespace Elecritic.Features.Users.Pages {
         [CascadingParameter]
         private Task<AuthenticationState> AuthStateTask { get; set; }
 
-        private LoginForm LoginForm { get; set; }
-
+        private Form FormModel { get; set; }
         private User LoggedInUser { get; set; }
 
         private string ResultMessage { get; set; }
@@ -32,7 +42,7 @@ namespace Elecritic.Features.Users.Pages {
         private bool IsLoggingIn { get; set; }
 
         public Login() {
-            LoginForm = new LoginForm();
+            FormModel = new Form();
             ResultMessage = "";
             IsLoggingIn = false;
         }
@@ -56,8 +66,8 @@ namespace Elecritic.Features.Users.Pages {
             // hash input password
             var requestedUser = (await Mediator.Send(
                     new Get.Query {
-                        Email = LoginForm.Email,
-                        Password = Hasher.GetHashedPassword(LoginForm.Password)
+                        Email = FormModel.Email,
+                        Password = Hasher.GetHashedPassword(FormModel.Password)
                     }))
                 .UserDto;
 

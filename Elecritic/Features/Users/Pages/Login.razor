@@ -10,17 +10,17 @@
                 <div class="col-12">
                     <h2>Ingresa a tu cuenta</h2>
 
-                    <EditForm Model="@LoginForm" OnValidSubmit="async() => await LogInAsync()">
+                    <EditForm Model="@FormModel" OnValidSubmit="async() => await LogInAsync()">
                         <RadzenCard>
                             @*<AlertMessage Message="@message" MessageType="@messageType" />*@
                             <DataAnnotationsValidator />
                             <ValidationSummary />
 
                             <label>Correo</label>
-                            <RadzenTextBox @bind-Value="@LoginForm.Email"></RadzenTextBox>
+                            <RadzenTextBox @bind-Value="@FormModel.Email"></RadzenTextBox>
 
                             <label>Contraseña</label>
-                            <RadzenPassword @bind-Value="@LoginForm.Password" class="finalBox"></RadzenPassword>
+                            <RadzenPassword @bind-Value="@FormModel.Password" class="finalBox"></RadzenPassword>
 
                             <RadzenButton ButtonType="@ButtonType.Submit" Text="Iniciar sesión"
                                           ButtonStyle="@ButtonStyle.Primary" class="btn-block mr-2"

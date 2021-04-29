@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Elecritic.Database;
-using Elecritic.Features.Users.Models;
 using Elecritic.Models;
 
 using MediatR;
@@ -23,7 +22,10 @@ namespace Elecritic.Features.Users.Queries {
             public UserDto UserDto { get; set; }
         }
 
-        public class Query : LoginForm, IRequest<Response> { }
+        public class Query : IRequest<Response> {
+            public string Email { get; set; }
+            public string Password { get; set; }
+        }
 
         public class QueryHandler : IRequestHandler<Query, Response> {
             private readonly IDbContextFactory<ElecriticContext> _factory;
