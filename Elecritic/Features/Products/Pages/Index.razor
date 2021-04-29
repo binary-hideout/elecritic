@@ -10,7 +10,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <Horizontal Products="@RecommendedProducts" Title="Recomendados para ti"/>
+        <HorizontalProductCards Products="@RecommendedProducts" Title="Recomendados para ti"/>
     </Authorized>
     <NotAuthorized>
         <h3 style="text-align:center; padding-top:20px;">Comienza a elegir tus productos favoritos. Crea una cuenta aquí.</h3>
@@ -19,11 +19,11 @@
 
 <br />
 
-<Horizontal Products="@FavoriteProducts" Title="Favoritos de otros usuarios"/>
+<HorizontalProductCards Products="@FavoriteProducts" Title="Favoritos de otros usuarios"/>
 
 <br />
 
-<Vertical Products="@PopularProducts" Title="Lo más popular"/>
+<VerticalProductCards Products="@PopularProducts" Title="Lo más popular"/>
 
 <footer class="text-center text-lg-start">
     <div class="container-fluid text-center p-3" style="background-color:rgba(0,0,0,0.2)">
