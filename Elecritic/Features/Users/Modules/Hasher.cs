@@ -1,13 +1,11 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Elecritic.Helpers {
-
+namespace Elecritic.Features.Users.Modules {
     /// <summary>
     /// Helper class that provides a static method to hash a password.
     /// </summary>
     public static class Hasher {
-
         /// <summary>
         /// Gets the bytes from <paramref name="inputString"/> and applies SHA256 to get their hash.
         /// </summary>
