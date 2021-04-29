@@ -6,7 +6,7 @@
             <img src="@Category.ImagePath" class="d-block w-100" style="width: 10rem; height:10rem;" alt="...">
         </div>
         <div class="card-body text-center">
-            <h5 class="card-title">@PluralName</h5>
+            <h5 class="card-title">@Category.PluralName</h5>
             <p class="card-text">@Category.ProductsCount productos</p>
             <a href="@ProductsUri" class="btn btn-primary">Ver reseñas</a>
         </div>
@@ -17,24 +17,6 @@
     [Parameter]
     public ListCategories.CategoryDto Category { get; set; }
 
-    private string ProductsUri => $"/products?categoryId={Category.Id}&skip=0&take=20";
-
-    private string PluralName {
-        get {
-            switch (Category.Name) {
-                case "Laptop": {
-                    return "Laptops";
-                }
-                case "TV": {
-                    return "Televisiones";
-                }
-                case "Celular": {
-                    return "Celulares";
-                }
-                default: {
-                    return "";
-                }
-            }
-        }
-    }
+    private string ProductsUri =>
+        $"/products?categoryid={Category.Id}&category={Category.PluralName}&skip=0&take=18";
 }
