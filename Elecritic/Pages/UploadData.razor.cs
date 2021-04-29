@@ -101,7 +101,7 @@ namespace Elecritic.Pages {
             }
         }
 
-        private async Task UploadNewCategoryAsync() {
+        private void UploadNewCategoryAsync() {
             var category = new Category {
                 Name = NewCategory.Name
             };
