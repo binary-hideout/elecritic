@@ -1,26 +1,21 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 using CsvHelper;
 
-using Elecritic.Database;
 using Elecritic.Models;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Elecritic.Pages {
     // TODO: use Roles-based [Authorize] attribute
-
+    // TODO: use Mediator + CQRS
     public partial class UploadData {
-
-        [Inject]
-        private UploadDataContext UploadDataContext { get; set; }
-
         [Inject]
         private NavigationManager NavigationManager { get; set; }
 
@@ -57,8 +52,10 @@ namespace Elecritic.Pages {
         /// parses the data and uploads the products as records to the database.
         /// </summary>
         private async Task UploadFileContentsAsync() {
-            var categories = await UploadDataContext.GetCategoriesAsync();
-            var companies = await UploadDataContext.GetCompaniesAsync();
+            //var categories = await UploadDataContext.GetCategoriesAsync();
+            var categories = new List<Category>();
+            //var companies = await UploadDataContext.GetCompaniesAsync();
+            var companies = new List<Company>();
 
             using var reader = new StreamReader(FileEntry.OpenReadStream());
             using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -68,7 +65,7 @@ namespace Elecritic.Pages {
             while (await csvReader.ReadAsync()) {
                 var companyName = csvReader.GetField("Product Brand").ToLower();
                 // make upper case the first letter of the string
-                companyName = char.ToUpper(companyName[0]) + companyName.Substring(1);
+                companyName = char.ToUpper(companyName[0]) + companyName[1..];
                 var company = companies.FirstOrDefault(c => c.Name == companyName);
                 // if the company is not in the database
                 if (company is null) {
@@ -76,14 +73,14 @@ namespace Elecritic.Pages {
                         Name = companyName
                     };
                     // add it
-                    await UploadDataContext.InsertCompanyAsync(company);
+                    //await UploadDataContext.InsertCompanyAsync(company);
                     companies.Add(company);
                 }
 
                 // get category tag (id)
                 var tag = csvReader.GetField<int>("Tag");
                 // use the tag to get the category object
-                var category = categories[tag - 1];
+                var category = categories.FirstOrDefault(c => c.Id == tag);
 
                 var model = csvReader.GetField("Product Model").Split(' ');
                 // first 3 words will be the name
@@ -100,15 +97,15 @@ namespace Elecritic.Pages {
                     Category = category,
                     Company = company
                 };
-                await UploadDataContext.InsertProductAsync(product);
+                //await UploadDataContext.InsertProductAsync(product);
             }
         }
 
-        private async Task UploadNewCategoryAsync() {
+        private void UploadNewCategoryAsync() {
             var category = new Category {
                 Name = NewCategory.Name
             };
-            await UploadDataContext.InsertCategoryAsync(category);
+            //await UploadDataContext.InsertCategoryAsync(category);
             NewCategory.Name = "";
         }
     }

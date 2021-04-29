@@ -7,6 +7,8 @@ using Elecritic.Services;
 
 using EntityFramework.Exceptions.MySQL.Pomelo;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -37,17 +39,13 @@ namespace Elecritic {
 
             services.AddBlazoredLocalStorage();
 
-            services.AddSingleton<ProductService>();
-            services.AddSingleton<ReviewService>();
-            //! deprecated
-            services.AddSingleton<UserService>();
-
             services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();
 
-            // TODO: refactor all this db contexts mess
-            void setDbContextOptions(DbContextOptionsBuilder options) {
-                string connectionString = "";
+            services.AddMediatR(typeof(Startup));
+
+            services.AddDbContextFactory<ElecriticContext>(options => {
+                string connectionString;
                 if (Environment.IsDevelopment()) {
                     options.EnableSensitiveDataLogging();
                     options.EnableDetailedErrors();
@@ -63,16 +61,7 @@ namespace Elecritic {
                     connectionString,
                     new MySqlServerVersion(new Version(5, 7, 31)),
                     mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
-            }
-            services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
-            services.AddDbContext<CategoryProductsContext>(options => setDbContextOptions(options));
-            services.AddDbContext<UserContext>(options => setDbContextOptions(options));
-            services.AddDbContext<ProductContext>(options => setDbContextOptions(options));
-            services.AddDbContext<IndexContext>(options => setDbContextOptions(options));
-            services.AddDbContext<MyFavoritesContext>(options => setDbContextOptions(options));
-            // only used when migrating to the database
-            //! do not uncomment it
-            //services.AddDbContext<MainDbContext>(options => setDbContextOptions(options));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

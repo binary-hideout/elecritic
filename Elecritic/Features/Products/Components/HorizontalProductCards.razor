@@ -1,0 +1,23 @@
+﻿@if (Products is null) {
+    <p class="text-center" style="padding-top:10px;"><span class="spinner-grow text-dark"></span><em>Cargando @Title...</em></p>
+}
+else if (Products.Count > 0) {
+    <h3 style="text-align:center; padding-top:20px;">@Title</h3>
+    <br />
+    <!-- Section row // Horizontal Cards-->
+    <div class="container">
+        <div class="horizontal-row">
+            @foreach (var product in Products) {
+                <ProductCard Product=@product></ProductCard>
+
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public List<Queries.List.ProductDto> Products { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+}

@@ -40,10 +40,10 @@ namespace Elecritic.Services {
         public string CreateToken(User user) {
             // create claims based on user's basic data
             var claims = new Claim[] {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(nameof(User.Id), user.Id.ToString()),
+                new Claim(nameof(User.Username), user.Username),
                 new Claim(ClaimTypes.Role, user.Role.Name),
-                new Claim("RoleId", user.RoleId.ToString())
+                new Claim(nameof(user.RoleId), user.Role.Id.ToString())
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor {

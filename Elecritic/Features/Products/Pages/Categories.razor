@@ -1,0 +1,34 @@
+﻿@page "/categories"
+
+<div class="container-fluid">
+    <h3 class="title-welcome text-center">Categorías</h3>
+    <div class="container-fluid align-items-center" style="margin:3rem; padding-top:3rem; border:10px;">
+        @if (IsLoading) {
+            <p><em>Cargando...</em></p>
+        }
+        else {
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @foreach (var category in CategoriesList) {
+                                <div class="col-md-4">
+                                    <div class="card shadow" style="width: 15rem; ">
+                                        <div class="carousel-inner" style="padding:1rem">
+                                            <img src="@category.ImagePath" class="d-block w-100" style="width: 10rem; height:10rem;" alt="...">
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">@category.PluralName</h5>
+                                            <p class="card-text">@category.ProductsCount productos</p>
+                                            <a href="@category.ProductsUri" class="btn btn-primary">Explorar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
