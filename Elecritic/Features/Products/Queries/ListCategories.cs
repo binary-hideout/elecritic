@@ -18,6 +18,25 @@ namespace Elecritic.Features.Products.Queries {
             public string Name { get; set; }
             public string ImagePath { get; set; }
             public int ProductsCount { get; set; }
+
+            public string PluralName {
+                get {
+                    switch (Name) {
+                        case "Laptop": {
+                            return "Laptops";
+                        }
+                        case "TV": {
+                            return "Televisiones";
+                        }
+                        case "Celular": {
+                            return "Celulares";
+                        }
+                        default: {
+                            return "";
+                        }
+                    }
+                }
+            }
         }
 
         public class Response {
