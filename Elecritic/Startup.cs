@@ -39,9 +39,6 @@ namespace Elecritic {
 
             services.AddBlazoredLocalStorage();
 
-            services.AddSingleton<ProductService>();
-            services.AddSingleton<ReviewService>();
-
             services.AddScoped<AuthenticationStateProvider, AuthenticationService>();
             services.AddSingleton<TokenService>();
 
