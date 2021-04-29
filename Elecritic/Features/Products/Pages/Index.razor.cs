@@ -38,7 +38,8 @@ namespace Elecritic.Features.Products.Pages {
                 var userFavoriteProducts = (await Mediator.Send(
                     new Queries.List.Query { FavoritesByUserId = user.Id }))
                     .Products;
-                var products = (await Mediator.Send(new Queries.List.Query()))
+                var products = (await Mediator.Send(
+                        new Queries.List.Query { All = true }))
                     .Products;
 
                 RecommendedProducts = FuzzyLogic.RecommendProducts(userFavoriteProducts, products, 9);
