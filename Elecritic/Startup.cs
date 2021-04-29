@@ -65,27 +65,6 @@ namespace Elecritic {
                     new MySqlServerVersion(new Version(5, 7, 31)),
                     mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
             });
-
-            // TODO: refactor all this db contexts mess
-            void setDbContextOptions(DbContextOptionsBuilder options) {
-                string connectionString = "";
-                if (Environment.IsDevelopment()) {
-                    options.EnableSensitiveDataLogging();
-                    options.EnableDetailedErrors();
-                    options.UseExceptionProcessor();
-
-                    connectionString = Configuration.GetConnectionString("ElecriticDev");
-                }
-                else {
-                    connectionString = Configuration.GetConnectionString("ElecriticDb");
-                }
-
-                options.UseMySql(
-                    connectionString,
-                    new MySqlServerVersion(new Version(5, 7, 31)),
-                    mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend));
-            }
-            services.AddDbContext<UploadDataContext>(options => setDbContextOptions(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
