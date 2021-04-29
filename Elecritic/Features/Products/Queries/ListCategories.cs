@@ -18,7 +18,6 @@ namespace Elecritic.Features.Products.Queries {
             public string Name { get; set; }
             public string ImagePath { get; set; }
             public int ProductsCount { get; set; }
-
             public string PluralName {
                 get {
                     switch (Name) {
@@ -37,6 +36,8 @@ namespace Elecritic.Features.Products.Queries {
                     }
                 }
             }
+            public string ProductsUri =>
+                $"/products?categoryid={Id}&category={PluralName}&skip=0&take=18";
         }
 
         public class Response {
