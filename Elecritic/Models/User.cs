@@ -75,10 +75,9 @@ namespace Elecritic.Models {
         /// </summary>
         /// <param name="claims">Claims from a JWT security token.</param>
         public User(ClaimsPrincipal claims) {
-            Id = int.Parse(claims.FindFirstValue("NameId"));
-            Username = claims.FindFirstValue(nameof(ClaimTypes.Name));
-            Email = claims.FindFirstValue(nameof(ClaimTypes.Email));
-            RoleId = int.Parse(claims.FindFirstValue("RoleId"));
+            Id = int.Parse(claims.FindFirstValue(nameof(Id)));
+            Username = claims.FindFirstValue(nameof(Username));
+            RoleId = int.Parse(claims.FindFirstValue(nameof(RoleId)));
             Role = new UserRole {
                 Id = RoleId,
                 Name = claims.FindFirstValue(nameof(ClaimTypes.Role))
