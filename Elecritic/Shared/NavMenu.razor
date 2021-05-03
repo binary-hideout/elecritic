@@ -1,37 +1,43 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <a class="navbar-brand" href="">Elecritic</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" id="index">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Inicio
+                </NavLink>
+            </li>
+            <li class="nav-item" id="categories">
+                <NavLink class="nav-link" href="categories">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Categorías
+                </NavLink>
+            </li>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-    </ul>
-</div>
+            <AuthorizeView>
+                <Authorized>
+                    <li class="nav-item" id="myfavorites">
+                        <NavLink class="nav-link" href="products?myfavs=true">
+                            <span class="oi oi-star" aria-hidden="true"></span> Mis favoritos
+                        </NavLink>
+                    </li>
 
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+                    <li class="nav-item" id="logout">
+                        <NavLink class="nav-link" href="logout">
+                            <span class="oi oi-account-logout" aria-hidden="true"></span> Cerrar sesión
+                        </NavLink>
+                    </li>
+                </Authorized>
+                <NotAuthorized>
+                    <li class="nav-item" id="login">
+                        <NavLink class="nav-link" href="login">
+                            <span class="oi oi-account-login" aria-hidden="true"></span> Iniciar sesión
+                        </NavLink>
+                    </li>
+                </NotAuthorized>
+            </AuthorizeView>
+        </ul>
+    </div>
+</nav>

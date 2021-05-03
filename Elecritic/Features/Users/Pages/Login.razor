@@ -1,0 +1,41 @@
+@page "/login"
+
+<AuthorizeView>
+    <Authorized>
+        <p>Actualmente ya tienes una sesión activa, <b>@LoggedInUser.Username</b></p>
+    </Authorized>
+    <NotAuthorized Context="NotAuthContext">
+        <div class="middle-box" style="margin-top:40px">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Ingresa a tu cuenta</h2>
+
+                    <EditForm Model="@FormModel" OnValidSubmit="async() => await LogInAsync()">
+                        <RadzenCard>
+                            @*<AlertMessage Message="@message" MessageType="@messageType" />*@
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+
+                            <label>Correo</label>
+                            <RadzenTextBox @bind-Value="@FormModel.Email"></RadzenTextBox>
+
+                            <label>Contraseña</label>
+                            <RadzenPassword @bind-Value="@FormModel.Password" class="finalBox"></RadzenPassword>
+
+                            <RadzenButton ButtonType="@ButtonType.Submit" Text="Iniciar sesión"
+                                          ButtonStyle="@ButtonStyle.Primary" class="btn-block mr-2"
+                                          Disabled="@IsLoggingIn"/>
+                            <hr />
+                            <label class="labelCenter">¿No tienes una cuenta?</label>
+                            <RadzenButton ButtonType="@ButtonType.Button" Text="Regístrate aquí"
+                                          ButtonStyle="@ButtonStyle.Secondary" class="btn-block mr-2"
+                                          Disabled="@IsLoggingIn" Click="@GoToSignup" />
+                        </RadzenCard>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+
+        <p>@ResultMessage</p>
+    </NotAuthorized>
+</AuthorizeView>
