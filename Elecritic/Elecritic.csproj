@@ -4,6 +4,16 @@
     <TargetFramework>net5.0</TargetFramework>
       <LangVersion>9.0</LangVersion>
     <UserSecretsId>65418696-75ae-45af-b59c-88d694c7a521</UserSecretsId>
+    <Version>1.1.0</Version>
+    <Authors>Binary Hideout</Authors>
+    <Copyright>AGPL-3.0 License</Copyright>
+    <PackageProjectUrl>https://elecritic.azurewebsites.net/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/binary-hideout/elecritic/</RepositoryUrl>
+    <Company>Binary Hideout</Company>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
