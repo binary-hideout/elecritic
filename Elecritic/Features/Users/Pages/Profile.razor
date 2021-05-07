@@ -1,84 +1,77 @@
-﻿@page "/Profile"
+﻿@page "/profile"
 
-
-<h3 class="title-welcome text-center">Mi Perfil</h3>
-<div class="container mt-5">
-    <div class="main-body">
-
-        <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                            <div class="mt-3">
-                                <h4>Ernesto</h4>
-                                <p class="text-secondary mb-1">Full Stack Developer</p>
-                                <p class="text-muted font-size-sm">Nuevo León</p>
+@if (IsLoading) {
+    <p><em>Cargando...</em></p>
+}
+else {
+    <AuthorizeView>
+        <Authorized>
+            <h3 class="title-welcome text-center">Mi perfil</h3>
+            <div class="container mt-5">
+                <div class="main-body">
+                    <div class="row gutters-sm">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle" width="150">
+                                        <div class="mt-3">
+                                            <h4>@LoggedInUser.Username</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Nombre</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @LoggedInUser.FullName
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @LoggedInUser.Email
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Rol</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            @LoggedInUser.RoleName
+                                        </div>
+                                    </div>
+                                    @*<hr />
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Fecha registro</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            25/02/2021
+                                        </div>
+                                    </div>*@
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Nombre</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                Ernesto Ortiz
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Email</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                    tce.netotz@gmail.com
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Teléfono</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                8186537246
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Celular</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                0442221112225
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <h6 class="mb-0">Fecha registro</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                                25/02/2021
-                            </div>
-                        </div>
-                    </div>
+                <div class="title-welcome text-center mt-2">
+                    <a href="products?myfavs=true" class="btn btn-warning">Ir a mis favoritos</a>
                 </div>
-
             </div>
-        </div>
-    </div>
-    <div class="title-welcome text-center mt-2">
-        <button 
-                class="btn btn-warning"
-                <NavLink class="nav-link" href="products?myfavs=true">
-                            <span class="oi oi-star" aria-hidden="true"></span> Ir a mis Favoritos
-                        </NavLink>
-        </button>
-        </div>
-    </div>
+        </Authorized>
+        <NotAuthorized>
+
+        </NotAuthorized>
+    </AuthorizeView>
+}
