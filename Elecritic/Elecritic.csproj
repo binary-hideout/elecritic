@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+      <LangVersion>9.0</LangVersion>
     <UserSecretsId>65418696-75ae-45af-b59c-88d694c7a521</UserSecretsId>
   </PropertyGroup>
 
@@ -24,6 +25,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.2" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
-
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties />
+        </VisualStudio>
+    </ProjectExtensions>
 </Project>
