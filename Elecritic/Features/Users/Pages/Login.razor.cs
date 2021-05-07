@@ -65,7 +65,7 @@ namespace Elecritic.Features.Users.Pages {
 
             // hash input password
             var requestedUser = (await Mediator.Send(
-                    new Get.Query {
+                    new GetLogin.Query {
                         Email = FormModel.Email,
                         Password = Hasher.GetHashedPassword(FormModel.Password)
                     }))
