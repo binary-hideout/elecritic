@@ -1,155 +1,171 @@
 ﻿@page "/product/{ProductId:int}"
 
-@if (IsValidProductId) {
-    @if (IsLoading) {
+@if (IsValidProductId)
+{
+    @if (IsLoading)
+    {
         <p><em>Cargando...</em></p>
     }
-    else {
-        <div class="row">
-            <div class="col-md-2" style=" margin-top:1rem; margin-left:2rem">
-                <div class="card shadow" style="width: 15rem; height:16rem;">
-                    <div class="card-title text-center">
-                        <h3 class="card-title">@Product.Name</h3>
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2" style=" margin-top:1rem; margin-left:2rem">
+                    <div class="card shadow" style="width: 15rem; height:16rem;">
+                        <div class="card-title text-center">
+                            <h3 class="card-title">@Product.Name</h3>
+                        </div>
+                        <div class="inner" style="padding:.5rem;">
+                            <img src=@Product.ImagePath class="d-block w-100" style="width: 11rem; height:11rem;" alt="imagenProducto">
+                        </div>
                     </div>
-                    <div class="inner" style="padding:.5rem;">
-                        <img src=@Product.ImagePath class="d-block w-100" style="width: 11rem; height:11rem;" alt="imagenProducto">
-                    </div>
-                </div>
-                <br />
-            </div>
-
-            <div class="col-sm-7">
-                <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                    <h3> @Product.Company.Name </h3>
-                </div>
-                <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                    <h3> Especificaciones </h3>
-                    <p>@Product.Description</p>
-                </div>
-                <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
-                    <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
+                    <br />
                 </div>
 
-                <AuthorizeView>
-                    <Authorized>
-                        <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                            @if (IsFavorite) {
-                                <button disabled="@IsChangingFavorite"
-                                        class="btn btn-outline-dark"
-                                        @onclick="async() => await RemoveFromFavoritesAsync()">
-                                    <i class="oi oi-delete pr-2" aria-hidden="true"></i>
-                                    Eliminar de favoritos
-                                </button>
-                            }
-                            else {
-                                <button disabled="@IsChangingFavorite"
-                                        class="btn btn-warning"
-                                        @onclick="async () => await AddToFavoritesAsync()">
-                                    <i class="oi oi-star pr-2" aria-hidden="true"></i>
-                                    Agregar a favoritos
-                                </button>
-                            }
-                        </div>
-                        <p>@FavoriteChangedMessage</p>
-                    </Authorized>
-                    <NotAuthorized>
-                        <div class="card-body" style="padding-top:1rem; margin-left:3rem">
-                            <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
-                        </div>
-                    </NotAuthorized>
-                </AuthorizeView>
+                <div class="col-sm-7" style="margin-left:3rem">
+                    <div class="card-body" style="padding-top:1.5rem; margin-left:3rem">
+                        <h3 class="font-weight-bold"> @Product.Company.Name </h3>
+                    </div>
+                    <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
+                        <h3> Especificaciones </h3>
+                        <p>@Product.Description</p>
+                    </div>
+                    <div class="card-body" style="padding-top:0.5rem; margin-left:3rem">
+                        <span class="badge badge-pill badge-dark">@Product.Category.Name</span>
+                    </div>
+
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="card-body" style="padding-top:.5rem; margin-left:3rem">
+                                @if (IsFavorite)
+                                {
+                                    <button disabled="@IsChangingFavorite"
+                                            class="btn btn-outline-dark"
+                                            @onclick="async() => await RemoveFromFavoritesAsync()">
+                                        <i class="oi oi-delete pr-2" aria-hidden="true"></i>
+                                        Eliminar de favoritos
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button disabled="@IsChangingFavorite"
+                                            class="btn btn-warning"
+                                            @onclick="async () => await AddToFavoritesAsync()">
+                                        <i class="oi oi-star pr-2" aria-hidden="true"></i>
+                                        Agregar a favoritos
+                                    </button>
+                                }
+                            </div>
+                            <p>@FavoriteChangedMessage</p>
+                        </Authorized>
+                        <NotAuthorized>
+                            <div class="card-body" style="padding-top:.5rem; margin-left:3rem">
+                                <h5>Inicia sesión para agregar @Product.Name a tus favoritos.</h5>
+                            </div>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
             </div>
         </div>
 
-        <div class="container-fluid">
-            <div class="row content">
-                <div class="col-sm-3 sidenav hidden-xs">
-                    <div class="col-md-4" style=" margin-top:1rem;">
-                        <div class="card shadow" style="width: 18rem;">
-                            <div class="card-body text-center">
-                                
-                                <AuthorizeView>
-                                    <Authorized Context="authContext">
-                                        <h5 class="card-title">Agrega una reseña</h5>
+        /*User Review*/
+        <button class="btn btn-primary " style="display: block; margin-right: auto; margin-left: auto;" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Escribir mi reseña
+        </button>
+        <div class="container collapse mt-1" id="collapseExample">
 
-                                        <div class="card-text">
-                                            <EditForm Model="@ReviewForm" OnValidSubmit="async () => await PublishReviewAsync()">
-                                                <DataAnnotationsValidator />
+            <div class="card shadow" style="max-width:80rem; border-radius:2rem">
+                <div class="card-body text-center">
 
-                                                <div>
-                                                    <div class="card-body" font-weight-bold"> Título: </div>
-                                                    <InputTextArea class="form-control" @bind-Value="ReviewForm.Title" placeholder="Título"></InputTextArea>
-                                                    <ValidationMessage For="@(() => ReviewForm.Title)" />
-                                                </div>
+                    <AuthorizeView>
+                        <Authorized Context="authContext">
+                            <h5 class="card-title">Agrega una reseña</h5>
 
-                                                <div>
-                                                    <div class="card-body" font-weight-bold"> Reseña: </div>
-                                                    <InputTextArea class="form-control" @bind-Value="ReviewForm.Text" placeholder="Reseña"></InputTextArea>
-                                                    <ValidationMessage For="@(() => ReviewForm.Text)" />
-                                                </div>
+                            <div class="card-text">
+                                <EditForm Model="@ReviewForm" OnValidSubmit="async () => await PublishReviewAsync()">
+                                    <DataAnnotationsValidator />
 
-                                                <div>
-                                                    <label class="card-body"> Rating 1-5: </label>
-                                                    <InputNumber class="form-control" @bind-Value="ReviewForm.RatingProduct" placeholder="Rating"></InputNumber>
-                                                    <ValidationMessage For="@(() => ReviewForm.RatingProduct)" />
-                                                </div>
+                                    <div>
+                                        <div class="card-body" font-weight-bold"> Título: </div>
+                                        <InputTextArea class="form-control" style="max-width: 30rem; display: block; margin-right: auto; margin-left: auto;" @bind-Value="ReviewForm.Title" placeholder="Título"></InputTextArea>
+                                        <ValidationMessage For="@(() => ReviewForm.Title)" />
+                                    </div>
 
-                                                <br />
+                                    <div>
+                                        <div class="card-body" font-weight-bold"> Reseña: </div>
+                                        <InputTextArea class="form-control" @bind-Value="ReviewForm.Text" placeholder="Reseña"></InputTextArea>
+                                        <ValidationMessage For="@(() => ReviewForm.Text)" />
+                                    </div>
 
-                                                <div class="card-body">
-                                                    <label class="font-weight-bold"> Recomendar </label>
-                                                    <InputSelect @bind-Value="ReviewForm.Recommended">
-                                                        <option value="">Selecciona...</option>
-                                                        <option value="si">Sí</option>
-                                                        <option value="no">No</option>
-                                                        <option value="Tal vez">Tal vez</option>
-                                                    </InputSelect>
+                                    <div>
+                                        <label class="card-body" style="text-align: center"> Rating 1-5: </label>
+                                        <InputNumber class="form-control" style="        max-width: 10rem;align-content: center;display: block;margin-right: auto;margin-left: auto;" @bind-Value="ReviewForm.RatingProduct" placeholder="Rating"></InputNumber>
+                                        <ValidationMessage For="@(() => ReviewForm.RatingProduct)" />
+                                    </div>
 
-                                                    <ValidationMessage For="@(() => ReviewForm.Recommended)" />
-                                                </div>
+                                    <br />
 
-                                                <div class="card-body">
-                                                    <span class=""></span>
-                                                    <button type="submit"
-                                                            class="form-control btn btn-primary"
-                                                            disabled="@IsPublishingReview">
-                                                        Publicar
-                                                    </button>
-                                                    <span> &nbsp;</span>
-                                                </div>
-                                            </EditForm>
-                                        </div>
+                                    <div class="card-body">
+                                        <label class="font-weight-bold display: block; margin-right: auto; margin-left: auto;"> Recomendar </label>
+                                        <InputSelect @bind-Value="ReviewForm.Recommended">
+                                            <option value="">Selecciona...</option>
+                                            <option value="si">Sí</option>
+                                            <option value="no">No</option>
+                                            <option value="Tal vez">Tal vez</option>
+                                        </InputSelect>
 
-                                        <p><b>@PublicationMessage</b></p>
-                                    </Authorized>
-                                    <NotAuthorized>
-                                        <h5 class="card-title">Inicia sesión para escribir tu reseña</h5>
-                                    </NotAuthorized>
-                                </AuthorizeView>
+                                        <ValidationMessage For="@(() => ReviewForm.Recommended)" />
+                                    </div>
+
+                                    <div class="card-body" style="max-width:30rem; align-content:center; display: block; margin-right: auto; margin-left: auto;">
+                                        <span class=""></span>
+                                        <button type="submit"
+                                                class="form-control btn btn-primary"
+                                                disabled="@IsPublishingReview">
+                                            Publicar
+                                        </button>
+                                        <span> &nbsp;</span>
+                                    </div>
+
+                                </EditForm>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
 
-                <div class="col-sm-9">
-                    <h3 class="text-center col-sm-10" style="margin-left:3rem;">
+                            <p><b>@PublicationMessage</b></p>
+                        </Authorized>
+                        <NotAuthorized>
+                            <h5 class="card-title">Inicia sesión para escribir tu reseña</h5>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+       
+        /*Reviews*/
+        <div class="container mt-3">
+
+                <br>
+                <div class="container text-center">
+                    <h3 class="text-center">
                         Reseñas de usuarios
                     </h3>
 
-                    @if (IsLoading) {
+                    @if (IsLoading)
+                    {
                         <p><em>Cargando reseñas...</em></p>
                     }
-                    else if (Product.Reviews.Count == 0) {
+                    else if (Product.Reviews.Count == 0)
+                    {
                         <p><b>No hay reseñas para este dispositivo.</b></p>
                     }
-                    else {
-                        <h4 class="text-center col-sm-10" style="margin-left:3rem;">
+                    else
+                    {
+                        <h4 class="text-center">
                             Calificación promedio: @Product.GetAverageRating().ToString("N1")
                         </h4>
 
                         <br />
-                        @foreach (var review in Product.Reviews) {
+                        @foreach (var review in Product.Reviews)
+                        {
                             <div class="col-sm-10" style=" margin-top:1rem; margin-left:3rem">
                                 <div class="card shadow">
                                     <div class="card-body text-justify ">
@@ -170,10 +186,10 @@
                         }
                     }
                 </div>
-            </div>
-        </div>
+            </div>  
     }
 }
-else {
+else
+{
     <h3>Lo sentimos, no existe el producto número @ProductId.</h3>
 }
